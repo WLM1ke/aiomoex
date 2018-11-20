@@ -13,6 +13,9 @@ async def find_securities(query: str):
     """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
 
     Описание запроса - https://iss.moex.com/iss/reference/32
+
+    :param query: Части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = 'https://iss.moex.com/iss/securities.json'
     iss = client.ISSClient(url, dict(q=query))
@@ -26,9 +29,12 @@ async def get_board_securities(table='securities', board='TQBR', market='shares'
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
-    В ответе содержатся две таблицы:
-        securities - справочник торгуемых ценных бумаг
-        marketdata - данные результатми торгов текущего дня
+    :param table: Таблица с данными, которую нужно вернуть: securities - справочник торгуемых ценных бумаг, marketdata -
+    данные с результатами торгов текущего дня
+    :param board: Режим торгов - по умолчанию основной режим торгов T+2
+    :param market: Рынок - по умолчанию акции
+    :param engine: Движок - по умолчанию акции
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/boards/{board}/securities.json'
     iss = client.ISSClient(url)
@@ -41,7 +47,12 @@ async def get_market_security_history(security, start=None, end=None, market='sh
 
     Описание запроса - https://iss.moex.com/iss/reference/63
 
-    start и end - дата в str вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала и до конца
+    :param security: тикер ценной бумаги
+    :param start: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала итории
+    :param end: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены до конца истории
+    :param market: Рынок - по умолчанию акции
+    :param engine: Движок - по умолчанию акции
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json'
     query = dict()
@@ -60,6 +71,15 @@ async def get_board_security_history(security, start=None, end=None, board='TQBR
     Описание запроса - https://iss.moex.com/iss/reference/65
 
     start и end - дата в str вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала и до конца
+
+
+    :param security: тикер ценной бумаги
+    :param start: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала итории
+    :param end: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены до конца истории
+    :param board: Режим торгов - по умолчанию основной режим торгов T+2
+    :param market: Рынок - по умолчанию акции
+    :param engine: Движок - по умолчанию акции
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = (f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/'
            f'boards/{board}/securities/{security}.json')
@@ -70,21 +90,18 @@ async def get_board_security_history(security, start=None, end=None, board='TQBR
         query['till'] = end
     iss = client.ISSClient(url, query)
     data = await iss.get_all()
-    return data['history']
+    try:
+        return data['history']
+    except KeyError:
+        raise client.ISSMoexError(f'Отсутсвует история для {security}')
 
 
-async def get_index_history(index='MCFTRR', start=None, end=None):
-    """Получить историю значений индекса за указанный интервал дат
+async def get_index_history(start=None, end=None):
+    """Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам российских организаций) за
+    указанный интервал дат
 
-    start и end - дата в str вида ГГГГ-ММ-ДД
+    :param start: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала итории
+    :param end: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены до конца истории
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    return await get_board_security_history(index, start, end, 'RTSI', 'index')
-
-
-if __name__ == '__main__':
-    import asyncio
-
-    async def run():
-        print(pd.DataFrame(await get_index_history(start='2018-01-01')))
-
-    asyncio.run(run())
+    return await get_board_security_history('MCFTRR', start, end, 'RTSI', 'index')
