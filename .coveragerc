@@ -7,4 +7,3 @@ exclude_lines =
     raise
 omit =
     */tests/*
-fail_under = 0
