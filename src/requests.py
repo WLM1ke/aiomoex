@@ -6,6 +6,9 @@
 """
 import client
 
+__all__ = ['find_securities', 'get_board_securities', 'get_board_security_history', 'get_index_history',
+           'get_market_security_history']
+
 
 def _make_query(*, start=None, end=None, table=None, columns=None):
     """Формирует дополнительные параметры запроса к MOEX ISS
@@ -92,7 +95,10 @@ async def get_market_security_history(security, start=None, end=None, columns=('
     query['iss.only'] = f'{table},history.cursor'
     iss = client.ISSClient(url, query)
     data = await iss.get_all()
-    return data[table]
+    try:
+        return data[table]
+    except KeyError:
+        raise client.ISSMoexError(f'Отсутсвуют исторические котировки для {security}')
 
 
 async def get_board_security_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
@@ -118,9 +124,9 @@ async def get_board_security_history(security, start=None, end=None, columns=('T
     iss = client.ISSClient(url, query)
     data = await iss.get_all()
     try:
-        return data['history']
+        return data[table]
     except KeyError:
-        raise client.ISSMoexError(f'Отсутсвует история для {security}')
+        raise client.ISSMoexError(f'Отсутсвуют исторические котировки для {security}')
 
 
 async def get_index_history(start=None, end=None, columns=('TRADEDATE', 'CLOSE'),):
