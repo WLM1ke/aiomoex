@@ -78,7 +78,7 @@ class ISSClient:
                     try:
                         respond.raise_for_status()
                     except client_exceptions.ClientResponseError:
-                        raise ISSMoexError('Неверный url', url, dict(query))
+                        raise ISSMoexError('Неверный url', respond.url)
                     else:
                         data = await respond.json()
                         return data[1]
