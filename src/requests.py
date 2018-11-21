@@ -27,7 +27,7 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
     if end:
         query['till'] = end
     if table:
-        query['iss.only'] = table
+        query['iss.only'] = f'{table},history.cursor'
     if columns:
         query[f'{table}.columns'] = ','.join(columns)
     return query
@@ -92,7 +92,6 @@ async def get_market_security_history(security, start=None, end=None, columns=('
     url = f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json'
     table = 'history'
     query = _make_query(start=start, end=end, table=table, columns=columns)
-    query['iss.only'] = f'{table},history.cursor'
     iss = client.ISSClient(url, query)
     data = await iss.get_all()
     try:

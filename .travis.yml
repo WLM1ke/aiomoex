@@ -4,13 +4,13 @@ python:
 install:
 - pip install pytest
 - pip install pytest-cov
+- pip install pytest-asyncio
 - pip install codacy-coverage
-- export CODACY_PROJECT_TOKEN=e7a22e784bfb4e238870b0e19a4f07b0
+- export CODACY_PROJECT_TOKEN=11760f56fe1145e29ab5503b8d7471bf
 - pip install -r requirements.txt
 - export PYTHONPATH=$PYTHONPATH:$(pwd)/src
 - export PYTHONPATH=$PYTHONPATH:$(pwd)/tests
 script:
 - pytest tests -v --cov=src --cov-report=term-missing --cov-report=xml --setup-show
 after_success:
-- codecov
 - python-codacy-coverage -r coverage.xml
