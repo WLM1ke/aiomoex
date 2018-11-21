@@ -2,7 +2,7 @@ import typing
 
 import pytest
 
-import client
+from src import client
 
 
 def test_iss_client_async_iterable():
