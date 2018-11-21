@@ -74,6 +74,26 @@ async def get_board_securities(table='securities', columns=('SECID', 'REGNUMBER'
     return data[table]
 
 
+async def _get_history(url, start, end, columns):
+    """Осуществляет запрос характерный для раздела history MOEX ISS
+
+    :param url: Адрес запроса из раздела history
+    :param start: Начальная дата котировок
+    :param end: Конечная дата котировок
+    :param columns: Кортеж столбцов, которые нужно загрузить
+    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
+    """
+    table = 'history'
+    query = _make_query(start=start, end=end, table=table, columns=columns)
+    iss = client.ISSClient(url, query)
+    tables = await iss.get_all()
+    try:
+        data = tables[table]
+    except KeyError:
+        raise client.ISSMoexError(f'Отсутсвуют исторические котировки для {url}')
+    return data
+
+
 async def get_market_security_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
                                       market='shares', engine='stock'):
     """Получить историю по одной бумаге на рынке за интервал дат
@@ -90,14 +110,8 @@ async def get_market_security_history(security, start=None, end=None, columns=('
     :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json'
-    table = 'history'
-    query = _make_query(start=start, end=end, table=table, columns=columns)
-    iss = client.ISSClient(url, query)
-    data = await iss.get_all()
-    try:
-        return data[table]
-    except KeyError:
-        raise client.ISSMoexError(f'Отсутсвуют исторические котировки для {security}')
+    data = await _get_history(url, start, end, columns)
+    return data
 
 
 async def get_board_security_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
@@ -118,14 +132,8 @@ async def get_board_security_history(security, start=None, end=None, columns=('T
     """
     url = (f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/'
            f'boards/{board}/securities/{security}.json')
-    table = 'history'
-    query = _make_query(start=start, end=end, table=table, columns=columns)
-    iss = client.ISSClient(url, query)
-    data = await iss.get_all()
-    try:
-        return data[table]
-    except KeyError:
-        raise client.ISSMoexError(f'Отсутсвуют исторические котировки для {security}')
+    data = await _get_history(url, start, end, columns)
+    return data
 
 
 async def get_index_history(start=None, end=None, columns=('TRADEDATE', 'CLOSE'),):
