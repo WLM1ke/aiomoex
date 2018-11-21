@@ -46,7 +46,7 @@ class ISSClient:
             data = await self.get(start)
             if 'history.cursor' in data:
                 if len(data['history.cursor']) != 1:
-                    raise ISSMoexError('Некорректные данные history.cursor: {cursor}')
+                    raise ISSMoexError(f'Некорректные данные history.cursor: {data["history.cursor"]}')
                 cursor = data['history.cursor'][0]
                 if cursor['INDEX'] + cursor['PAGESIZE'] < cursor['TOTAL']:
                     start += cursor['PAGESIZE']
