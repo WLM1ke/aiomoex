@@ -4,7 +4,7 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
-import client
+from src import client
 
 
 def _make_query(*, start=None, end=None, table=None, columns=None):
