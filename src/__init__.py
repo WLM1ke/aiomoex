@@ -4,4 +4,5 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
-from src.requests import *
+# noinspection PyUnresolvedReferences
+from .requests import *

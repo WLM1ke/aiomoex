@@ -4,7 +4,7 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
-from src import client
+from . import client
 
 
 def _make_query(*, start=None, end=None, table=None, columns=None):
@@ -91,8 +91,8 @@ async def _get_history(url, start, end, columns):
     return data
 
 
-async def get_market_security_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
-                                      market='shares', engine='stock'):
+async def get_market_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
+                             market='shares', engine='stock'):
     """Получить историю по одной бумаге на рынке за интервал дат
 
     Описание запроса - https://iss.moex.com/iss/reference/63
@@ -111,8 +111,8 @@ async def get_market_security_history(security, start=None, end=None, columns=('
     return data
 
 
-async def get_board_security_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
-                                     board='TQBR', market='shares', engine='stock'):
+async def get_board_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
+                            board='TQBR', market='shares', engine='stock'):
     """Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный интервал дат
 
     Описание запроса - https://iss.moex.com/iss/reference/65
@@ -143,4 +143,4 @@ async def get_index_history(start=None, end=None, columns=('TRADEDATE', 'CLOSE')
     None, то загружаются все столбцы
     :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    return await get_board_security_history('MCFTRR', start, end, columns, 'RTSI', 'index')
+    return await get_board_history('MCFTRR', start, end, columns, 'RTSI', 'index')
