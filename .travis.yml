@@ -2,14 +2,9 @@ language: python
 python:
 - "3.6"
 install:
-- pip install pytest
-- pip install pytest-cov
-- pip install pytest-asyncio
-- pip install pandas
-- pip install codacy-coverage
-- export CODACY_PROJECT_TOKEN=27cb3d8443544bfaac70140a0eff7650
 - pip install -r requirements.txt
+- export CODACY_PROJECT_TOKEN=27cb3d8443544bfaac70140a0eff7650
 script:
-- pytest tests -v --cov=src --cov-report=term-missing --cov-report=xml --setup-show
+- pytest tests -v --cov=aiomoex --cov-report=term-missing --cov-report=xml --setup-show
 after_success:
 - python-codacy-coverage -r coverage.xml

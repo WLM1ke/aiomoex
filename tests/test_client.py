@@ -1,9 +1,8 @@
 import typing
 
-# noinspection PyPackageRequirements
 import pytest
 
-from src import client
+from aiomoex import client
 
 
 @pytest.mark.asyncio

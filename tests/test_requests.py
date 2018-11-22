@@ -1,13 +1,11 @@
 import typing
 
-# noinspection PyPackageRequirements
 import pandas as pd
-# noinspection PyPackageRequirements
 import pytest
 
-import src
-from src import requests
-from src import client
+import aiomoex
+from aiomoex import requests
+from aiomoex import client
 
 
 @pytest.mark.asyncio
@@ -60,7 +58,7 @@ check_points = [('1-02-65104-D', {'UPRO', 'EONR', 'OGK4'}),
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_find_find_securities(reg_number, expected):
-    data = await src.find_securities(reg_number)
+    data = await aiomoex.find_securities(reg_number)
     assert isinstance(data, list)
     assert expected == {row['secid'] for row in data if row['regnumber'] == reg_number}
 
@@ -68,7 +66,7 @@ async def test_find_find_securities(reg_number, expected):
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_securities():
-    data = await src.get_board_securities()
+    data = await aiomoex.get_board_securities()
     assert isinstance(data, list)
     assert len(data) > 200
     df = pd.DataFrame(data)
@@ -92,7 +90,7 @@ async def test_get_board_securities():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_market_history_from_beginning():
-    data = await src.get_market_history('AKRN', end='2006-12-01')
+    data = await aiomoex.get_market_history('AKRN', end='2006-12-01')
     assert isinstance(data, list)
     assert data[0]['TRADEDATE'] == '2006-10-11'
     assert data[-1]['TRADEDATE'] == '2006-12-01'
@@ -104,7 +102,7 @@ async def test_get_market_history_from_beginning():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_market_history_to_end():
-    data = await src.get_market_history('MOEX', start='2017-10-02')
+    data = await aiomoex.get_market_history('MOEX', start='2017-10-02')
     assert isinstance(data, list)
     assert len(data) > 100
     assert data[0]['TRADEDATE'] == '2017-10-02'
@@ -115,14 +113,14 @@ async def test_get_market_history_to_end():
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_history_error():
     with pytest.raises(client.ISSMoexError) as error:
-        await src.get_board_history('XXXX')
+        await aiomoex.get_board_history('XXXX')
     assert 'Отсутсвуют исторические котировки для' in str(error)
 
 
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_history_from_beginning():
-    data = await src.get_board_history('LSNGP', end='2014-08-01')
+    data = await aiomoex.get_board_history('LSNGP', end='2014-08-01')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
     assert len(df.columns) == 2
@@ -134,7 +132,7 @@ async def test_get_board_history_from_beginning():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_history_to_end():
-    data = await src.get_board_history('LSRG', start='2018-08-07')
+    data = await aiomoex.get_board_history('LSRG', start='2018-08-07')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
     assert len(df.columns) == 2
@@ -149,7 +147,7 @@ async def test_get_board_history_to_end():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_index_history_from_beginning():
-    data = await src.get_index_history(end='2003-08-01')
+    data = await aiomoex.get_index_history(end='2003-08-01')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
     assert len(df.columns) == 1
@@ -161,7 +159,7 @@ async def test_get_index_history_from_beginning():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
 async def test_get_index_history_to_end():
-    data = await src.get_index_history(start='2017-10-02')
+    data = await aiomoex.get_index_history(start='2017-10-02')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
     assert len(df.columns) == 1

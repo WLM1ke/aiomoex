@@ -1,1 +1,6 @@
 aiohttp
+pytest
+pytest-cov
+pytest-asyncio
+pandas
+codacy-coverage
