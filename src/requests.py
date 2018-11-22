@@ -5,7 +5,6 @@
     Дополнительное описание https://fs.moex.com/files/6523
 """
 from . import client
-import aiohttp
 
 __all__ = ['ISSClientSession',
            'find_securities',
@@ -18,9 +17,8 @@ __all__ = ['ISSClientSession',
 class ISSClientSession:
     """Асинхронный контекстный менеджер сессий соединений с MOEX ISS"""
 
-    def __init__(self, session: aiohttp.ClientSession = None):
-        """В место создания новой сессии может быть использована уже открытая сессия"""
-        client.ISSClient.start_session(session)
+    def __init__(self):
+        client.ISSClient.start_session()
 
     async def __aenter__(self):
         return self

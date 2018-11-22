@@ -75,10 +75,10 @@ class ISSClient:
         return False
 
     @classmethod
-    def start_session(cls, session: aiohttp.ClientSession = None):
+    def start_session(cls):
         """Создает aiohttp.ClientSession для работы с MOEX ISS"""
         if cls.is_session_closed():
-            cls._client_session = session or aiohttp.ClientSession()
+            cls._client_session = aiohttp.ClientSession()
         else:
             raise ISSMoexError('Сессия для работы с MOEX ISS уже создана')
 
@@ -86,7 +86,7 @@ class ISSClient:
     async def close_session(cls):
         """Закрывает aiohttp.ClientSession для работы с MOEX ISS"""
         if not cls.is_session_closed():
-            cls._client_session.close()
+            await cls._client_session.close()
         else:
             raise ISSMoexError('Сессия для работы с MOEX ISS уже закрыта')
 

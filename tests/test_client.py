@@ -6,6 +6,30 @@ import pytest
 from src import client
 
 
+@pytest.mark.asyncio
+async def test_start_close_session():
+    cls = client.ISSClient
+    assert cls.is_session_closed()
+    cls.start_session()
+    assert not cls.is_session_closed()
+    with pytest.raises(client.ISSMoexError) as error:
+        cls.start_session()
+    assert 'Сессия для работы с MOEX ISS уже создана' == str(error.value)
+    await cls.close_session()
+    assert cls.is_session_closed()
+    with pytest.raises(client.ISSMoexError) as error:
+        await cls.close_session()
+    assert 'Сессия для работы с MOEX ISS уже закрыта' == str(error.value)
+
+
+@pytest.fixture
+async def manage_session():
+    cls = client.ISSClient
+    cls.start_session()
+    yield
+    await cls.close_session()
+
+
 def test_iss_client_async_iterable():
     iss = client.ISSClient('test_url')
     assert isinstance(iss, typing.AsyncIterable)
@@ -46,6 +70,7 @@ def test_make_query_not_empty_with_start():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('manage_session')
 async def test_get():
     url = 'https://iss.moex.com/iss/securities.json'
     query = dict(q='1-02-65104-D')
@@ -60,6 +85,7 @@ async def test_get():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('manage_session')
 async def test_get_with_start():
     url = 'https://iss.moex.com/iss/securities.json'
     query = dict(q='1-02-65104-D')
@@ -74,6 +100,7 @@ async def test_get_with_start():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('manage_session')
 async def test_get_error():
     url = 'https://iss.moex.com/iss/securities1.json'
     iss = client.ISSClient(url)
@@ -84,6 +111,7 @@ async def test_get_error():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('manage_session')
 async def test_get_all_with_cursor():
     url = 'https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SNGSP.json'
     query = {'from': '2018-01-01', 'till': '2018-03-01'}
@@ -100,6 +128,7 @@ async def test_get_all_with_cursor():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('manage_session')
 async def test_get_all_without_cursor():
     url = 'https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SNGSP.json'
     query = {'from': '2018-01-03', 'till': '2018-06-01'}
