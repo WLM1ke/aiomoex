@@ -1,3 +1,5 @@
+import typing
+
 # noinspection PyPackageRequirements
 import pandas as pd
 # noinspection PyPackageRequirements
@@ -6,6 +8,20 @@ import pytest
 import src
 from src import requests
 from src import client
+
+
+@pytest.mark.asyncio
+async def test_iss_client_session():
+    assert issubclass(requests.ISSClientSession, typing.AsyncContextManager)
+    async with requests.ISSClientSession() as session:
+        assert not session.closed
+    assert session.closed
+
+
+@pytest.fixture
+async def iss_client_session():
+    async with requests.ISSClientSession():
+        yield
 
 
 def test_make_query_empty():
@@ -42,6 +58,7 @@ check_points = [('1-02-65104-D', {'UPRO', 'EONR', 'OGK4'}),
 
 @pytest.mark.parametrize("reg_number, expected", check_points)
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_find_find_securities(reg_number, expected):
     data = await src.find_securities(reg_number)
     assert isinstance(data, list)
@@ -49,6 +66,7 @@ async def test_find_find_securities(reg_number, expected):
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_securities():
     data = await src.get_board_securities()
     assert isinstance(data, list)
@@ -72,6 +90,7 @@ async def test_get_board_securities():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_market_history_from_beginning():
     data = await src.get_market_history('AKRN', end='2006-12-01')
     assert isinstance(data, list)
@@ -83,6 +102,7 @@ async def test_get_market_history_from_beginning():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_market_history_to_end():
     data = await src.get_market_history('MOEX', start='2017-10-02')
     assert isinstance(data, list)
@@ -92,6 +112,7 @@ async def test_get_market_history_to_end():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_history_error():
     with pytest.raises(client.ISSMoexError) as error:
         await src.get_board_history('XXXX')
@@ -99,6 +120,7 @@ async def test_get_history_error():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_history_from_beginning():
     data = await src.get_board_history('LSNGP', end='2014-08-01')
     df = pd.DataFrame(data)
@@ -110,6 +132,7 @@ async def test_get_board_history_from_beginning():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_history_to_end():
     data = await src.get_board_history('LSRG', start='2018-08-07')
     df = pd.DataFrame(data)
@@ -124,6 +147,7 @@ async def test_get_board_history_to_end():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_index_history_from_beginning():
     data = await src.get_index_history(end='2003-08-01')
     df = pd.DataFrame(data)
@@ -135,6 +159,7 @@ async def test_get_index_history_from_beginning():
 
 
 @pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_index_history_to_end():
     data = await src.get_index_history(start='2017-10-02')
     df = pd.DataFrame(data)
