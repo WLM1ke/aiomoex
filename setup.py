@@ -33,5 +33,4 @@ setuptools.setup(
         'Source': 'https://github.com/WLM1ke/aiomoex'},
     packages=setuptools.find_packages(exclude=['tests']),
     install_requires=['aiohttp'],
-    python_requires='>=3.6',
-)
+    python_requires='>=3.6')
