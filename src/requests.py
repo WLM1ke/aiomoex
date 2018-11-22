@@ -5,6 +5,38 @@
     Дополнительное описание https://fs.moex.com/files/6523
 """
 from . import client
+import aiohttp
+
+__all__ = ['ISSClientSession',
+           'find_securities',
+           'get_board_securities',
+           'get_market_history',
+           'get_board_history',
+           'get_index_history']
+
+
+class ISSClientSession:
+    """Асинхронный контекстный менеджер сессий соединений с MOEX ISS"""
+
+    def __init__(self, session: aiohttp.ClientSession = None):
+        """В место создания новой сессии может быть использована уже открытая сессия"""
+        client.ISSClient.start_session(session)
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
+
+    @staticmethod
+    async def close():
+        """Закрытие сессии для работы с MOEX ISS"""
+        await client.ISSClient.close_session()
+
+    @property
+    def closed(self):
+        """Закрыта ли данна сессия"""
+        return client.ISSClient.is_session_closed()
 
 
 def _make_query(*, start=None, end=None, table=None, columns=None):
@@ -31,7 +63,9 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
 
 
 async def find_securities(sting: str, columns=('secid', 'regnumber')):
-    """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
+    """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации.
+
+    Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
@@ -52,6 +86,8 @@ async def find_securities(sting: str, columns=('secid', 'regnumber')):
 async def get_board_securities(table='securities', columns=('SECID', 'REGNUMBER', 'LOTSIZE', 'SHORTNAME'),
                                board='TQBR', market='shares', engine='stock'):
     """Получить таблицу инструментов по режиму торгов
+
+    Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
@@ -95,6 +131,8 @@ async def get_market_history(security, start=None, end=None, columns=('TRADEDATE
                              market='shares', engine='stock'):
     """Получить историю по одной бумаге на рынке за интервал дат
 
+    Для работы требуется открытая ISSClientSession
+
     Описание запроса - https://iss.moex.com/iss/reference/63
 
     :param security: тикер ценной бумаги
@@ -114,6 +152,8 @@ async def get_market_history(security, start=None, end=None, columns=('TRADEDATE
 async def get_board_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
                             board='TQBR', market='shares', engine='stock'):
     """Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный интервал дат
+
+    Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/65
 
@@ -136,6 +176,8 @@ async def get_board_history(security, start=None, end=None, columns=('TRADEDATE'
 async def get_index_history(start=None, end=None, columns=('TRADEDATE', 'CLOSE'),):
     """Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам российских организаций) за
     указанный интервал дат
+
+    Для работы требуется открытая ISSClientSession
 
     :param start: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены с начала итории
     :param end: дата вида ГГГГ-ММ-ДД. При отсутсвии данные будут загружены до конца истории

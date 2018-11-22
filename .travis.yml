@@ -7,7 +7,7 @@ install:
 - pip install pytest-asyncio
 - pip install pandas
 - pip install codacy-coverage
-- export CODACY_PROJECT_TOKEN=11760f56fe1145e29ab5503b8d7471bf
+- export CODACY_PROJECT_TOKEN=27cb3d8443544bfaac70140a0eff7650
 - pip install -r requirements.txt
 script:
 - pytest tests -v --cov=src --cov-report=term-missing --cov-report=xml --setup-show
