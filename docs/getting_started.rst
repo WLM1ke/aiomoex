@@ -32,7 +32,7 @@
 
    asyncio.run(main())
 
-.. code-block:: python
+Результат::
 
                CLOSE    VOLUME
    TRADEDATE
@@ -60,7 +60,7 @@
 
 Пример реализации нового запроса
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Перечень акций, торгующихся в режиме TQBR
+Перечень акций, торгующихся в режиме TQBR (`описание запроса <https://iss.moex.com/iss/reference/32>`_)
 
 .. code-block:: python
 
@@ -71,7 +71,6 @@
 
 
    async def main():
-       # https://iss.moex.com/iss/reference/32
        request_url = ('https://iss.moex.com/iss/engines/stock/'
                       'markets/shares/boards/TQBR/securities.json')
        arguments = {'securities.columns': ('SECID,'
@@ -91,7 +90,7 @@
 
    asyncio.run(main())
 
-.. code-block:: python
+Результат::
 
           LOTSIZE     REGNUMBER   SHORTNAME
    SECID
