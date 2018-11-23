@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Справочник API &#8212; Документация aiomoex 1.0.0</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html"/>
+    <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="prev" title="Начало работы" href="getting_started.html"/>
+
+    <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+
+</head>
+<body>
+
+
+<div class="document">
+    <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+            <div class="body" role="main">
+
+                <div class="section" id="api">
+                    <h1>Справочник API<a class="headerlink" href="#api" title="Ссылка на этот заголовок">¶</a></h1>
+                    <div class="section" id="id1">
+                        <h2>Открытие сессии<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>Для начала работы необходимо открыть клиентскую сессию поддерживающую пул соединений с MOEX
+                            ISS в режиме keep alive.
+                            При осуществлении множества запросов рекомендуется иметь одну клиентскую сессию в течении
+                            всей работы приложения для
+                            ускорения взаимодействия с сервером.
+                            В конце работы для высвобождения ресурсов сессия должна быть закрыта вызовом метода
+                            closed</p>
+                        <dl class="class">
+                            <dt id="aiomoex.ISSClientSession">
+                                <em class="property">class </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">ISSClientSession</code><a class="reference internal"
+                                                                               href="_modules/aiomoex/requests.html#ISSClientSession"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.ISSClientSession"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Менеджер сессий соединений с MOEX ISS</p>
+                                <p>Поддерживает протокол асинхронного контекстного менеджера (async with)</p>
+                                <dl class="attribute">
+                                    <dt id="aiomoex.ISSClientSession.closed">
+                                        <code class="descname">closed</code><a class="headerlink"
+                                                                               href="#aiomoex.ISSClientSession.closed"
+                                                                               title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Закрыта ли данная сессия</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="aiomoex.ISSClientSession.close">
+                                        <em class="property">coroutine </em><code class="descname">close</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/aiomoex/requests.html#ISSClientSession.close"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClientSession.close"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Закрывает сессию</p>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-aiomoex">
+                        <span id="id2"></span>
+                        <h2>Функции запросов<a class="headerlink" href="#module-aiomoex"
+                                               title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>Реализована небольшая часть запросов к MOEX ISS:</p>
+                        <ul class="simple">
+                            <li>Полное описание возможных <a class="reference external"
+                                                             href="https://iss.moex.com/iss/reference/">запросов</a>
+                            </li>
+                            <li><a class="reference external" href="https://fs.moex.com/files/6523">Руководство
+                                разработчика</a> с дополнительной информацией
+                            </li>
+                        </ul>
+                        <dl class="function">
+                            <dt id="aiomoex.find_securities">
+                                <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">find_securities</code><span class="sig-paren">(</span><em>sting:
+                                str</em>, <em>columns=('secid'</em>, <em>'regnumber')</em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/aiomoex/requests.html#find_securities"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.find_securities"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру
+                                гос.регистрации.</p>
+                                <p>Для работы требуется открытая ISSClientSession</p>
+                                <p>Описание запроса - <a class="reference external"
+                                                         href="https://iss.moex.com/iss/reference/32">https://iss.moex.com/iss/reference/32</a>
+                                </p>
+                                <table class="docutils field-list" frame="void" rules="none">
+                                    <col class="field-name"/>
+                                    <col class="field-body"/>
+                                    <tbody valign="top">
+                                    <tr class="field-odd field">
+                                        <th class="field-name">Параметры:</th>
+                                        <td class="field-body">
+                                            <ul class="first simple">
+                                                <li><strong>sting</strong> – Часть Кода, Названия, ISIN, Идентификатора
+                                                    Эмитента, Номера гос.регистрации
+                                                </li>
+                                                <li><strong>columns</strong> – Кортеж столбцов, которые нужно загрузить
+                                                    - по умолчанию тикер и номер государственно регистрации.
+                                                    Если пустой или None, то загружаются все столбцы
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="field-even field">
+                                        <th class="field-name">Результат:</th>
+                                        <td class="field-body"><p class="first last">Список словарей, которые напрямую
+                                            конвертируется в pandas.DataFrame</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="aiomoex.get_board_history">
+                                <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">get_board_history</code><span class="sig-paren">(</span><em>security</em>,
+                                <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>,
+                                <em>'VOLUME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>,
+                                <em>engine='stock'</em><span class="sig-paren">)</span><a class="reference internal"
+                                                                                          href="_modules/aiomoex/requests.html#get_board_history"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.get_board_history"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный
+                                интервал дат</p>
+                                <p>Для работы требуется открытая ISSClientSession</p>
+                                <p>Описание запроса - <a class="reference external"
+                                                         href="https://iss.moex.com/iss/reference/65">https://iss.moex.com/iss/reference/65</a>
+                                </p>
+                                <table class="docutils field-list" frame="void" rules="none">
+                                    <col class="field-name"/>
+                                    <col class="field-body"/>
+                                    <tbody valign="top">
+                                    <tr class="field-odd field">
+                                        <th class="field-name">Параметры:</th>
+                                        <td class="field-body">
+                                            <ul class="first simple">
+                                                <li><strong>security</strong> – Тикер ценной бумаги</li>
+                                                <li><strong>start</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены с начала истории
+                                                </li>
+                                                <li><strong>end</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены до конца истории
+                                                </li>
+                                                <li><strong>columns</strong> – Кортеж столбцов, которые нужно загрузить
+                                                    - по умолчанию дата торгов, цена закрытия и объем. Если
+                                                    пустой или None, то загружаются все столбцы
+                                                </li>
+                                                <li><strong>board</strong> – Режим торгов - по умолчанию основной режим
+                                                    торгов T+2
+                                                </li>
+                                                <li><strong>market</strong> – Рынок - по умолчанию акции</li>
+                                                <li><strong>engine</strong> – Движок - по умолчанию акции</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="field-even field">
+                                        <th class="field-name">Результат:</th>
+                                        <td class="field-body"><p class="first last">Список словарей, которые напрямую
+                                            конвертируется в pandas.DataFrame</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="aiomoex.get_board_securities">
+                                <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">get_board_securities</code><span class="sig-paren">(</span><em>table='securities'</em>,
+                                <em>columns=('SECID'</em>, <em>'REGNUMBER'</em>, <em>'LOTSIZE'</em>,
+                                <em>'SHORTNAME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/aiomoex/requests.html#get_board_securities"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.get_board_securities"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Получить таблицу инструментов по режиму торгов</p>
+                                <p>Для работы требуется открытая ISSClientSession</p>
+                                <p>Описание запроса - <a class="reference external"
+                                                         href="https://iss.moex.com/iss/reference/32">https://iss.moex.com/iss/reference/32</a>
+                                </p>
+                                <table class="docutils field-list" frame="void" rules="none">
+                                    <col class="field-name"/>
+                                    <col class="field-body"/>
+                                    <tbody valign="top">
+                                    <tr class="field-odd field">
+                                        <th class="field-name">Параметры:</th>
+                                        <td class="field-body">
+                                            <ul class="first simple">
+                                                <li><strong>table</strong> – Таблица с данными, которую нужно вернуть:
+                                                    securities - справочник торгуемых ценных бумаг, marketdata -
+                                                    данные с результатами торгов текущего дня
+                                                </li>
+                                                <li><strong>columns</strong> – Кортеж столбцов, которые нужно загрузить
+                                                    - по умолчанию тикер, номер государственно регистрации,
+                                                    размер лота и краткое название. Если пустой или None, то загружаются
+                                                    все столбцы
+                                                </li>
+                                                <li><strong>board</strong> – Режим торгов - по умолчанию основной режим
+                                                    торгов T+2
+                                                </li>
+                                                <li><strong>market</strong> – Рынок - по умолчанию акции</li>
+                                                <li><strong>engine</strong> – Движок - по умолчанию акции</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="field-even field">
+                                        <th class="field-name">Результат:</th>
+                                        <td class="field-body"><p class="first last">Список словарей, которые напрямую
+                                            конвертируется в pandas.DataFrame</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="aiomoex.get_index_history">
+                                <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">get_index_history</code><span class="sig-paren">(</span><em>start=None</em>,
+                                <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE')</em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/aiomoex/requests.html#get_index_history"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.get_index_history"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам
+                                российских организаций) за
+                                указанный интервал дат</p>
+                                <p>Для работы требуется открытая ISSClientSession</p>
+                                <table class="docutils field-list" frame="void" rules="none">
+                                    <col class="field-name"/>
+                                    <col class="field-body"/>
+                                    <tbody valign="top">
+                                    <tr class="field-odd field">
+                                        <th class="field-name">Параметры:</th>
+                                        <td class="field-body">
+                                            <ul class="first simple">
+                                                <li><strong>start</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены с начала истории
+                                                </li>
+                                                <li><strong>end</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены до конца истории
+                                                </li>
+                                                <li><strong>columns</strong> – Кортеж столбцов, которые нужно загрузить
+                                                    - по умолчанию дата торгов и цена закрытия. Если пустой или
+                                                    None, то загружаются все столбцы
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="field-even field">
+                                        <th class="field-name">Результат:</th>
+                                        <td class="field-body"><p class="first last">Список словарей, которые напрямую
+                                            конвертируется в pandas.DataFrame</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="aiomoex.get_market_history">
+                                <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">get_market_history</code><span class="sig-paren">(</span><em>security</em>,
+                                <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>,
+                                <em>'VOLUME')</em>, <em>market='shares'</em>, <em>engine='stock'</em><span
+                                    class="sig-paren">)</span><a class="reference internal"
+                                                                 href="_modules/aiomoex/requests.html#get_market_history"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.get_market_history"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Получить историю по одной бумаге на рынке за интервал дат</p>
+                                <p>Для работы требуется открытая ISSClientSession</p>
+                                <p>Описание запроса - <a class="reference external"
+                                                         href="https://iss.moex.com/iss/reference/63">https://iss.moex.com/iss/reference/63</a>
+                                </p>
+                                <table class="docutils field-list" frame="void" rules="none">
+                                    <col class="field-name"/>
+                                    <col class="field-body"/>
+                                    <tbody valign="top">
+                                    <tr class="field-odd field">
+                                        <th class="field-name">Параметры:</th>
+                                        <td class="field-body">
+                                            <ul class="first simple">
+                                                <li><strong>security</strong> – Тикер ценной бумаги</li>
+                                                <li><strong>start</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены с начала истории
+                                                </li>
+                                                <li><strong>end</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные
+                                                    будут загружены до конца истории
+                                                </li>
+                                                <li><strong>columns</strong> – Кортеж столбцов, которые нужно загрузить
+                                                    - по умолчанию дата торгов, цена закрытия и объем. Если
+                                                    пустой или None, то загружаются все столбцы
+                                                </li>
+                                                <li><strong>market</strong> – Рынок - по умолчанию акции</li>
+                                                <li><strong>engine</strong> – Движок - по умолчанию акции</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="field-even field">
+                                        <th class="field-name">Результат:</th>
+                                        <td class="field-body"><p class="first last">Список словарей, которые напрямую
+                                            конвертируется в pandas.DataFrame</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="id5">
+                        <h2>Реализация произвольного запроса<a class="headerlink" href="#id5"
+                                                               title="Ссылка на этот заголовок">¶</a></h2>
+                        <dl class="class">
+                            <dt id="aiomoex.ISSClient">
+                                <em class="property">class </em><code class="descclassname">aiomoex.</code><code
+                                    class="descname">ISSClient</code><span class="sig-paren">(</span><em>url: str</em>,
+                                <em>query: dict = None</em><span class="sig-paren">)</span><a class="reference internal"
+                                                                                              href="_modules/aiomoex/client.html#ISSClient"><span
+                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                      href="#aiomoex.ISSClient"
+                                                                                      title="Ссылка на это определение">¶</a>
+                            </dt>
+                            <dd><p>Асинхронный клиент для MOEX ISS</p>
+                                <p>Поддерживает протокол асинхронного генератора (async for)</p>
+                                <p>Для работы клиентов необходимо активировать сессию соединений с MOEX ISS (общая для
+                                    всех клиентов). А после
+                                    окончания использования всех клиентов закрыть сессию для высвобождения ресурсов</p>
+                                <p>Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из
+                                    нескольких блоков данных
+                                    реализован асинхронный генераторов отдельных блоков и метод их сбора get_all</p>
+                                <dl class="classmethod">
+                                    <dt id="aiomoex.ISSClient.start_session">
+                                        <em class="property">classmethod </em><code
+                                            class="descname">start_session</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/aiomoex/client.html#ISSClient.start_session"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient.start_session"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Создает aiohttp.ClientSession для работы с MOEX ISS</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="classmethod">
+                                    <dt id="aiomoex.ISSClient.is_session_closed">
+                                        <em class="property">classmethod </em><code
+                                            class="descname">is_session_closed</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/aiomoex/client.html#ISSClient.is_session_closed"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient.is_session_closed"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Закрыта ли сессия соединений с MOEX ISS</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="aiomoex.ISSClient.close_session">
+                                        <em class="property">coroutine </em><code
+                                            class="descname">close_session</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/aiomoex/client.html#ISSClient.close_session"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient.close_session"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Закрывает aiohttp.ClientSession для работы с MOEX ISS</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="aiomoex.ISSClient.get">
+                                        <em class="property">coroutine </em><code class="descname">get</code><span
+                                            class="sig-paren">(</span><em>start=None</em><span
+                                            class="sig-paren">)</span><a class="reference internal"
+                                                                         href="_modules/aiomoex/client.html#ISSClient.get"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient.get"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Загрузка данных</p>
+                                        <table class="docutils field-list" frame="void" rules="none">
+                                            <col class="field-name"/>
+                                            <col class="field-body"/>
+                                            <tbody valign="top">
+                                            <tr class="field-odd field">
+                                                <th class="field-name">Параметры:</th>
+                                                <td class="field-body"><strong>start</strong> – Номер элемента с
+                                                    которого нужно вывести данные. Используется для дозагрузки данных,
+                                                    состоящих из
+                                                    нескольких блоков. При отсутствии данные загружаются с начального
+                                                    элемента
+                                                </td>
+                                            </tr>
+                                            <tr class="field-even field">
+                                                <th class="field-name">Результат:</th>
+                                                <td class="field-body">Блок данных из ответа с отброшенной
+                                                    вспомогательной информацией - словарь, каждый ключ которого
+                                                    соответствует одной из таблиц с данными. Таблицы являются списками
+                                                    словарей, которые напрямую конвертируются
+                                                    в pandas.DataFrame
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="aiomoex.ISSClient.get_all">
+                                        <em class="property">coroutine </em><code class="descname">get_all</code><span
+                                            class="sig-paren">(</span><span class="sig-paren">)</span><a
+                                            class="reference internal"
+                                            href="_modules/aiomoex/client.html#ISSClient.get_all"><span
+                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient.get_all"
+                                                                                              title="Ссылка на это определение">¶</a>
+                                    </dt>
+                                    <dd><p>Собирает все данные для запросов, ответы на которые выдаются отдельными
+                                        блоками</p>
+                                        <table class="docutils field-list" frame="void" rules="none">
+                                            <col class="field-name"/>
+                                            <col class="field-body"/>
+                                            <tbody valign="top">
+                                            <tr class="field-odd field">
+                                                <th class="field-name">Результат:</th>
+                                                <td class="field-body">Объединенные из всех блоков данные с отброшенной
+                                                    вспомогательной информацией - словарь, каждый ключ которого
+                                                    соответствует одной из таблиц с данными. Таблицы являются списками
+                                                    словарей, которые напрямую конвертируются
+                                                    в pandas.DataFrame
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <h1 class="logo"><a href="index.html">aiomoex</a></h1>
+
+
+            <h3>Навигация</h3>
+            <ul class="current">
+                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a></li>
+                <li class="toctree-l1 current"><a class="current reference internal" href="#">Справочник API</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal" href="#id1">Открытие сессии</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="#module-aiomoex">Функции запросов</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="#id5">Реализация произвольного
+                            запроса</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="relations">
+                <h3>Related Topics</h3>
+                <ul>
+                    <li><a href="index.html">Documentation overview</a>
+                        <ul>
+                            <li>Previous: <a href="getting_started.html" title="предыдущая глава">Начало работы</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchbox" style="display: none" role="search">
+                <h3>Быстрый поиск</h3>
+                <div class="searchformwrapper">
+                    <form class="search" action="search.html" method="get">
+                        <input type="text" name="q"/>
+                        <input type="submit" value="Искать"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+</div>
+<div class="footer">
+    &copy;2018, Mikhail Korotkov aka WLMike.
+
+    |
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+    |
+    <a href="_sources/api.rst.txt"
+       rel="nofollow">Page source</a>
+</div>
+
+
+</body>
+</html>

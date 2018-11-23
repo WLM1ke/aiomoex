@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>aiomoex.requests &#8212; Документация aiomoex 1.0.0</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../"
+            src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html"/>
+    <link rel="search" title="Поиск" href="../../search.html"/>
+
+    <link rel="stylesheet" href="../../_static/custom.css" type="text/css"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+
+</head>
+<body>
+
+
+<div class="document">
+    <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+            <div class="body" role="main">
+
+                <h1>Исходный код aiomoex.requests</h1>
+                <div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Реализация части запросов к MOEX ISS</span>
+
+<span class="sd">При необходимости могут быть дополнены:</span>
+<span class="sd">    Полный перечень запросов https://iss.moex.com/iss/reference/</span>
+<span class="sd">    Дополнительное описание https://fs.moex.com/files/6523</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">client</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ISSClientSession&#39;</span><span
+                        class="p">,</span>
+           <span class="s1">&#39;find_securities&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_board_securities&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_market_history&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_board_history&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_index_history&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ISSClientSession"><a class="viewcode-back"
+                                                     href="../../api.html#aiomoex.ISSClientSession">[документация]</a><span
+        class="k">class</span> <span class="nc">ISSClientSession</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Менеджер сессий соединений с MOEX ISS</span>
+
+<span class="sd">    Поддерживает протокол асинхронного контекстного менеджера (async with)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">ISSClient</span><span
+            class="o">.</span><span class="n">start_session</span><span class="p">()</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__aenter__</span><span
+            class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__aexit__</span><span
+            class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span
+            class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span
+            class="p">):</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span
+            class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ISSClientSession.close"><a class="viewcode-back"
+                                                           href="../../api.html#aiomoex.ISSClientSession.close">[документация]</a>    <span
+        class="nd">@staticmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Закрывает сессию&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span
+            class="n">ISSClient</span><span class="o">.</span><span class="n">close_session</span><span
+            class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span
+            class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Закрыта ли данная сессия&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span
+            class="n">ISSClient</span><span class="o">.</span><span class="n">is_session_closed</span><span
+            class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">_make_query</span><span class="p">(</span><span class="o">*</span><span
+                        class="p">,</span> <span class="n">start</span><span class="o">=</span><span
+                        class="kc">None</span><span class="p">,</span> <span class="n">end</span><span
+                        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span
+                        class="n">table</span><span class="o">=</span><span class="kc">None</span><span
+                        class="p">,</span> <span class="n">columns</span><span class="o">=</span><span
+                        class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Формирует дополнительные параметры запроса к MOEX ISS</span>
+
+<span class="sd">    В случае False значений не добавляются в запрос</span>
+
+<span class="sd">    :param start:</span>
+<span class="sd">        Начальная дата котировок</span>
+<span class="sd">    :param end:</span>
+<span class="sd">        Конечная дата котировок</span>
+<span class="sd">    :param table:</span>
+<span class="sd">        Таблица, которую нужно загрузить (для запросов, предполагающих наличие нескольких таблиц)</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Словарь с дополнительными параметрами запроса</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
+        <span class="n">query</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span
+                        class="p">]</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">if</span> <span class="n">end</span><span class="p">:</span>
+        <span class="n">query</span><span class="p">[</span><span class="s1">&#39;till&#39;</span><span
+                        class="p">]</span> <span class="o">=</span> <span class="n">end</span>
+    <span class="k">if</span> <span class="n">table</span><span class="p">:</span>
+        <span class="n">query</span><span class="p">[</span><span class="s1">&#39;iss.only&#39;</span><span
+                        class="p">]</span> <span class="o">=</span> <span class="n">f</span><span
+                        class="s1">&#39;</span><span class="si">{table}</span><span
+                        class="s1">,history.cursor&#39;</span>
+    <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+        <span class="n">query</span><span class="p">[</span><span class="n">f</span><span class="s1">&#39;</span><span
+                        class="si">{table}</span><span class="s1">.columns&#39;</span><span class="p">]</span> <span
+                        class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span
+                        class="p">(</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">query</span>
+
+
+<div class="viewcode-block" id="find_securities"><a class="viewcode-back" href="../../api.html#aiomoex.find_securities">[документация]</a><span
+        class="k">async</span> <span class="k">def</span> <span class="nf">find_securities</span><span
+        class="p">(</span><span class="n">sting</span><span class="p">:</span> <span class="nb">str</span><span
+        class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span
+        class="s1">&#39;secid&#39;</span><span class="p">,</span> <span class="s1">&#39;regnumber&#39;</span><span
+        class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации.</span>
+
+<span class="sd">    Для работы требуется открытая ISSClientSession</span>
+
+<span class="sd">    Описание запроса - https://iss.moex.com/iss/reference/32</span>
+
+<span class="sd">    :param sting:</span>
+<span class="sd">        Часть Кода, Названия, ISIN, Идентификатора Эмитента, Номера гос.регистрации</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить - по умолчанию тикер и номер государственно регистрации.</span>
+<span class="sd">        Если пустой или None, то загружаются все столбцы</span>
+
+<span class="sd">    :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://iss.moex.com/iss/securities.json&#39;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;securities&#39;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">_make_query</span><span
+            class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span
+            class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span
+            class="p">)</span>
+    <span class="n">query</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span
+            class="p">]</span> <span class="o">=</span> <span class="n">sting</span>
+    <span class="n">iss</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span
+            class="n">ISSClient</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span
+            class="n">query</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span
+            class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">table</span><span
+            class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_board_securities"><a class="viewcode-back"
+                                                         href="../../api.html#aiomoex.get_board_securities">[документация]</a><span
+        class="k">async</span> <span class="k">def</span> <span class="nf">get_board_securities</span><span
+        class="p">(</span><span class="n">table</span><span class="o">=</span><span
+        class="s1">&#39;securities&#39;</span><span class="p">,</span> <span class="n">columns</span><span
+        class="o">=</span><span class="p">(</span><span class="s1">&#39;SECID&#39;</span><span class="p">,</span> <span
+        class="s1">&#39;REGNUMBER&#39;</span><span class="p">,</span> <span class="s1">&#39;LOTSIZE&#39;</span><span
+        class="p">,</span> <span class="s1">&#39;SHORTNAME&#39;</span><span class="p">),</span>
+                               <span class="n">board</span><span class="o">=</span><span
+            class="s1">&#39;TQBR&#39;</span><span class="p">,</span> <span class="n">market</span><span
+            class="o">=</span><span class="s1">&#39;shares&#39;</span><span class="p">,</span> <span
+            class="n">engine</span><span class="o">=</span><span class="s1">&#39;stock&#39;</span><span
+            class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Получить таблицу инструментов по режиму торгов</span>
+
+<span class="sd">    Для работы требуется открытая ISSClientSession</span>
+
+<span class="sd">    Описание запроса - https://iss.moex.com/iss/reference/32</span>
+
+<span class="sd">    :param table:</span>
+<span class="sd">        Таблица с данными, которую нужно вернуть: securities - справочник торгуемых ценных бумаг, marketdata -</span>
+<span class="sd">        данные с результатами торгов текущего дня</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить - по умолчанию тикер, номер государственно регистрации,</span>
+<span class="sd">        размер лота и краткое название. Если пустой или None, то загружаются все столбцы</span>
+<span class="sd">    :param board:</span>
+<span class="sd">        Режим торгов - по умолчанию основной режим торгов T+2</span>
+<span class="sd">    :param market:</span>
+<span class="sd">        Рынок - по умолчанию акции</span>
+<span class="sd">    :param engine:</span>
+<span class="sd">        Движок - по умолчанию акции</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;https://iss.moex.com/iss/engines/</span><span
+            class="si">{engine}</span><span class="s1">/markets/</span><span class="si">{market}</span><span class="s1">/boards/</span><span
+            class="si">{board}</span><span class="s1">/securities.json&#39;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">_make_query</span><span
+            class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span
+            class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span
+            class="p">)</span>
+    <span class="n">iss</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span
+            class="n">ISSClient</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span
+            class="n">query</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span
+            class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">table</span><span
+            class="p">]</span></div>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">_get_history</span><span
+                        class="p">(</span><span class="n">url</span><span class="p">,</span> <span
+                        class="n">start</span><span class="p">,</span> <span class="n">end</span><span
+                        class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Осуществляет запрос характерный для раздела history MOEX ISS</span>
+
+<span class="sd">    :param url:</span>
+<span class="sd">        Адрес запроса из раздела history</span>
+<span class="sd">    :param start:</span>
+<span class="sd">        Начальная дата котировок</span>
+<span class="sd">    :param end:</span>
+<span class="sd">        Конечная дата котировок</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;history&#39;</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">_make_query</span><span
+                        class="p">(</span><span class="n">start</span><span class="o">=</span><span
+                        class="n">start</span><span class="p">,</span> <span class="n">end</span><span
+                        class="o">=</span><span class="n">end</span><span class="p">,</span> <span
+                        class="n">table</span><span class="o">=</span><span class="n">table</span><span
+                        class="p">,</span> <span class="n">columns</span><span class="o">=</span><span
+                        class="n">columns</span><span class="p">)</span>
+    <span class="n">iss</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span
+                        class="n">ISSClient</span><span class="p">(</span><span class="n">url</span><span
+                        class="p">,</span> <span class="n">query</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span
+                        class="o">.</span><span class="n">get_all</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span
+                        class="n">table</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">client</span><span class="o">.</span><span
+                        class="n">ISSMoexError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Отсутствуют исторические котировки для </span><span
+                        class="si">{url}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+
+<div class="viewcode-block" id="get_market_history"><a class="viewcode-back"
+                                                       href="../../api.html#aiomoex.get_market_history">[документация]</a><span
+        class="k">async</span> <span class="k">def</span> <span class="nf">get_market_history</span><span
+        class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">start</span><span
+        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span
+        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span
+        class="o">=</span><span class="p">(</span><span class="s1">&#39;TRADEDATE&#39;</span><span
+        class="p">,</span> <span class="s1">&#39;CLOSE&#39;</span><span class="p">,</span> <span class="s1">&#39;VOLUME&#39;</span><span
+        class="p">),</span>
+                             <span class="n">market</span><span class="o">=</span><span
+            class="s1">&#39;shares&#39;</span><span class="p">,</span> <span class="n">engine</span><span
+            class="o">=</span><span class="s1">&#39;stock&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Получить историю по одной бумаге на рынке за интервал дат</span>
+
+<span class="sd">    Для работы требуется открытая ISSClientSession</span>
+
+<span class="sd">    Описание запроса - https://iss.moex.com/iss/reference/63</span>
+
+<span class="sd">    :param security:</span>
+<span class="sd">        Тикер ценной бумаги</span>
+<span class="sd">    :param start:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории</span>
+<span class="sd">    :param end:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов, цена закрытия и объем. Если</span>
+<span class="sd">        пустой или None, то загружаются все столбцы</span>
+<span class="sd">    :param market:</span>
+<span class="sd">        Рынок - по умолчанию акции</span>
+<span class="sd">    :param engine:</span>
+<span class="sd">        Движок - по умолчанию акции</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;https://iss.moex.com/iss/history/engines/</span><span
+            class="si">{engine}</span><span class="s1">/markets/</span><span class="si">{market}</span><span class="s1">/securities/</span><span
+            class="si">{security}</span><span class="s1">.json&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span
+            class="n">_get_history</span><span class="p">(</span><span class="n">url</span><span
+            class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span
+            class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_board_history"><a class="viewcode-back"
+                                                      href="../../api.html#aiomoex.get_board_history">[документация]</a><span
+        class="k">async</span> <span class="k">def</span> <span class="nf">get_board_history</span><span
+        class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">start</span><span
+        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span
+        class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">columns</span><span
+        class="o">=</span><span class="p">(</span><span class="s1">&#39;TRADEDATE&#39;</span><span
+        class="p">,</span> <span class="s1">&#39;CLOSE&#39;</span><span class="p">,</span> <span class="s1">&#39;VOLUME&#39;</span><span
+        class="p">),</span>
+                            <span class="n">board</span><span class="o">=</span><span
+            class="s1">&#39;TQBR&#39;</span><span class="p">,</span> <span class="n">market</span><span
+            class="o">=</span><span class="s1">&#39;shares&#39;</span><span class="p">,</span> <span
+            class="n">engine</span><span class="o">=</span><span class="s1">&#39;stock&#39;</span><span
+            class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный интервал дат</span>
+
+<span class="sd">    Для работы требуется открытая ISSClientSession</span>
+
+<span class="sd">    Описание запроса - https://iss.moex.com/iss/reference/65</span>
+
+<span class="sd">    :param security:</span>
+<span class="sd">        Тикер ценной бумаги</span>
+<span class="sd">    :param start:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории</span>
+<span class="sd">    :param end:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов, цена закрытия и объем. Если</span>
+<span class="sd">        пустой или None, то загружаются все столбцы</span>
+<span class="sd">    :param board:</span>
+<span class="sd">        Режим торгов - по умолчанию основной режим торгов T+2</span>
+<span class="sd">    :param market:</span>
+<span class="sd">        Рынок - по умолчанию акции</span>
+<span class="sd">    :param engine:</span>
+<span class="sd">        Движок - по умолчанию акции</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span
+            class="s1">&#39;https://iss.moex.com/iss/history/engines/</span><span class="si">{engine}</span><span
+            class="s1">/markets/</span><span class="si">{market}</span><span class="s1">/&#39;</span>
+           <span class="n">f</span><span class="s1">&#39;boards/</span><span class="si">{board}</span><span class="s1">/securities/</span><span
+            class="si">{security}</span><span class="s1">.json&#39;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span
+            class="n">_get_history</span><span class="p">(</span><span class="n">url</span><span
+            class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span
+            class="p">,</span> <span class="n">columns</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="get_index_history"><a class="viewcode-back"
+                                                      href="../../api.html#aiomoex.get_index_history">[документация]</a><span
+        class="k">async</span> <span class="k">def</span> <span class="nf">get_index_history</span><span
+        class="p">(</span><span class="n">start</span><span class="o">=</span><span class="kc">None</span><span
+        class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span
+        class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span
+        class="s1">&#39;TRADEDATE&#39;</span><span class="p">,</span> <span class="s1">&#39;CLOSE&#39;</span><span
+        class="p">),):</span>
+    <span class="sd">&quot;&quot;&quot;Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам российских организаций) за</span>
+<span class="sd">    указанный интервал дат</span>
+
+<span class="sd">    Для работы требуется открытая ISSClientSession</span>
+
+<span class="sd">    :param start:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории</span>
+<span class="sd">    :param end:</span>
+<span class="sd">        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории</span>
+<span class="sd">    :param columns:</span>
+<span class="sd">        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов и цена закрытия. Если пустой или</span>
+<span class="sd">        None, то загружаются все столбцы</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        Список словарей, которые напрямую конвертируется в pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">get_board_history</span><span
+            class="p">(</span><span class="s1">&#39;MCFTRR&#39;</span><span class="p">,</span> <span
+            class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span
+            class="n">columns</span><span class="p">,</span> <span class="s1">&#39;RTSI&#39;</span><span
+            class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span></div>
+</pre>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <h1 class="logo"><a href="../../index.html">aiomoex</a></h1>
+
+
+            <h3>Навигация</h3>
+            <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Начало работы</a>
+                </li>
+                <li class="toctree-l1"><a class="reference internal" href="../../api.html">Справочник API</a></li>
+            </ul>
+
+            <div class="relations">
+                <h3>Related Topics</h3>
+                <ul>
+                    <li><a href="../../index.html">Documentation overview</a>
+                        <ul>
+                            <li><a href="../index.html">Код модуля</a>
+                                <ul>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchbox" style="display: none" role="search">
+                <h3>Быстрый поиск</h3>
+                <div class="searchformwrapper">
+                    <form class="search" action="../../search.html" method="get">
+                        <input type="text" name="q"/>
+                        <input type="submit" value="Искать"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+</div>
+<div class="footer">
+    &copy;2018, Mikhail Korotkov aka WLMike.
+
+    |
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+</div>
+
+
+</body>
+</html>

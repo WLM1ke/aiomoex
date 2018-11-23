@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Начало работы &#8212; Документация aiomoex 1.0.0</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html"/>
+    <link rel="search" title="Поиск" href="search.html"/>
+    <link rel="next" title="Справочник API" href="api.html"/>
+    <link rel="prev" title="Asyncio MOEX ISS API" href="index.html"/>
+
+    <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+
+</head>
+<body>
+
+
+<div class="document">
+    <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+            <div class="body" role="main">
+
+                <div class="section" id="id1">
+                    <h1>Начало работы<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+                    <div class="section" id="id2">
+                        <h2>Установка<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+                        <div class="highlight-bash notranslate">
+                            <div class="highlight"><pre><span></span>$ pip install aiomoex
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="id3">
+                        <h2>Пример использования реализованных запросов<a class="headerlink" href="#id3"
+                                                                          title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>История котировок SNGSP в режиме TQBR</p>
+                        <div class="highlight-python notranslate">
+                            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">import</span> <span class="nn">aiomoex</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">async</span> <span class="k">with</span> <span class="n">aiomoex</span><span class="o">.</span><span
+                                        class="n">ISSClientSession</span><span class="p">():</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">aiomoex</span><span
+                                        class="o">.</span><span class="n">get_board_history</span><span
+                                        class="p">(</span><span class="s1">&#39;SNGSP&#39;</span><span
+                                        class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span
+                                        class="n">DataFrame</span><span class="p">(</span><span
+                                        class="n">data</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span
+                                        class="s1">&#39;TRADEDATE&#39;</span><span class="p">,</span> <span class="n">inplace</span><span
+                                        class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="n">head</span><span class="p">(),</span> <span
+                                        class="s1">&#39;</span><span class="se">\n</span><span
+                                        class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="n">tail</span><span class="p">(),</span> <span
+                                        class="s1">&#39;</span><span class="se">\n</span><span
+                                        class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span
+                                        class="p">())</span>
+</pre>
+                            </div>
+                        </div>
+                        <p>Результат:</p>
+                        <div class="highlight-default notranslate">
+                            <div class="highlight"><pre><span></span>            CLOSE    VOLUME
+TRADEDATE
+2014-06-09  27.48  12674200
+2014-06-10  27.55  14035900
+2014-06-11  28.15  27208800
+2014-06-16  28.27  68059900
+2014-06-17  28.20  22101600
+
+             CLOSE    VOLUME
+TRADEDATE
+2018-11-16  37.860   9660800
+2018-11-19  37.315  28765600
+2018-11-20  36.790  19853500
+2018-11-21  36.930  14583000
+2018-11-22  37.480   9656600
+
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 1125 entries, 2014-06-09 to 2018-11-22
+Data columns (total 2 columns):
+CLOSE     1125 non-null float64
+VOLUME    1125 non-null int64
+dtypes: float64(1), int64(1)
+memory usage: 26.4+ KB
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="id4">
+                        <h2>Пример реализации нового запроса<a class="headerlink" href="#id4"
+                                                               title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>Перечень акций, торгующихся в режиме TQBR (<a class="reference external"
+                                                                         href="https://iss.moex.com/iss/reference/32">описание
+                            запроса</a>)</p>
+                        <div class="highlight-python notranslate">
+                            <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">import</span> <span class="nn">aiomoex</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">request_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://iss.moex.com/iss/engines/stock/&#39;</span>
+                   <span class="s1">&#39;markets/shares/boards/TQBR/securities.json&#39;</span><span class="p">)</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;securities.columns&#39;</span><span
+                                        class="p">:</span> <span class="p">(</span><span
+                                        class="s1">&#39;SECID,&#39;</span>
+                                        <span class="s1">&#39;REGNUMBER,&#39;</span>
+                                        <span class="s1">&#39;LOTSIZE,&#39;</span>
+                                        <span class="s1">&#39;SHORTNAME&#39;</span><span class="p">)}</span>
+    <span class="n">iss</span> <span class="o">=</span> <span class="n">aiomoex</span><span class="o">.</span><span
+                                        class="n">ISSClient</span><span class="p">(</span><span
+                                        class="n">request_url</span><span class="p">,</span> <span
+                                        class="n">arguments</span><span class="p">)</span>
+    <span class="n">iss</span><span class="o">.</span><span class="n">start_session</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">iss</span><span
+                                        class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span
+                                        class="p">(</span><span class="n">data</span><span class="p">[</span><span
+                                        class="s1">&#39;securities&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span
+                                        class="s1">&#39;SECID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span
+                                        class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="n">head</span><span class="p">(),</span> <span
+                                        class="s1">&#39;</span><span class="se">\n</span><span
+                                        class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="n">tail</span><span class="p">(),</span> <span
+                                        class="s1">&#39;</span><span class="se">\n</span><span
+                                        class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+    <span class="n">await</span> <span class="n">iss</span><span class="o">.</span><span
+                                        class="n">close_session</span><span class="p">()</span>
+
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span
+                                        class="p">())</span>
+</pre>
+                            </div>
+                        </div>
+                        <p>Результат:</p>
+                        <div class="highlight-default notranslate">
+                            <div class="highlight"><pre><span></span>       LOTSIZE     REGNUMBER   SHORTNAME
+SECID
+ABRD        10  1-02-12500-A  АбрауДюрсо
+AFKS       100  1-05-01669-A  Система ао
+AFLT        10  1-01-00010-A    Аэрофлот
+AGRO         1          None    AGRO-гдр
+AKRN         1  1-03-00207-A       Акрон
+
+       LOTSIZE     REGNUMBER  SHORTNAME
+SECID
+YRSBP      100  2-01-50099-A  ТНСэнЯр-п
+ZILL         1  1-02-00036-A     ЗИЛ ао
+ZMZN        10  1-01-00230-A     ЗМЗ-ао
+ZMZNP      100  2-01-00230-A     ЗМЗ-ап
+ZVEZ      1000  1-01-00169-D  ЗВЕЗДА ао
+
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 277 entries, ABRD to ZVEZ
+Data columns (total 3 columns):
+LOTSIZE      277 non-null int64
+REGNUMBER    268 non-null object
+SHORTNAME    277 non-null object
+dtypes: int64(1), object(2)
+memory usage: 8.7+ KB
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <h1 class="logo"><a href="index.html">aiomoex</a></h1>
+
+
+            <h3>Навигация</h3>
+            <ul class="current">
+                <li class="toctree-l1 current"><a class="current reference internal" href="#">Начало работы</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal" href="#id2">Установка</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="#id3">Пример использования
+                            реализованных запросов</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="#id4">Пример реализации нового
+                            запроса</a></li>
+                    </ul>
+                </li>
+                <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a></li>
+            </ul>
+
+            <div class="relations">
+                <h3>Related Topics</h3>
+                <ul>
+                    <li><a href="index.html">Documentation overview</a>
+                        <ul>
+                            <li>Previous: <a href="index.html" title="предыдущая глава">Asyncio MOEX ISS API</a></li>
+                            <li>Next: <a href="api.html" title="следующая глава">Справочник API</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchbox" style="display: none" role="search">
+                <h3>Быстрый поиск</h3>
+                <div class="searchformwrapper">
+                    <form class="search" action="search.html" method="get">
+                        <input type="text" name="q"/>
+                        <input type="submit" value="Искать"/>
+                        <input type="hidden" name="check_keywords" value="yes"/>
+                        <input type="hidden" name="area" value="default"/>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+</div>
+<div class="footer">
+    &copy;2018, Mikhail Korotkov aka WLMike.
+
+    |
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+    |
+    <a href="_sources/getting_started.rst.txt"
+       rel="nofollow">Page source</a>
+</div>
+
+
+</body>
+</html>
