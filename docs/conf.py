@@ -112,9 +112,7 @@ html_sidebars = {
     "**": [
         "about.html",
         "badges.html",
-        "navigation.html",
-        "relations.html",
-        "donate.html",
+        "navigation.html"
     ]
 }
 
