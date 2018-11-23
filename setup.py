@@ -6,7 +6,7 @@ with open('README.md') as file:
 setuptools.setup(
     name='aiomoex',
     version='1.0.0',
-    description='Asyncio client for MOEX ISS',
+    description='Asyncio MOEX ISS API',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/WLM1ke/aiomoex',
