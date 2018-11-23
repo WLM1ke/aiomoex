@@ -1,11 +1,13 @@
 import setuptools
 
+version = '1.0.0'
+
 with open('README.md') as file:
     long_description = file.read()
 
 setuptools.setup(
     name='aiomoex',
-    version='1.0.0',
+    version=version,
     description='Asyncio MOEX ISS API',
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -1,8 +1,7 @@
-"""Реализация части запросов к MOEX ISS
+"""Реализована небольшая часть запросов к MOEX ISS:
 
-При необходимости могут быть дополнены:
-    Полный перечень запросов https://iss.moex.com/iss/reference/
-    Дополнительное описание https://fs.moex.com/files/6523
+* Полное описание возможных `запросов <https://iss.moex.com/iss/reference/>`_
+* `Руководство разработчика <https://fs.moex.com/files/6523>`_ с дополнительной информацией
 """
 # noinspection PyUnresolvedReferences
 from .requests import *

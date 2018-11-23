@@ -14,6 +14,8 @@ class ISSMoexError(Exception):
 class ISSClient:
     """Асинхронный клиент для MOEX ISS
 
+    Поддерживает протокол асинхронного генератора (async for)
+
     Для работы клиентов необходимо активировать сессию соединений с MOEX ISS (общая для всех клиентов). А после
     окончания использования всех клиентов закрыть сессию для высвобождения ресурсов
 
@@ -68,13 +70,6 @@ class ISSClient:
                     start = None
 
     @classmethod
-    def is_session_closed(cls):
-        """Закрыта ли сессия соединений с MOEX ISS"""
-        if cls._client_session is None or cls._client_session.closed:
-            return True
-        return False
-
-    @classmethod
     def start_session(cls):
         """Создает aiohttp.ClientSession для работы с MOEX ISS"""
         if cls.is_session_closed():
@@ -90,14 +85,24 @@ class ISSClient:
         else:
             raise ISSMoexError('Сессия для работы с MOEX ISS уже закрыта')
 
-    async def get(self, start=None) -> dict:
+    @classmethod
+    def is_session_closed(cls):
+        """Закрыта ли сессия соединений с MOEX ISS"""
+        if cls._client_session is None or cls._client_session.closed:
+            return True
+        return False
+
+    async def get(self, start=None):
         """Загрузка данных
 
-        :param start: Номер элемента с которого нужно вывести данные. Используется для дозагрузки данных, состоящих из
-        нескольких блоков
-        :return: Блок данных из ответа с отброшенной вспомогательной информацией - словарь, каждый ключ которого
-        соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются в
-        pandas.DataFrame
+        :param start:
+            Номер элемента с которого нужно вывести данные. Используется для дозагрузки данных, состоящих из
+            нескольких блоков. При отсутствии данные загружаются с начального элемента
+
+        :return:
+            Блок данных из ответа с отброшенной вспомогательной информацией - словарь, каждый ключ которого
+            соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются
+            в pandas.DataFrame
         """
         if not self.is_session_closed():
             session = self._client_session
@@ -121,12 +126,13 @@ class ISSClient:
             params['start'] = start
         return params
 
-    async def get_all(self) -> dict:
-        """Собирает данные данные для запросов, ответы на которые выдаются отдельными блоками
+    async def get_all(self):
+        """Собирает все данные для запросов, ответы на которые выдаются отдельными блоками
 
-        :return: Блок данных из ответа с отброшенной вспомогательной информацией - словарь, каждый ключ которого
-        соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются в
-        pandas.DataFrame
+        :return:
+            Объединенные из всех блоков данные с отброшенной вспомогательной информацией - словарь, каждый ключ которого
+            соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются
+            в pandas.DataFrame
         """
         all_data = dict()
         async for data in self:
