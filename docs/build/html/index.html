@@ -38,32 +38,19 @@
                 <div class="section" id="asyncio-moex-iss-api">
                     <h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api"
                                                title="Ссылка на этот заголовок">¶</a></h1>
-                    <a class="reference external image-reference" href="https://travis-ci.org/WLM1ke/aiomoex"><img
-                            alt="https://travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-                            src="https://travis-ci.org/WLM1ke/aiomoex.svg?branch=master"/></a>
-                    <a class="reference external image-reference"
-                       href="https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=WLM1ke/aiomoex&amp;amp;utm_campaign=Badge_Coverage"><img
-                            alt="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
-                            src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"/></a>
-                    <a class="reference external image-reference"
-                       href="https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=WLM1ke/aiomoex&amp;amp;utm_campaign=Badge_Grade"><img
-                            alt="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
-                            src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"/></a>
                     <p>Реализация на основе asyncio части запросов к <a class="reference external"
                                                                         href="https://www.moex.com/a2193">MOEX
                         Informational &amp; Statistical Server</a></p>
                     <div class="section" id="id1">
                         <h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a>
                         </h2>
-                        <p>Реализован <a class="reference external"
-                                         href="https://github.com/WLM1ke/aiomoex/blob/master/aiomoex/client.py">клиент</a>
-                            с поддержкой запросов:</p>
+                        <p>Реализован клиент с поддержкой запросов:</p>
                         <ul class="simple">
                             <li>С выдачей всей информации за раз</li>
                             <li>С выдачей информации блоками с курсором</li>
                             <li>С выдачей информации блоками без курсора</li>
                         </ul>
-                        <p>На его основе реализован ряд запросов, результаты которых напрямую конвертируются в
+                        <p>На его основе реализован ряд функций, результаты которых напрямую конвертируются в
                             pandas.DataFrame.
                             При необходимости их список может быть расширен:</p>
                         <ul class="simple">
@@ -75,8 +62,8 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="section" id="id5">
-                        <h2>Оглавление<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+                    <div class="section" id="id4">
+                        <h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
                         <div class="toctree-wrapper compound">
                             <ul>
                                 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало
@@ -118,10 +105,43 @@
             <h1 class="logo"><a href="#">aiomoex</a></h1>
 
 
+            <p class="blurb">Asyncio MOEX ISS API</p>
+
+
+            <p>
+                <a class="badge" href="https://travis-ci.org/WLM1ke/aiomoex">
+                    <img
+                            alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+                            src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+                    />
+                </a>
+            </p>
+
+
+            <img alt="https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=WLM1ke/aiomoex&amp;utm_campaign=Badge_Coverage"
+                 src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"/>
             <h3>Навигация</h3>
             <ul>
-                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a></li>
-                <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal"
+                                                  href="getting_started.html#id2">Установка</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример
+                            использования реализованных запросов</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример
+                            реализации нового запроса</a></li>
+                    </ul>
+                </li>
+                <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции
+                            запросов</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация
+                            произвольного запроса</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="relations">
@@ -134,18 +154,6 @@
                     </li>
                 </ul>
             </div>
-            <div id="searchbox" style="display: none" role="search">
-                <h3>Быстрый поиск</h3>
-                <div class="searchformwrapper">
-                    <form class="search" action="search.html" method="get">
-                        <input type="text" name="q"/>
-                        <input type="submit" value="Искать"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-            </div>
-            <script type="text/javascript">$('#searchbox').show(0);</script>
 
 
         </div>
@@ -163,6 +171,13 @@
     <a href="_sources/index.rst.txt"
        rel="nofollow">Page source</a>
 </div>
+
+
+<a href="https://github.com/WLM1ke/aiomoex" class="github">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"
+         class="github"/>
+</a>
 
 
 </body>

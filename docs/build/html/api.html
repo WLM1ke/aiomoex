@@ -356,6 +356,10 @@
                     <div class="section" id="id5">
                         <h2>Реализация произвольного запроса<a class="headerlink" href="#id5"
                                                                title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>Для осуществления запроса необходимо передать клиенту корректный url и дополнительные
+                            параметры из официального
+                            справочника <a class="reference external" href="https://iss.moex.com/iss/reference/">запросов</a>
+                        </p>
                         <dl class="class">
                             <dt id="aiomoex.ISSClient">
                                 <em class="property">class </em><code class="descclassname">aiomoex.</code><code
@@ -501,9 +505,33 @@
             <h1 class="logo"><a href="index.html">aiomoex</a></h1>
 
 
+            <p class="blurb">Asyncio MOEX ISS API</p>
+
+
+            <p>
+                <a class="badge" href="https://travis-ci.org/WLM1ke/aiomoex">
+                    <img
+                            alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+                            src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+                    />
+                </a>
+            </p>
+
+
+            <img alt="https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=WLM1ke/aiomoex&amp;utm_campaign=Badge_Coverage"
+                 src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"/>
             <h3>Навигация</h3>
             <ul class="current">
-                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a></li>
+                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal"
+                                                  href="getting_started.html#id2">Установка</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример
+                            использования реализованных запросов</a></li>
+                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример
+                            реализации нового запроса</a></li>
+                    </ul>
+                </li>
                 <li class="toctree-l1 current"><a class="current reference internal" href="#">Справочник API</a>
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="#id1">Открытие сессии</a></li>
@@ -525,18 +553,6 @@
                     </li>
                 </ul>
             </div>
-            <div id="searchbox" style="display: none" role="search">
-                <h3>Быстрый поиск</h3>
-                <div class="searchformwrapper">
-                    <form class="search" action="search.html" method="get">
-                        <input type="text" name="q"/>
-                        <input type="submit" value="Искать"/>
-                        <input type="hidden" name="check_keywords" value="yes"/>
-                        <input type="hidden" name="area" value="default"/>
-                    </form>
-                </div>
-            </div>
-            <script type="text/javascript">$('#searchbox').show(0);</script>
 
 
         </div>
@@ -554,6 +570,13 @@
     <a href="_sources/api.rst.txt"
        rel="nofollow">Page source</a>
 </div>
+
+
+<a href="https://github.com/WLM1ke/aiomoex" class="github">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"
+         class="github"/>
+</a>
 
 
 </body>

@@ -70,7 +70,7 @@ language = 'ru'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -83,8 +83,23 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
-
+html_theme_options = {'description': 'Asyncio MOEX ISS API',
+                      'github_banner': True,
+                      'github_user': 'WLM1ke',
+                      'github_repo': 'aiomoex',
+                      'github_button': False,
+                      'travis_button': True,
+                      'sidebar_collapse': False
+                      }
+html_sidebars = {
+    "**": [
+        "about.html",
+        "badges.html",
+        "navigation.html",
+        "relations.html",
+        "donate.html",
+    ]
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
