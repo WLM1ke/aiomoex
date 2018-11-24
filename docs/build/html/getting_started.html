@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Начало работы &#8212; Документация aiomoex 1.0.0</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css"/>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <script type="text/javascript" id="documentation_options" data-url_root="./"
             src="_static/documentation_options.js"></script>
@@ -23,7 +23,10 @@
     <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
 
 
+    <link rel="canonical" href="https://wlm1ke.github.io/aiomoexgetting_started.html"/>
+
     <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet">
 
 </head>
 <body>
@@ -32,15 +35,13 @@
 <div class="document">
     <div class="documentwrapper">
         <div class="bodywrapper">
-
-
             <div class="body" role="main">
 
                 <div class="section" id="id1">
                     <h1>Начало работы<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
                     <div class="section" id="id2">
                         <h2>Установка<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-                        <div class="highlight-bash notranslate">
+                        <div class="highlight-Bash notranslate">
                             <div class="highlight"><pre><span></span>$ pip install aiomoex
 </pre>
                             </div>
@@ -49,18 +50,18 @@
                     <div class="section" id="id3">
                         <h2>Пример использования реализованных запросов<a class="headerlink" href="#id3"
                                                                           title="Ссылка на этот заголовок">¶</a></h2>
-                        <p>История котировок SNGSP в режиме TQBR</p>
-                        <div class="highlight-python notranslate">
+                        <p>История котировок SNGSP в режиме TQBR:</p>
+                        <div class="highlight-default notranslate">
                             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">import</span> <span class="nn">aiomoex</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">async</span> <span class="k">with</span> <span class="n">aiomoex</span><span class="o">.</span><span
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">aiomoex</span><span class="o">.</span><span
                                         class="n">ISSClientSession</span><span class="p">():</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">aiomoex</span><span
+        <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aiomoex</span><span
                                         class="o">.</span><span class="n">get_board_history</span><span
                                         class="p">(</span><span class="s1">&#39;SNGSP&#39;</span><span
                                         class="p">)</span>
@@ -69,12 +70,12 @@
                                         class="n">data</span><span class="p">)</span>
         <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span
                                         class="s1">&#39;TRADEDATE&#39;</span><span class="p">,</span> <span class="n">inplace</span><span
-                                        class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
                                         class="n">head</span><span class="p">(),</span> <span
                                         class="s1">&#39;</span><span class="se">\n</span><span
                                         class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
                                         class="n">tail</span><span class="p">(),</span> <span
                                         class="s1">&#39;</span><span class="se">\n</span><span
                                         class="s1">&#39;</span><span class="p">)</span>
@@ -86,7 +87,6 @@
 </pre>
                             </div>
                         </div>
-                        <p>Результат:</p>
                         <div class="highlight-default notranslate">
                             <div class="highlight"><pre><span></span>            CLOSE    VOLUME
 TRADEDATE
@@ -120,15 +120,15 @@ memory usage: 26.4+ KB
                                                                           title="Ссылка на этот заголовок">¶</a></h2>
                         <p>Перечень акций, торгующихся в режиме TQBR (<a class="reference external"
                                                                          href="https://iss.moex.com/iss/reference/32">описание
-                            запроса</a>)</p>
-                        <div class="highlight-python notranslate">
+                            запроса</a>):</p>
+                        <div class="highlight-default notranslate">
                             <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="kn">import</span> <span class="nn">aiomoex</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">request_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://iss.moex.com/iss/engines/stock/&#39;</span>
                    <span class="s1">&#39;markets/shares/boards/TQBR/securities.json&#39;</span><span class="p">)</span>
     <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;securities.columns&#39;</span><span
@@ -142,24 +142,24 @@ memory usage: 26.4+ KB
                                         class="n">request_url</span><span class="p">,</span> <span
                                         class="n">arguments</span><span class="p">)</span>
     <span class="n">iss</span><span class="o">.</span><span class="n">start_session</span><span class="p">()</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">await</span> <span class="n">iss</span><span
+    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span
                                         class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span
                                         class="p">(</span><span class="n">data</span><span class="p">[</span><span
                                         class="s1">&#39;securities&#39;</span><span class="p">])</span>
     <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span
                                         class="s1">&#39;SECID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span
-                                        class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+                                        class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
                                         class="n">head</span><span class="p">(),</span> <span
                                         class="s1">&#39;</span><span class="se">\n</span><span
                                         class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span
                                         class="n">tail</span><span class="p">(),</span> <span
                                         class="s1">&#39;</span><span class="se">\n</span><span
                                         class="s1">&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-    <span class="n">await</span> <span class="n">iss</span><span class="o">.</span><span
+    <span class="k">await</span> <span class="n">iss</span><span class="o">.</span><span
                                         class="n">close_session</span><span class="p">()</span>
 
 
@@ -168,7 +168,6 @@ memory usage: 26.4+ KB
 </pre>
                             </div>
                         </div>
-                        <p>Результат:</p>
                         <div class="highlight-default notranslate">
                             <div class="highlight"><pre><span></span>       LOTSIZE     REGNUMBER   SHORTNAME
 SECID
@@ -202,7 +201,6 @@ memory usage: 8.7+ KB
 
 
             </div>
-
         </div>
     </div>
     <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -214,7 +212,7 @@ memory usage: 8.7+ KB
 
 
             <p>
-                <a class="badge" href="https://travis-ci.org/WLM1ke/aiomoex">
+                <a href="https://travis-ci.org/WLM1ke/aiomoex">
                     <img
                             alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
                             src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
@@ -223,8 +221,23 @@ memory usage: 8.7+ KB
             </p>
 
 
-            <img alt="https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=WLM1ke/aiomoex&amp;utm_campaign=Badge_Coverage"
-                 src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"/>
+            <ul class="badges">
+
+                <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
+                    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
+                         alt="Code coverage status"
+                         height="20"
+                    />
+                </a>
+
+                <li><a href="https://badge.fury.io/py/aiomoex">
+                    <img src="https://badge.fury.io/py/aiomoex.svg"
+                         alt="Latest PyPI package version"
+                         height="20"
+                    />
+                </a>
+
+            </ul>
             <h3>Навигация</h3>
             <ul class="current">
                 <li class="toctree-l1 current"><a class="current reference internal" href="#">Начало работы</a>
@@ -240,9 +253,9 @@ memory usage: 8.7+ KB
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a>
                         </li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции
-                            запросов</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции-запросы</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
                             произвольного запроса</a></li>
                     </ul>
                 </li>
@@ -258,8 +271,10 @@ memory usage: 8.7+ KB
 
     |
     Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
 
+    |
+    <a href="_sources/getting_started.rst.txt"
+       rel="nofollow">Page source</a>
 </div>
 
 

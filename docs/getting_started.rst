@@ -3,15 +3,13 @@
 Установка
 ---------
 
-.. code-block:: bash
+.. code-block:: Bash
 
    $ pip install aiomoex
 
 Пример использования реализованных запросов
 -------------------------------------------
-История котировок SNGSP в режиме TQBR
-
-.. code-block:: python
+История котировок SNGSP в режиме TQBR::
 
    import asyncio
 
@@ -31,7 +29,7 @@
 
    asyncio.run(main())
 
-Результат::
+.. code-block:: default
 
                CLOSE    VOLUME
    TRADEDATE
@@ -59,9 +57,7 @@
 
 Пример реализации запроса с помощью клиента
 -------------------------------------------
-Перечень акций, торгующихся в режиме TQBR (`описание запроса <https://iss.moex.com/iss/reference/32>`_)
-
-.. code-block:: python
+Перечень акций, торгующихся в режиме TQBR (`описание запроса <https://iss.moex.com/iss/reference/32>`_)::
 
    import asyncio
 
@@ -89,7 +85,7 @@
 
    asyncio.run(main())
 
-Результат::
+.. code-block:: default
 
           LOTSIZE     REGNUMBER   SHORTNAME
    SECID
