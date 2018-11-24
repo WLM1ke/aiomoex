@@ -15,12 +15,10 @@ release = '1.0.0'
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinxcontrib.asyncio'
 ]
 autodoc_member_order = 'bysource'
-
 templates_path = ['templates']
 
 source_suffix = '.rst'

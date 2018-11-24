@@ -50,11 +50,9 @@
                         <dl class="class">
                             <dt id="aiomoex.ISSClientSession">
                                 <em class="property">class </em><code class="descclassname">aiomoex.</code><code
-                                    class="descname">ISSClientSession</code><a class="reference internal"
-                                                                               href="_modules/aiomoex/requests.html#ISSClientSession"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.ISSClientSession"
-                                                                                      title="Ссылка на это определение">¶</a>
+                                    class="descname">ISSClientSession</code><a class="headerlink"
+                                                                               href="#aiomoex.ISSClientSession"
+                                                                               title="Ссылка на это определение">¶</a>
                             </dt>
                             <dd><p>Менеджер сессий соединений с MOEX ISS</p>
                                 <p>Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async
@@ -74,12 +72,8 @@
                                     <dt id="aiomoex.ISSClientSession.close">
                                         <em class="property">coroutine </em><code class="descname">close</code><span
                                             class="sig-paren">(</span><span class="sig-paren">)</span><a
-                                            class="reference internal"
-                                            href="_modules/aiomoex/requests.html#ISSClientSession.close"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClientSession.close"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="headerlink" href="#aiomoex.ISSClientSession.close"
+                                            title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Закрывает сессию</p>
                                     </dd>
                                 </dl>
@@ -103,12 +97,8 @@
                                 <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
                                     class="descname">find_securities</code><span class="sig-paren">(</span><em>sting:
                                 str</em>, <em>columns=('secid'</em>, <em>'regnumber')</em><span
-                                    class="sig-paren">)</span><a class="reference internal"
-                                                                 href="_modules/aiomoex/requests.html#find_securities"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.find_securities"
-                                                                                      title="Ссылка на это определение">¶</a>
-                            </dt>
+                                    class="sig-paren">)</span><a class="headerlink" href="#aiomoex.find_securities"
+                                                                 title="Ссылка на это определение">¶</a></dt>
                             <dd><p>Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру
                                 гос.регистрации</p>
                                 <p>Для работы требуется открытая ISSClientSession</p>
@@ -150,11 +140,9 @@
                                     class="descname">get_board_history</code><span class="sig-paren">(</span><em>security</em>,
                                 <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>,
                                 <em>'VOLUME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>,
-                                <em>engine='stock'</em><span class="sig-paren">)</span><a class="reference internal"
-                                                                                          href="_modules/aiomoex/requests.html#get_board_history"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.get_board_history"
-                                                                                      title="Ссылка на это определение">¶</a>
+                                <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                          href="#aiomoex.get_board_history"
+                                                                                          title="Ссылка на это определение">¶</a>
                             </dt>
                             <dd><p>Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный
                                 интервал дат</p>
@@ -206,12 +194,8 @@
                                     class="descname">get_board_securities</code><span class="sig-paren">(</span><em>table='securities'</em>,
                                 <em>columns=('SECID'</em>, <em>'REGNUMBER'</em>, <em>'LOTSIZE'</em>,
                                 <em>'SHORTNAME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span
-                                    class="sig-paren">)</span><a class="reference internal"
-                                                                 href="_modules/aiomoex/requests.html#get_board_securities"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.get_board_securities"
-                                                                                      title="Ссылка на это определение">¶</a>
-                            </dt>
+                                    class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_securities"
+                                                                 title="Ссылка на это определение">¶</a></dt>
                             <dd><p>Получить таблицу инструментов по режиму торгов</p>
                                 <p>Для работы требуется открытая ISSClientSession</p>
                                 <p>Описание запроса - <a class="reference external"
@@ -258,12 +242,8 @@
                                 <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
                                     class="descname">get_index_history</code><span class="sig-paren">(</span><em>start=None</em>,
                                 <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE')</em><span
-                                    class="sig-paren">)</span><a class="reference internal"
-                                                                 href="_modules/aiomoex/requests.html#get_index_history"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.get_index_history"
-                                                                                      title="Ссылка на это определение">¶</a>
-                            </dt>
+                                    class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_index_history"
+                                                                 title="Ссылка на это определение">¶</a></dt>
                             <dd><p>Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам
                                 российских организаций) за
                                 указанный интервал дат</p>
@@ -306,12 +286,8 @@
                                     class="descname">get_market_history</code><span class="sig-paren">(</span><em>security</em>,
                                 <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>,
                                 <em>'VOLUME')</em>, <em>market='shares'</em>, <em>engine='stock'</em><span
-                                    class="sig-paren">)</span><a class="reference internal"
-                                                                 href="_modules/aiomoex/requests.html#get_market_history"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.get_market_history"
-                                                                                      title="Ссылка на это определение">¶</a>
-                            </dt>
+                                    class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_history"
+                                                                 title="Ссылка на это определение">¶</a></dt>
                             <dd><p>Получить историю по одной бумаге на рынке за интервал дат</p>
                                 <p>Для работы требуется открытая ISSClientSession</p>
                                 <p>Описание запроса - <a class="reference external"
@@ -371,11 +347,9 @@
                             <dt id="aiomoex.ISSClient">
                                 <em class="property">class </em><code class="descclassname">aiomoex.</code><code
                                     class="descname">ISSClient</code><span class="sig-paren">(</span><em>url: str</em>,
-                                <em>query: dict = None</em><span class="sig-paren">)</span><a class="reference internal"
-                                                                                              href="_modules/aiomoex/client.html#ISSClient"><span
-                                    class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                      href="#aiomoex.ISSClient"
-                                                                                      title="Ссылка на это определение">¶</a>
+                                <em>query: dict = None</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                              href="#aiomoex.ISSClient"
+                                                                                              title="Ссылка на это определение">¶</a>
                             </dt>
                             <dd><p>Асинхронный клиент для MOEX ISS</p>
                                 <p>Поддерживает протокол асинхронного генератора (async for)</p>
@@ -390,12 +364,9 @@
                                     <dt id="aiomoex.ISSClient.start_session">
                                         <em class="property">classmethod </em><code
                                             class="descname">start_session</code><span class="sig-paren">(</span><span
-                                            class="sig-paren">)</span><a class="reference internal"
-                                                                         href="_modules/aiomoex/client.html#ISSClient.start_session"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClient.start_session"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#aiomoex.ISSClient.start_session"
+                                                                         title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Создает aiohttp.ClientSession для работы с MOEX ISS</p>
                                     </dd>
                                 </dl>
@@ -405,12 +376,8 @@
                                         <em class="property">classmethod </em><code
                                             class="descname">is_session_closed</code><span
                                             class="sig-paren">(</span><span class="sig-paren">)</span><a
-                                            class="reference internal"
-                                            href="_modules/aiomoex/client.html#ISSClient.is_session_closed"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClient.is_session_closed"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="headerlink" href="#aiomoex.ISSClient.is_session_closed"
+                                            title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Закрыта ли сессия соединений с MOEX ISS</p>
                                     </dd>
                                 </dl>
@@ -419,12 +386,9 @@
                                     <dt id="aiomoex.ISSClient.close_session">
                                         <em class="property">coroutine </em><code
                                             class="descname">close_session</code><span class="sig-paren">(</span><span
-                                            class="sig-paren">)</span><a class="reference internal"
-                                                                         href="_modules/aiomoex/client.html#ISSClient.close_session"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClient.close_session"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#aiomoex.ISSClient.close_session"
+                                                                         title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Закрывает aiohttp.ClientSession для работы с MOEX ISS</p>
                                     </dd>
                                 </dl>
@@ -433,12 +397,9 @@
                                     <dt id="aiomoex.ISSClient.get">
                                         <em class="property">coroutine </em><code class="descname">get</code><span
                                             class="sig-paren">(</span><em>start=None</em><span
-                                            class="sig-paren">)</span><a class="reference internal"
-                                                                         href="_modules/aiomoex/client.html#ISSClient.get"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClient.get"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#aiomoex.ISSClient.get"
+                                                                         title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Загрузка данных</p>
                                         <table class="docutils field-list" frame="void" rules="none">
                                             <col class="field-name"/>
@@ -471,12 +432,8 @@
                                     <dt id="aiomoex.ISSClient.get_all">
                                         <em class="property">coroutine </em><code class="descname">get_all</code><span
                                             class="sig-paren">(</span><span class="sig-paren">)</span><a
-                                            class="reference internal"
-                                            href="_modules/aiomoex/client.html#ISSClient.get_all"><span
-                                            class="viewcode-link">[исходный код]</span></a><a class="headerlink"
-                                                                                              href="#aiomoex.ISSClient.get_all"
-                                                                                              title="Ссылка на это определение">¶</a>
-                                    </dt>
+                                            class="headerlink" href="#aiomoex.ISSClient.get_all"
+                                            title="Ссылка на это определение">¶</a></dt>
                                     <dd><p>Собирает все блоки данных для запросов, ответы на которые выдаются по частям
                                         отдельными блоками</p>
                                         <table class="docutils field-list" frame="void" rules="none">
