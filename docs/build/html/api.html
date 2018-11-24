@@ -43,9 +43,9 @@
                             ISS в режиме keep alive.
                             При осуществлении множества запросов рекомендуется иметь одну клиентскую сессию в течении
                             всей работы приложения для
-                            ускорения взаимодействия с сервером.
+                            ускорения взаимодействия с сервером, а открывать и закрывать для отдельных запросов.
                             В конце работы для высвобождения ресурсов сессия должна быть закрыта вызовом метода
-                            closed</p>
+                            closed.</p>
                         <dl class="class">
                             <dt id="aiomoex.ISSClientSession">
                                 <em class="property">class </em><code class="descclassname">aiomoex.</code><code
@@ -56,7 +56,9 @@
                                                                                       title="Ссылка на это определение">¶</a>
                             </dt>
                             <dd><p>Менеджер сессий соединений с MOEX ISS</p>
-                                <p>Поддерживает протокол асинхронного контекстного менеджера (async with)</p>
+                                <p>Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async
+                                    with)
+                                    для своевременного закрытия</p>
                                 <dl class="attribute">
                                     <dt id="aiomoex.ISSClientSession.closed">
                                         <code class="descname">closed</code><a class="headerlink"
@@ -87,17 +89,14 @@
                     </div>
                     <div class="section" id="module-aiomoex">
                         <span id="id2"></span>
-                        <h2>Функции запросов<a class="headerlink" href="#module-aiomoex"
-                                               title="Ссылка на этот заголовок">¶</a></h2>
-                        <p>Реализована небольшая часть запросов к MOEX ISS:</p>
-                        <ul class="simple">
-                            <li>Полное описание возможных <a class="reference external"
-                                                             href="https://iss.moex.com/iss/reference/">запросов</a>
-                            </li>
-                            <li><a class="reference external" href="https://fs.moex.com/files/6523">Руководство
-                                разработчика</a> с дополнительной информацией
-                            </li>
-                        </ul>
+                        <h2>Функции-запросы<a class="headerlink" href="#module-aiomoex"
+                                              title="Ссылка на этот заголовок">¶</a></h2>
+                        <p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических
+                            котировках, результаты которых
+                            напрямую конвертируются в pandas.DataFrame.</p>
+                        <p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные
+                            запросы к MOEX ISS, поэтому
+                            перечень доступных функций-запросов может быть легко расширен.</p>
                         <dl class="function">
                             <dt id="aiomoex.find_securities">
                                 <em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code
@@ -110,7 +109,7 @@
                                                                                       title="Ссылка на это определение">¶</a>
                             </dt>
                             <dd><p>Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру
-                                гос.регистрации.</p>
+                                гос.регистрации</p>
                                 <p>Для работы требуется открытая ISSClientSession</p>
                                 <p>Описание запроса - <a class="reference external"
                                                          href="https://iss.moex.com/iss/reference/32">https://iss.moex.com/iss/reference/32</a>
@@ -353,13 +352,20 @@
                         </dl>
 
                     </div>
-                    <div class="section" id="id5">
-                        <h2>Реализация произвольного запроса<a class="headerlink" href="#id5"
+                    <div class="section" id="id3">
+                        <h2>Реализация произвольного запроса<a class="headerlink" href="#id3"
                                                                title="Ссылка на этот заголовок">¶</a></h2>
                         <p>Для осуществления запроса необходимо передать клиенту корректный url и дополнительные
-                            параметры из официального
-                            справочника <a class="reference external" href="https://iss.moex.com/iss/reference/">запросов</a>
-                        </p>
+                            параметры:</p>
+                        <ul class="simple">
+                            <li>Полный перечень возможных <a class="reference external"
+                                                             href="https://iss.moex.com/iss/reference/">запросов</a> к
+                                MOEX ISS
+                            </li>
+                            <li>Официальное <a class="reference external" href="https://fs.moex.com/files/6523">Руководство
+                                разработчика</a> с дополнительной информацией
+                            </li>
+                        </ul>
                         <dl class="class">
                             <dt id="aiomoex.ISSClient">
                                 <em class="property">class </em><code class="descclassname">aiomoex.</code><code
@@ -377,7 +383,8 @@
                                     окончания использования всех клиентов закрыть сессию для высвобождения ресурсов</p>
                                 <p>Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из
                                     нескольких блоков данных
-                                    реализован асинхронный генераторов отдельных блоков и метод их сбора get_all</p>
+                                    поддерживается протокол асинхронного генератора отдельных блоков или метод их
+                                    автоматического сбора методом get_all</p>
                                 <dl class="classmethod">
                                     <dt id="aiomoex.ISSClient.start_session">
                                         <em class="property">classmethod </em><code
@@ -439,7 +446,7 @@
                                             <tr class="field-odd field">
                                                 <th class="field-name">Параметры:</th>
                                                 <td class="field-body"><strong>start</strong> – Номер элемента с
-                                                    которого нужно вывести данные. Используется для дозагрузки данных,
+                                                    которого нужно загрузить данные. Используется для дозагрузки данных,
                                                     состоящих из
                                                     нескольких блоков. При отсутствии данные загружаются с начального
                                                     элемента
@@ -447,8 +454,8 @@
                                             </tr>
                                             <tr class="field-even field">
                                                 <th class="field-name">Результат:</th>
-                                                <td class="field-body">Блок данных из ответа с отброшенной
-                                                    вспомогательной информацией - словарь, каждый ключ которого
+                                                <td class="field-body">Блок данных с отброшенной вспомогательной
+                                                    информацией - словарь, каждый ключ которого
                                                     соответствует одной из таблиц с данными. Таблицы являются списками
                                                     словарей, которые напрямую конвертируются
                                                     в pandas.DataFrame
@@ -469,8 +476,8 @@
                                                                                               href="#aiomoex.ISSClient.get_all"
                                                                                               title="Ссылка на это определение">¶</a>
                                     </dt>
-                                    <dd><p>Собирает все данные для запросов, ответы на которые выдаются отдельными
-                                        блоками</p>
+                                    <dd><p>Собирает все блоки данных для запросов, ответы на которые выдаются по частям
+                                        отдельными блоками</p>
                                         <table class="docutils field-list" frame="void" rules="none">
                                             <col class="field-name"/>
                                             <col class="field-body"/>
@@ -529,15 +536,15 @@
                         <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример
                             использования реализованных запросов</a></li>
                         <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример
-                            реализации нового запроса</a></li>
+                            реализации запроса с помощью клиента</a></li>
                     </ul>
                 </li>
                 <li class="toctree-l1 current"><a class="current reference internal" href="#">Справочник API</a>
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="#id1">Открытие сессии</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="#module-aiomoex">Функции запросов</a>
+                        <li class="toctree-l2"><a class="reference internal" href="#module-aiomoex">Функции-запросы</a>
                         </li>
-                        <li class="toctree-l2"><a class="reference internal" href="#id5">Реализация произвольного
+                        <li class="toctree-l2"><a class="reference internal" href="#id3">Реализация произвольного
                             запроса</a></li>
                     </ul>
                 </li>

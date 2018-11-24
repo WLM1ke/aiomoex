@@ -40,22 +40,23 @@
                                                title="Ссылка на этот заголовок">¶</a></h1>
                     <p>Реализация на основе asyncio части запросов к <a class="reference external"
                                                                         href="https://www.moex.com/a2193">MOEX
-                        Informational &amp; Statistical Server</a></p>
+                        Informational &amp; Statistical Server</a>.</p>
                     <div class="section" id="id1">
                         <h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a>
                         </h2>
-                        <p>Реализован клиент с поддержкой запросов:</p>
+                        <p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических
+                            котировках, результаты которых
+                            напрямую конвертируются в pandas.DataFrame.</p>
+                        <p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные
+                            запросы к MOEX ISS, поэтому
+                            перечень доступных функций-запросов может быть легко расширен. При необходимости добавления
+                            функций воспользуйтесь
+                            <a class="reference external" href="https://github.com/WLM1ke/aiomoex/issues">Issues</a> на
+                            GitHub с указанием ссылки на описание запроса:</p>
                         <ul class="simple">
-                            <li>С выдачей всей информации за раз</li>
-                            <li>С выдачей информации блоками с курсором</li>
-                            <li>С выдачей информации блоками без курсора</li>
-                        </ul>
-                        <p>На его основе реализован ряд функций, результаты которых напрямую конвертируются в
-                            pandas.DataFrame.
-                            При необходимости их список может быть расширен:</p>
-                        <ul class="simple">
-                            <li>Полный перечень <a class="reference external"
-                                                   href="https://iss.moex.com/iss/reference/">запросов</a> к MOEX ISS
+                            <li>Полный перечень возможных <a class="reference external"
+                                                             href="https://iss.moex.com/iss/reference/">запросов</a> к
+                                MOEX ISS
                             </li>
                             <li>Официальное <a class="reference external" href="https://fs.moex.com/files/6523">Руководство
                                 разработчика</a> с дополнительной информацией
@@ -76,7 +77,7 @@
                                             реализованных запросов</a></li>
                                         <li class="toctree-l2"><a class="reference internal"
                                                                   href="getting_started.html#id4">Пример реализации
-                                            нового запроса</a></li>
+                                            запроса с помощью клиента</a></li>
                                     </ul>
                                 </li>
                                 <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a>
@@ -84,9 +85,9 @@
                                         <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие
                                             сессии</a></li>
                                         <li class="toctree-l2"><a class="reference internal"
-                                                                  href="api.html#module-aiomoex">Функции запросов</a>
+                                                                  href="api.html#module-aiomoex">Функции-запросы</a>
                                         </li>
-                                        <li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация
+                                        <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
                                             произвольного запроса</a></li>
                                     </ul>
                                 </li>
@@ -129,16 +130,16 @@
                         <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример
                             использования реализованных запросов</a></li>
                         <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример
-                            реализации нового запроса</a></li>
+                            реализации запроса с помощью клиента</a></li>
                     </ul>
                 </li>
                 <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a>
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a>
                         </li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции
-                            запросов</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции-запросы</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
                             произвольного запроса</a></li>
                     </ul>
                 </li>

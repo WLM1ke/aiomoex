@@ -17,7 +17,8 @@ __all__ = ['ISSClientSession',
 class ISSClientSession:
     """Менеджер сессий соединений с MOEX ISS
 
-    Поддерживает протокол асинхронного контекстного менеджера (async with)
+    Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async with)
+    для своевременного закрытия
     """
 
     def __init__(self):
@@ -70,7 +71,7 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
 
 
 async def find_securities(sting: str, columns=('secid', 'regnumber')):
-    """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации.
+    """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
 
     Для работы требуется открытая ISSClientSession
 

@@ -1,4 +1,4 @@
-# Asyncio MOEX Informational & Statistical Server API 
+# Asyncio MOEX ISS API 
 
 [![Build Status](https://travis-ci.org/WLM1ke/aiomoex.svg?branch=master)](https://travis-ci.org/WLM1ke/aiomoex)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c)](https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&utm_medium=referral&utm_content=WLM1ke/aiomoex&utm_campaign=Badge_Coverage)
@@ -7,13 +7,12 @@
 Реализация на основе asyncio части  запросов к [MOEX Informational & Statistical Server](https://www.moex.com/a2193)
 
 ## Основные возможности
-Реализован клиент с поддержкой запросов:
-- С выдачей всей информации за раз
-- С выдачей информации блоками с курсором
-- С выдачей информации блоками без курсора
+Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических котировках, результаты которых
+напрямую конвертируются в pandas.DataFrame.
 
-На его основе реализован ряд функций, результаты которых напрямую конвертируются в pandas.DataFrame. 
-При необходимости их список может быть расширен:
+Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные запросы к MOEX ISS, поэтому
+перечень доступных функций-запросов может быть легко расширен. При необходимости добавления функций воспользуйтесь
+[Issues](https://github.com/WLM1ke/aiomoex/issues>) на GitHub с указанием ссылки на описание запроса:
 - Полный перечень [запросов](https://iss.moex.com/iss/reference/) запросов к MOEX ISS
 - Официальное [Руководство разработчика](https://fs.moex.com/files/6523) с дополнительной информацией
 
@@ -44,6 +43,7 @@ async def main():
 
 asyncio.run(main())
 ```
+
 ```
             CLOSE    VOLUME
 TRADEDATE                  
@@ -70,8 +70,8 @@ dtypes: float64(1), int64(1)
 memory usage: 26.4+ KB
 ```
 
-### Пример реализации нового запроса
-Перечень акций, торгующихся в режиме TQBR
+### Пример реализации запроса с помощью клиента
+Перечень акций, торгующихся в режиме TQBR - [описание запроса](https://iss.moex.com/iss/reference/32)
 ```
 import asyncio
 

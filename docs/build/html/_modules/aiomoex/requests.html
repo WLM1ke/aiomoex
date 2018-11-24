@@ -58,7 +58,8 @@
         class="k">class</span> <span class="nc">ISSClientSession</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Менеджер сессий соединений с MOEX ISS</span>
 
-<span class="sd">    Поддерживает протокол асинхронного контекстного менеджера (async with)</span>
+<span class="sd">    Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async with)</span>
+<span class="sd">    для своевременного закрытия</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span
@@ -144,7 +145,7 @@
         class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">(</span><span
         class="s1">&#39;secid&#39;</span><span class="p">,</span> <span class="s1">&#39;regnumber&#39;</span><span
         class="p">)):</span>
-    <span class="sd">&quot;&quot;&quot;Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации.</span>
+    <span class="sd">&quot;&quot;&quot;Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации</span>
 
 <span class="sd">    Для работы требуется открытая ISSClientSession</span>
 
@@ -428,16 +429,16 @@
                         <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#id3">Пример
                             использования реализованных запросов</a></li>
                         <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#id4">Пример
-                            реализации нового запроса</a></li>
+                            реализации запроса с помощью клиента</a></li>
                     </ul>
                 </li>
                 <li class="toctree-l1"><a class="reference internal" href="../../api.html">Справочник API</a>
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="../../api.html#id1">Открытие
                             сессии</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#module-aiomoex">Функции
-                            запросов</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#id5">Реализация
+                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#module-aiomoex">Функции-запросы</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#id3">Реализация
                             произвольного запроса</a></li>
                     </ul>
                 </li>

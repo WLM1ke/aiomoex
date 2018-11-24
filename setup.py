@@ -11,7 +11,7 @@ setuptools.setup(
     description='Asyncio MOEX ISS API',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/WLM1ke/aiomoex',
+    url='https://wlm1ke.github.io/aiomoex/',
     author='Mikhail Korotkov aka WLMike',
     author_email='wlmike@gmail.com',
     license='http://unlicense.org',
@@ -31,7 +31,6 @@ setuptools.setup(
         'Topic :: Utilities'],
     keywords='asyncio moex iss',
     project_urls={
-        'Documentation': 'https://wlm1ke.github.io/aiomoex/',
         'Source': 'https://github.com/WLM1ke/aiomoex'},
     packages=setuptools.find_packages(exclude=['tests']),
     install_requires=['aiohttp'],

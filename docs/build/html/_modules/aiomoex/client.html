@@ -64,7 +64,7 @@
 <span class="sd">    окончания использования всех клиентов закрыть сессию для высвобождения ресурсов</span>
 
 <span class="sd">    Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из нескольких блоков данных</span>
-<span class="sd">    реализован асинхронный генераторов отдельных блоков и метод их сбора get_all</span>
+<span class="sd">    поддерживается протокол асинхронного генератора отдельных блоков или метод их автоматического сбора методом get_all</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_client_session</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -190,11 +190,11 @@
         <span class="sd">&quot;&quot;&quot;Загрузка данных</span>
 
 <span class="sd">        :param start:</span>
-<span class="sd">            Номер элемента с которого нужно вывести данные. Используется для дозагрузки данных, состоящих из</span>
+<span class="sd">            Номер элемента с которого нужно загрузить данные. Используется для дозагрузки данных, состоящих из</span>
 <span class="sd">            нескольких блоков. При отсутствии данные загружаются с начального элемента</span>
 
 <span class="sd">        :return:</span>
-<span class="sd">            Блок данных из ответа с отброшенной вспомогательной информацией - словарь, каждый ключ которого</span>
+<span class="sd">            Блок данных с отброшенной вспомогательной информацией - словарь, каждый ключ которого</span>
 <span class="sd">            соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются</span>
 <span class="sd">            в pandas.DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -244,7 +244,7 @@
                                                       href="../../api.html#aiomoex.ISSClient.get_all">[документация]</a>    <span
         class="k">async</span> <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span
         class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Собирает все данные для запросов, ответы на которые выдаются отдельными блоками</span>
+        <span class="sd">&quot;&quot;&quot;Собирает все блоки данных для запросов, ответы на которые выдаются по частям отдельными блоками</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">            Объединенные из всех блоков данные с отброшенной вспомогательной информацией - словарь, каждый ключ которого</span>
@@ -297,16 +297,16 @@
                         <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#id3">Пример
                             использования реализованных запросов</a></li>
                         <li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#id4">Пример
-                            реализации нового запроса</a></li>
+                            реализации запроса с помощью клиента</a></li>
                     </ul>
                 </li>
                 <li class="toctree-l1"><a class="reference internal" href="../../api.html">Справочник API</a>
                     <ul>
                         <li class="toctree-l2"><a class="reference internal" href="../../api.html#id1">Открытие
                             сессии</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#module-aiomoex">Функции
-                            запросов</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#id5">Реализация
+                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#module-aiomoex">Функции-запросы</a>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="../../api.html#id3">Реализация
                             произвольного запроса</a></li>
                     </ul>
                 </li>
