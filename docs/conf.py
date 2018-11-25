@@ -1,17 +1,24 @@
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-
 import os
+import re
 import sys
 
+_package_name = 'aiomoex'
 
-sys.path.insert(0, os.path.abspath('../'))
+_route_path = os.path.abspath('../')
+sys.path.insert(0, _route_path)
+_version_path = os.path.abspath(os.path.join(_route_path, _package_name, '__init__.py'))
+with open(_version_path) as file:
+    try:
+        _version_info = re.search(r"^__version__ = '"
+                                  r"(?P<major>\d+)"
+                                  r"\.(?P<minor>\d+)"
+                                  r"\.(?P<patch>\d+)'$",
+                                  file.read(), re.M).groupdict()
+    except IndexError:
+        raise RuntimeError('Unable to determine version.')
 
-# The short X.Y version
-version = ''
-# The full version, including alpha/beta/rc tags
-release = '1.0.0'
+version = '{major}.{minor}'.format(**_version_info)
+release = '{major}.{minor}.{patch}'.format(**_version_info)
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -20,15 +27,13 @@ extensions = [
 ]
 autodoc_member_order = 'bysource'
 templates_path = ['templates']
+html_static_path = ['static']
 
 source_suffix = '.rst'
 master_doc = 'index'
-project = 'aiomoex'
+project = _package_name
 copyright = '2018, Mikhail Korotkov aka WLMike'
 author = 'Mikhail Korotkov aka WLMike'
-# The short X.Y version
-version = ''
-release = '1.0.0'
 language = 'ru'
 exclude_patterns = ['build']
 highlight_language = 'default'
@@ -48,6 +53,10 @@ html_theme_options = {
                 'target': 'https://app.codacy.com/project/wlmike/aiomoex/dashboard',
                 'height': '20',
                 'alt': 'Code coverage status'},
+               {'image': 'https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c',
+                'target': 'https://app.codacy.com/project/wlmike/aiomoex/dashboard',
+                'height': '20',
+                'alt': 'Code quality status'},
                {'image': 'https://badge.fury.io/py/aiomoex.svg',
                 'target': 'https://badge.fury.io/py/aiomoex',
                 'height': '20',
@@ -55,8 +64,6 @@ html_theme_options = {
                ],
     'sidebar_collapse': False
 }
-
-html_static_path = ['static']
 
 html_sidebars = {
     "**": [

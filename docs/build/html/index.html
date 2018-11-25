@@ -64,6 +64,50 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="section" id="asyncio">
+                        <h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Ссылка на этот заголовок">¶</a>
+                        </h2>
+                        <p>На многие запросы MOEX ISS выдает данные порциями по 100 элементов, и для получения всей
+                            информации требуются
+                            дополнительные обращения к серверу для загрузки данных не с начальной позиции. В результате
+                            для выгрузки котировок
+                            всех акций во всех режимах может потребоваться несколько десятков тысяч обращений к
+                            серверу.</p>
+                        <p>Результаты маленького тестирования загрузки исторических котировок в режиме TQBR для 35 и 277
+                            (всех торгуемых) акций с
+                            помощью синхронных запросов:</p>
+                        <table border="1" class="docutils">
+                            <colgroup>
+                                <col width="37%"/>
+                                <col width="32%"/>
+                                <col width="32%"/>
+                            </colgroup>
+                            <thead valign="bottom">
+                            <tr class="row-odd">
+                                <th class="head">Вид запросов</th>
+                                <th class="head">35 акций</th>
+                                <th class="head">277 акций</th>
+                            </tr>
+                            </thead>
+                            <tbody valign="top">
+                            <tr class="row-even">
+                                <td>asyncio</td>
+                                <td>12.6 сек</td>
+                                <td>40.6 сек</td>
+                            </tr>
+                            <tr class="row-odd">
+                                <td>Синхронные</td>
+                                <td>210.4 сек</td>
+                                <td>1436.9 сек</td>
+                            </tr>
+                            <tr class="row-even">
+                                <td>Ускорение</td>
+                                <td>16.7 раз</td>
+                                <td>35.4 раза</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="section" id="id4">
                         <h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
                         <div class="toctree-wrapper compound">
@@ -90,6 +134,13 @@
                                         </li>
                                         <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
                                             произвольного запроса</a></li>
+                                    </ul>
+                                </li>
+                                <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список
+                                    изменений</a>
+                                    <ul>
+                                        <li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.0
+                                            (2018-11-25)</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -128,6 +179,13 @@
                     />
                 </a>
 
+                <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
+                    <img src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
+                         alt="Code quality status"
+                         height="20"
+                    />
+                </a>
+
                 <li><a href="https://badge.fury.io/py/aiomoex">
                     <img src="https://badge.fury.io/py/aiomoex.svg"
                          alt="Latest PyPI package version"
@@ -156,6 +214,12 @@
                         </li>
                         <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
                             произвольного запроса</a></li>
+                    </ul>
+                </li>
+                <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.0
+                            (2018-11-25)</a></li>
                     </ul>
                 </li>
             </ul>

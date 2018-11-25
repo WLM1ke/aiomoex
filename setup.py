@@ -1,8 +1,15 @@
+import pathlib
+import re
+
 import setuptools
 
-version = '1.0.0'
+with open(pathlib.Path(__file__).parent / 'aiomoex' / '__init__.py') as file:
+    try:
+        version = re.search(r"^__version__ = '(.+)'$", file.read(), re.M)[1]
+    except IndexError:
+        raise RuntimeError('Unable to determine version.')
 
-with open('README.md') as file:
+with open('README.rst') as file:
     long_description = file.read()
 
 setuptools.setup(
@@ -10,7 +17,7 @@ setuptools.setup(
     version=version,
     description='Asyncio MOEX ISS API',
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type='text/x-rst',
     url='https://wlm1ke.github.io/aiomoex/',
     author='Mikhail Korotkov aka WLMike',
     author_email='wlmike@gmail.com',
