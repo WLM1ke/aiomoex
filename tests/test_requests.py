@@ -142,28 +142,3 @@ async def test_get_board_history_to_end():
     assert df.at['2018-08-10', 'VOLUME'] == 11313
     assert df.at['2018-09-06', 'CLOSE'] == pytest.approx(660)
     assert df.at['2018-08-28', 'VOLUME'] == 47428
-
-
-@pytest.mark.asyncio
-@pytest.mark.usefixtures('iss_client_session')
-async def test_get_index_history_from_beginning():
-    data = await aiomoex.get_index_history(end='2003-08-01')
-    df = pd.DataFrame(data)
-    df.set_index('TRADEDATE', inplace=True)
-    assert len(df.columns) == 1
-    assert df.size > 100
-    assert df.index[0] == '2003-02-26'
-    assert df.at['2003-02-26', 'CLOSE'] == pytest.approx(335.67)
-
-
-@pytest.mark.asyncio
-@pytest.mark.usefixtures('iss_client_session')
-async def test_get_index_history_to_end():
-    data = await aiomoex.get_index_history(start='2017-10-02')
-    df = pd.DataFrame(data)
-    df.set_index('TRADEDATE', inplace=True)
-    assert len(df.columns) == 1
-    assert df.size > 100
-    assert df.index[0] == '2017-10-02'
-    assert df.index[-1] >= '2018-11-19'
-    assert df.at['2018-03-02', 'CLOSE'] == pytest.approx(3273.16)

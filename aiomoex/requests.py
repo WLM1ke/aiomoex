@@ -10,8 +10,7 @@ __all__ = ['ISSClientSession',
            'find_securities',
            'get_board_securities',
            'get_market_history',
-           'get_board_history',
-           'get_index_history']
+           'get_board_history']
 
 
 class ISSClientSession:
@@ -69,6 +68,22 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
         query[f'{table}.columns'] = ','.join(columns)
     return query
 
+
+async def get_reference(placeholder='boards'):
+    """Выдает перечень доступных значений плейсхолдера в адресе запроса
+
+    Функция носит справочный характер - нужна для корректного построения других
+
+    Для работы требуется открытая ISSClientSession
+
+    Описание запроса - https://iss.moex.com/iss/reference/28
+
+    :param placeholder:
+        Наименование [плейсхолдера] в адресе запроса: engines, markets, boards, boardgroups, durations, securitytypes,
+        securitygroups, securitycollections
+    :return:
+    """
+    raise ValueError
 
 async def find_securities(sting: str, columns=('secid', 'regnumber')):
     """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
@@ -212,23 +227,3 @@ async def get_board_history(security, start=None, end=None, columns=('TRADEDATE'
            f'boards/{board}/securities/{security}.json')
     data = await _get_history(url, start, end, columns)
     return data
-
-
-async def get_index_history(start=None, end=None, columns=('TRADEDATE', 'CLOSE'),):
-    """Получить историю значений Индекса полной доходности «нетто» (по налоговым ставкам российских организаций) за
-    указанный интервал дат
-
-    Для работы требуется открытая ISSClientSession
-
-    :param start:
-        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории
-    :param end:
-        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории
-    :param columns:
-        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов и цена закрытия. Если пустой или
-        None, то загружаются все столбцы
-
-    :return:
-        Список словарей, которые напрямую конвертируется в pandas.DataFrame
-    """
-    return await get_board_history('MCFTRR', start, end, columns, 'RTSI', 'index')
