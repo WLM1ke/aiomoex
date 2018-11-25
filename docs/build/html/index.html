@@ -1,252 +1,216 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Asyncio MOEX ISS API &#8212; Документация aiomoex 1.0.0</title>
-    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css"/>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
-    <script type="text/javascript" id="documentation_options" data-url_root="./"
-            src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <link rel="index" title="Алфавитный указатель" href="genindex.html"/>
-    <link rel="search" title="Поиск" href="search.html"/>
-    <link rel="next" title="Начало работы" href="getting_started.html"/>
-
-    <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
-
-
-    <link rel="canonical" href="https://wlm1ke.github.io/aiomoexindex.html"/>
-
-    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
-    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet">
-
-</head>
-<body>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Начало работы" href="getting_started.html" />
+ 
+<link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
 
-<div class="document">
-    <div class="documentwrapper">
+<link rel="canonical" href="https://wlm1ke.github.io/aiomoexindex.html"/>
+
+<meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+<link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet">
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
         <div class="bodywrapper">
-            <div class="body" role="main">
-
-                <div class="section" id="asyncio-moex-iss-api">
-                    <h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api"
-                                               title="Ссылка на этот заголовок">¶</a></h1>
-                    <p>Реализация на основе asyncio части запросов к <a class="reference external"
-                                                                        href="https://www.moex.com/a2193">MOEX
-                        Informational &amp; Statistical Server</a>.</p>
-                    <div class="section" id="id1">
-                        <h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a>
-                        </h2>
-                        <p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических
-                            котировках, результаты которых
-                            напрямую конвертируются в pandas.DataFrame.</p>
-                        <p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные
-                            запросы к MOEX ISS, поэтому
-                            перечень доступных функций-запросов может быть легко расширен. При необходимости добавления
-                            функций воспользуйтесь
-                            <a class="reference external" href="https://github.com/WLM1ke/aiomoex/issues">Issues</a> на
-                            GitHub с указанием ссылки на описание запроса:</p>
-                        <ul class="simple">
-                            <li>Полный перечень возможных <a class="reference external"
-                                                             href="https://iss.moex.com/iss/reference/">запросов</a> к
-                                MOEX ISS
-                            </li>
-                            <li>Официальное <a class="reference external" href="https://fs.moex.com/files/6523">Руководство
-                                разработчика</a> с дополнительной информацией
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="section" id="asyncio">
-                        <h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Ссылка на этот заголовок">¶</a>
-                        </h2>
-                        <p>На многие запросы MOEX ISS выдает данные порциями по 100 элементов, и для получения всей
-                            информации требуются
-                            дополнительные обращения к серверу для загрузки данных не с начальной позиции. В результате
-                            для выгрузки котировок
-                            всех акций во всех режимах может потребоваться несколько десятков тысяч обращений к
-                            серверу.</p>
-                        <p>Результаты маленького тестирования загрузки исторических котировок в режиме TQBR для 35 и 277
-                            (всех торгуемых) акций с
-                            помощью синхронных запросов:</p>
-                        <table border="1" class="docutils">
-                            <colgroup>
-                                <col width="37%"/>
-                                <col width="32%"/>
-                                <col width="32%"/>
-                            </colgroup>
-                            <thead valign="bottom">
-                            <tr class="row-odd">
-                                <th class="head">Вид запросов</th>
-                                <th class="head">35 акций</th>
-                                <th class="head">277 акций</th>
-                            </tr>
-                            </thead>
-                            <tbody valign="top">
-                            <tr class="row-even">
-                                <td>asyncio</td>
-                                <td>12.6 сек</td>
-                                <td>40.6 сек</td>
-                            </tr>
-                            <tr class="row-odd">
-                                <td>Синхронные</td>
-                                <td>210.4 сек</td>
-                                <td>1436.9 сек</td>
-                            </tr>
-                            <tr class="row-even">
-                                <td>Ускорение</td>
-                                <td>16.7 раз</td>
-                                <td>35.4 раза</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="section" id="id4">
-                        <h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-                        <div class="toctree-wrapper compound">
-                            <ul>
-                                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало
-                                    работы</a>
-                                    <ul>
-                                        <li class="toctree-l2"><a class="reference internal"
-                                                                  href="getting_started.html#id2">Установка</a></li>
-                                        <li class="toctree-l2"><a class="reference internal"
-                                                                  href="getting_started.html#id3">Пример использования
-                                            реализованных запросов</a></li>
-                                        <li class="toctree-l2"><a class="reference internal"
-                                                                  href="getting_started.html#id4">Пример реализации
-                                            запроса с помощью клиента</a></li>
-                                    </ul>
-                                </li>
-                                <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a>
-                                    <ul>
-                                        <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие
-                                            сессии</a></li>
-                                        <li class="toctree-l2"><a class="reference internal"
-                                                                  href="api.html#module-aiomoex">Функции-запросы</a>
-                                        </li>
-                                        <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
-                                            произвольного запроса</a></li>
-                                    </ul>
-                                </li>
-                                <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список
-                                    изменений</a>
-                                    <ul>
-                                        <li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.0
-                                            (2018-11-25)</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+          <div class="body" role="main">
+            
+  <div class="section" id="asyncio-moex-iss-api">
+<h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Реализация на основе asyncio части  запросов к <a class="reference external" href="https://www.moex.com/a2193">MOEX Informational &amp; Statistical Server</a>.</p>
+<div class="section" id="id1">
+<h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических котировках, результаты которых
+напрямую конвертируются в pandas.DataFrame.</p>
+<p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные запросы к MOEX ISS, поэтому
+перечень доступных функций-запросов может быть легко расширен. При необходимости добавления функций воспользуйтесь
+<a class="reference external" href="https://github.com/WLM1ke/aiomoex/issues">Issues</a> на GitHub с указанием ссылки на описание запроса:</p>
+<ul class="simple">
+<li>Полный перечень возможных <a class="reference external" href="https://iss.moex.com/iss/reference/">запросов</a> к MOEX ISS</li>
+<li>Официальное <a class="reference external" href="https://fs.moex.com/files/6523">Руководство разработчика</a> с дополнительной информацией</li>
+</ul>
+</div>
+<div class="section" id="asyncio">
+<h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Ссылка на этот заголовок">¶</a></h2>
+<p>На многие запросы MOEX ISS выдает данные порциями по 100 элементов, и для получения всей информации требуются
+дополнительные обращения к серверу для загрузки данных не с начальной позиции. В результате для выгрузки котировок
+всех акций во всех режимах может потребоваться несколько десятков тысяч обращений к серверу.</p>
+<p>Результаты маленького тестирования загрузки исторических котировок в режиме TQBR для 35 и 277 (всех торгуемых) акций с
+помощью синхронных запросов:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="32%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Вид запросов</th>
+<th class="head">35 акций</th>
+<th class="head">277 акций</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>asyncio</td>
+<td>12.6 сек</td>
+<td>40.6 сек</td>
+</tr>
+<tr class="row-odd"><td>Синхронные</td>
+<td>210.4 сек</td>
+<td>1436.9 сек</td>
+</tr>
+<tr class="row-even"><td>Ускорение</td>
+<td>16.7 раз</td>
+<td>35.4 раза</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id2">Установка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример использования реализованных запросов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример реализации запроса с помощью клиента</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции-запросы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация произвольного запроса</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.0.0 (2018-11-24)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
 
 
-            </div>
+          </div>
         </div>
-    </div>
-    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <h1 class="logo"><a href="#">aiomoex</a></h1>
+<h1 class="logo"><a href="#">aiomoex</a></h1>
 
 
-            <p class="blurb">Asyncio MOEX ISS API</p>
+
+<p class="blurb">Asyncio MOEX ISS API</p>
 
 
-            <p>
-                <a href="https://travis-ci.org/WLM1ke/aiomoex">
-                    <img
-                            alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-                            src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-                    />
-                </a>
-            </p>
 
 
-            <ul class="badges">
 
-                <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-                    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
-                         alt="Code coverage status"
-                         height="20"
-                    />
-                </a>
 
-                <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-                    <img src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
-                         alt="Code quality status"
-                         height="20"
-                    />
-                </a>
 
-                <li><a href="https://badge.fury.io/py/aiomoex">
-                    <img src="https://badge.fury.io/py/aiomoex.svg"
-                         alt="Latest PyPI package version"
-                         height="20"
-                    />
-                </a>
 
-            </ul>
-            <h3>Навигация</h3>
-            <ul>
-                <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a>
-                    <ul>
-                        <li class="toctree-l2"><a class="reference internal"
-                                                  href="getting_started.html#id2">Установка</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример
-                            использования реализованных запросов</a></li>
-                        <li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример
-                            реализации запроса с помощью клиента</a></li>
-                    </ul>
-                </li>
-                <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a>
-                    <ul>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a>
-                        </li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции-запросы</a>
-                        </li>
-                        <li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация
-                            произвольного запроса</a></li>
-                    </ul>
-                </li>
-                <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a>
-                    <ul>
-                        <li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.0
-                            (2018-11-25)</a></li>
-                    </ul>
-                </li>
-            </ul>
+    
+
+<p>
+<a href="https://travis-ci.org/WLM1ke/aiomoex">
+    <img
+        alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+        src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
+    />
+</a>
+</p>
+
+
+
+
+
+<ul class="badges">
+  
+  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
+    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
+	 alt="Code coverage status"
+	 height="20"
+    />
+  </a>
+  
+  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
+    <img src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
+	 alt="Code quality status"
+	 height="20"
+    />
+  </a>
+  
+  <li><a href="https://badge.fury.io/py/aiomoex">
+    <img src="https://badge.fury.io/py/aiomoex.svg"
+	 alt="Latest PyPI package version"
+	 height="20"
+    />
+  </a>
+  
+</ul>
+<h3>Навигация</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id2">Установка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id3">Пример использования реализованных запросов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Пример реализации запроса с помощью клиента</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-aiomoex">Функции-запросы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id3">Реализация произвольного запроса</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.0.0 (2018-11-24)</a></li>
+</ul>
+</li>
+</ul>
 
 
         </div>
+      </div>
+      <div class="clearer"></div>
     </div>
-    <div class="clearer"></div>
-</div>
-<div class="footer">
-    &copy;2018, Mikhail Korotkov aka WLMike.
+    <div class="footer">
+      &copy;2018, Mikhail Korotkov aka WLMike.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
 
-    |
-    Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+    
+    <a href="https://github.com/WLM1ke/aiomoex" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
 
-    |
-    <a href="_sources/index.rst.txt"
-       rel="nofollow">Page source</a>
-</div>
-
-
-<a href="https://github.com/WLM1ke/aiomoex" class="github">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"
-         class="github"/>
-</a>
-
-
-</body>
+    
+  </body>
 </html>
