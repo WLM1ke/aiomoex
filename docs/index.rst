@@ -35,7 +35,7 @@ Asyncio MOEX ISS API
 Оглавление
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    getting_started
    api

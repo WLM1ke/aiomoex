@@ -7,7 +7,9 @@
 from . import client
 
 __all__ = ['ISSClientSession',
+           'get_reference',
            'find_securities',
+           'get_candle_borders',
            'get_board_securities',
            'get_market_history',
            'get_board_history']
@@ -70,23 +72,33 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
 
 
 async def get_reference(placeholder='boards'):
-    """Выдает перечень доступных значений плейсхолдера в адресе запроса
+    """Получить перечень доступных значений плейсхолдера в адресе запроса
 
-    Функция носит справочный характер - нужна для корректного построения других
+    Например в описание запроса https://iss.moex.com/iss/reference/32 присутствует следующий адрес
+    /iss/engines/[engine]/markets/[market]/boards/[board]/securities с плейсхолдерами engines, markets и boards
 
     Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/28
 
     :param placeholder:
-        Наименование [плейсхолдера] в адресе запроса: engines, markets, boards, boardgroups, durations, securitytypes,
+        Наименование плейсхолдера в адресе запроса: engines, markets, boards, boardgroups, durations, securitytypes,
         securitygroups, securitycollections
+
     :return:
+        Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    raise ValueError
+    url = 'https://iss.moex.com/iss/index.json'
+    iss = client.ISSClient(url)
+    data = await iss.get()
+    return data[placeholder]
+
 
 async def find_securities(sting: str, columns=('secid', 'regnumber')):
-    """Поиск инструмента по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
+    """Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
+
+    Один из вариантов использования - по регистрационному номеру узнать предыдущие тикеры эмитента, и с помощью
+    нескольких запросов об истории котировок собрать длинную историю с использованием всех предыдущих тикеров
 
     Для работы требуется открытая ISSClientSession
 
@@ -109,9 +121,33 @@ async def find_securities(sting: str, columns=('secid', 'regnumber')):
     return data[table]
 
 
+async def get_candle_borders(security, market='shares', engine='stock'):
+    """Получить таблицу интервалов доступных дат для свечей различного размера
+
+    Для работы требуется открытая ISSClientSession
+
+    Описание запроса - https://iss.moex.com/iss/reference/156
+
+    :param security:
+        Тикер ценной бумаги
+    :param market:
+        Рынок - по умолчанию акции
+    :param engine:
+        Движок - по умолчанию акции
+
+    :return:
+        Список словарей, которые напрямую конвертируется в pandas.DataFrame
+    """
+    url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candleborders.json'
+    table = 'borders'
+    iss = client.ISSClient(url)
+    data = await iss.get()
+    return data[table]
+
+
 async def get_board_securities(table='securities', columns=('SECID', 'REGNUMBER', 'LOTSIZE', 'SHORTNAME'),
                                board='TQBR', market='shares', engine='stock'):
-    """Получить таблицу инструментов по режиму торгов
+    """Получить таблицу инструментов по режиму торгов со вспомогательной информацией
 
     Для работы требуется открытая ISSClientSession
 
@@ -168,7 +204,7 @@ async def _get_history(url, start, end, columns):
 
 async def get_market_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
                              market='shares', engine='stock'):
-    """Получить историю по одной бумаге на рынке за интервал дат
+    """Получить историю по одной бумаге на рынке для всех режимов торгов за интервал дат
 
     Для работы требуется открытая ISSClientSession
 
@@ -198,7 +234,7 @@ async def get_market_history(security, start=None, end=None, columns=('TRADEDATE
 
 async def get_board_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
                             board='TQBR', market='shares', engine='stock'):
-    """Получить историю торгов для указанной бумаги на указанном режиме торгов за указанный интервал дат
+    """Получить историю торгов для указанной бумаги в указанном режиме торгов за указанный интервал дат
 
     Для работы требуется открытая ISSClientSession
 

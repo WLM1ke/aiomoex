@@ -48,6 +48,21 @@ def test_make_query_many_columns():
     assert query[f'{1}.columns'] == '2,3'
 
 
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
+async def test_get_reference():
+    data = await aiomoex.get_reference('engines')
+    assert isinstance(data, list)
+    assert len(data) == 7
+    assert data == [{'id': 1, 'name': 'stock', 'title': 'Фондовый рынок и рынок депозитов'},
+                    {'id': 2, 'name': 'state', 'title': 'Рынок ГЦБ (размещение)'},
+                    {'id': 3, 'name': 'currency', 'title': 'Валютный рынок'},
+                    {'id': 4, 'name': 'futures', 'title': 'Срочный рынок'},
+                    {'id': 5, 'name': 'commodity', 'title': 'Товарный рынок'},
+                    {'id': 6, 'name': 'interventions', 'title': 'Товарные интервенции'},
+                    {'id': 7, 'name': 'offboard', 'title': 'ОТС-система'}]
+
+
 check_points = [('1-02-65104-D', {'UPRO', 'EONR', 'OGK4'}),
                 ('10301481B', {'SBER', 'SBER03'}),
                 ('20301481B', {'SBERP', 'SBERP03'}),
@@ -61,6 +76,22 @@ async def test_find_find_securities(reg_number, expected):
     data = await aiomoex.find_securities(reg_number)
     assert isinstance(data, list)
     assert expected == {row['secid'] for row in data if row['regnumber'] == reg_number}
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
+async def test_get_candle_borders():
+    data = await aiomoex.get_candle_borders('SNGSP')
+    assert isinstance(data, list)
+    assert len(data) == 7
+    assert data == [
+        {'begin': '2011-12-15 10:00:00', 'end': '2018-11-23 18:49:59', 'interval': 1, 'board_group_id': 57},
+        {'begin': '2003-07-01 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 4, 'board_group_id': 57},
+        {'begin': '2003-07-28 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 7, 'board_group_id': 57},
+        {'begin': '2011-12-08 10:00:00', 'end': '2018-11-23 18:49:59', 'interval': 10, 'board_group_id': 57},
+        {'begin': '2003-07-31 00:00:00', 'end': '2018-11-23 23:59:59', 'interval': 24, 'board_group_id': 57},
+        {'begin': '2003-07-01 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 31, 'board_group_id': 57},
+        {'begin': '2011-11-17 10:00:00', 'end': '2018-11-23 18:59:59', 'interval': 60, 'board_group_id': 57}]
 
 
 @pytest.mark.asyncio
