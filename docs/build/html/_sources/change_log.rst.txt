@@ -4,9 +4,9 @@
 1.1.0 (2018-11-__)
 ------------------
 * Добавлена функция получения справочника разделов MOEX ISS get_reference()
-* Добавлены функции для получения исторических данных по свечкам get_candle_borders() и get_candles()
+* Добавлены функции для получения исторических данных по свечкам get_market_candle_borders(), get_market_candles(), get_board_candle_borders() и get_board_candles()
 * Добавлена группировка функций в документации
-* Удалена функция get_index_history - эквивалентна вызову get_board_history('MCFTRR', start, end, columns, 'RTSI', 'index')
+* Удалена функция get_index_history() - эквивалентна вызову get_board_history('MCFTRR', start, end, columns, 'RTSI', 'index')
 
 1.0.1 (2018-11-25)
 ------------------

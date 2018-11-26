@@ -80,8 +80,8 @@ async def test_find_find_securities(reg_number, expected):
 
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
-async def test_get_candle_borders():
-    data = await aiomoex.get_candle_borders('SNGSP')
+async def test_get_market_candle_borders():
+    data = await aiomoex.get_market_candle_borders('SNGSP')
     assert isinstance(data, list)
     assert len(data) == 7
     for i in data:
@@ -94,6 +94,42 @@ async def test_get_candle_borders():
         {'begin': '2003-07-31 00:00:00', 'interval': 24, 'board_group_id': 57},
         {'begin': '2003-07-01 00:00:00', 'interval': 31, 'board_group_id': 57},
         {'begin': '2011-11-17 10:00:00', 'interval': 60, 'board_group_id': 57}]
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
+async def test_get_market_candles_from_beginning():
+    data = await aiomoex.get_market_candles('RTKM', interval=1, end='2011-12-16')
+    assert isinstance(data, list)
+    assert len(data) > 500
+    df = pd.DataFrame(data)
+    assert df.columns.size == 8
+    assert df.loc[0, 'open'] == pytest.approx(141.55)
+    assert df.loc[1, 'close'] == pytest.approx(141.59)
+    assert df.loc[2, 'high'] == pytest.approx(142.4)
+    assert df.loc[3, 'low'] == pytest.approx(140.81)
+    assert df.loc[4, 'value'] == pytest.approx(2586296.9)
+    assert df.loc[5, 'volume'] == pytest.approx(4140)
+    assert df.loc[6, 'begin'] == '2011-12-15 10:06:00'
+    assert df.iloc[-1]['end'] == '2011-12-16 18:44:59'
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
+async def test_get_market_candles_to_end():
+    data = await aiomoex.get_market_candles('LSRG', interval=4, start='2008-01-01')
+    assert isinstance(data, list)
+    assert len(data) > 47
+    df = pd.DataFrame(data)
+    assert df.columns.size == 8
+    assert df.loc[0, 'open'] == pytest.approx(1658)
+    assert df.loc[1, 'close'] == pytest.approx(1774)
+    assert df.loc[2, 'high'] == pytest.approx(2400)
+    assert df.loc[3, 'low'] == pytest.approx(842.0)
+    assert df.loc[4, 'value'] == pytest.approx(163600)
+    assert df.loc[5, 'volume'] == pytest.approx(49400)
+    assert df.loc[6, 'begin'] == '2009-01-01 00:00:00'
+    assert df.loc[47, 'end'] == '2018-11-26 00:00:00'
 
 
 @pytest.mark.asyncio
@@ -127,7 +163,7 @@ async def test_get_market_history_from_beginning():
     assert isinstance(data, list)
     assert data[0]['TRADEDATE'] == '2006-10-11'
     assert data[-1]['TRADEDATE'] == '2006-12-01'
-    assert len(data[-2]) == 3
+    assert len(data[-2]) == 4
     assert 'CLOSE' in data[2]
     assert 'VOLUME' in data[3]
 

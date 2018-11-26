@@ -9,8 +9,8 @@ from . import client
 __all__ = ['ISSClientSession',
            'get_reference',
            'find_securities',
-           'get_candle_borders',
-           'get_candles',
+           'get_market_candle_borders',
+           'get_market_candles',
            'get_board_securities',
            'get_market_history',
            'get_board_history']
@@ -122,8 +122,8 @@ async def find_securities(sting: str, columns=('secid', 'regnumber')):
     return data[table]
 
 
-async def get_candle_borders(security, market='shares', engine='stock'):
-    """Получить таблицу интервалов доступных дат для свечей различного размера
+async def get_market_candle_borders(security, market='shares', engine='stock'):
+    """Получить таблицу интервалов доступных дат для свечей различного размера на рынке для всех режимов торгов
 
     Для работы требуется открытая ISSClientSession
 
@@ -146,8 +146,11 @@ async def get_candle_borders(security, market='shares', engine='stock'):
     return data[table]
 
 
-async def get_candles(security, interval=24, start=None, end=None, market='shares', engine='stock'):
-    """Получить свечи в формате HLOCV указанного инструмента по основному режиму торгов
+async def get_market_candles(security, interval=24, start=None, end=None, market='shares', engine='stock'):
+    """Получить свечи в формате HLOCV указанного инструмента на рынке для всех режимов торгов за интервал дат
+
+    Если торговля идет в нескольких режимах, то на один интервал времени может быть выдано несколько свечек - по свечке
+    на каждый режим
 
     Для работы требуется открытая ISSClientSession
 
@@ -170,12 +173,12 @@ async def get_candles(security, interval=24, start=None, end=None, market='share
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candleborders.json'
+    url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candles.json'
     table = 'candles'
     query = _make_query(start=start, end=end)
     query['interval'] = interval
     iss = client.ISSClient(url, query)
-    data = await iss.get()
+    data = await iss.get_all()
     return data[table]
 
 
@@ -236,9 +239,11 @@ async def _get_history(url, start, end, columns):
     return data
 
 
-async def get_market_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
+async def get_market_history(security, start=None, end=None, columns=('BOARDID', 'TRADEDATE', 'CLOSE', 'VOLUME'),
                              market='shares', engine='stock'):
     """Получить историю по одной бумаге на рынке для всех режимов торгов за интервал дат
+
+    На одну дату может приходиться несколько значений, если торги шли в нескольких режимах
 
     Для работы требуется открытая ISSClientSession
 
