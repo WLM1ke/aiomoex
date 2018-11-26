@@ -84,14 +84,16 @@ async def test_get_candle_borders():
     data = await aiomoex.get_candle_borders('SNGSP')
     assert isinstance(data, list)
     assert len(data) == 7
+    for i in data:
+        del i['end']
     assert data == [
-        {'begin': '2011-12-15 10:00:00', 'end': '2018-11-23 18:49:59', 'interval': 1, 'board_group_id': 57},
-        {'begin': '2003-07-01 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 4, 'board_group_id': 57},
-        {'begin': '2003-07-28 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 7, 'board_group_id': 57},
-        {'begin': '2011-12-08 10:00:00', 'end': '2018-11-23 18:49:59', 'interval': 10, 'board_group_id': 57},
-        {'begin': '2003-07-31 00:00:00', 'end': '2018-11-23 23:59:59', 'interval': 24, 'board_group_id': 57},
-        {'begin': '2003-07-01 00:00:00', 'end': '2018-11-23 00:00:00', 'interval': 31, 'board_group_id': 57},
-        {'begin': '2011-11-17 10:00:00', 'end': '2018-11-23 18:59:59', 'interval': 60, 'board_group_id': 57}]
+        {'begin': '2011-12-15 10:00:00', 'interval': 1, 'board_group_id': 57},
+        {'begin': '2003-07-01 00:00:00', 'interval': 4, 'board_group_id': 57},
+        {'begin': '2003-07-28 00:00:00', 'interval': 7, 'board_group_id': 57},
+        {'begin': '2011-12-08 10:00:00', 'interval': 10, 'board_group_id': 57},
+        {'begin': '2003-07-31 00:00:00', 'interval': 24, 'board_group_id': 57},
+        {'begin': '2003-07-01 00:00:00', 'interval': 31, 'board_group_id': 57},
+        {'begin': '2011-11-17 10:00:00', 'interval': 60, 'board_group_id': 57}]
 
 
 @pytest.mark.asyncio
