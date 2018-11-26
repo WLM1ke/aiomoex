@@ -132,7 +132,7 @@ securitygroups, securitycollections</td>
 <li>24 - 1 день</li>
 <li>7 - 1 неделя</li>
 <li>31 - 1 месяц</li>
-<li>4 - квартал</li>
+<li>4 - 1 квартал</li>
 </ul>
 <p>Для разных свечек и инструментов доступна информация за разные интервалы дат, уточнить которые можно с помощью функции
 get_candle_borders(), а получить исторические значения свечек с помощью get_candles(), используя числовой код размера
@@ -149,6 +149,34 @@ get_candle_borders(), а получить исторические значен�
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><ul class="first simple">
 <li><strong>security</strong> – Тикер ценной бумаги</li>
+<li><strong>market</strong> – Рынок - по умолчанию акции</li>
+<li><strong>engine</strong> – Движок - по умолчанию акции</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body"><p class="first last">Список словарей, которые напрямую конвертируется в pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="aiomoex.get_candles">
+<code class="descclassname">aiomoex.</code><code class="descname">get_candles</code><span class="sig-paren">(</span><em>security</em>, <em>interval=24</em>, <em>start=None</em>, <em>end=None</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_candles" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Получить свечи в формате HLOCV указанного инструмента по основному режиму торгов</p>
+<p>Для работы требуется открытая ISSClientSession</p>
+<p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/155">https://iss.moex.com/iss/reference/155</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><ul class="first simple">
+<li><strong>security</strong> – Тикер ценной бумаги</li>
+<li><strong>interval</strong> – Размер свечки - целое число 1 (1 минута), 10 (10 минут), 60 (1 час), 24 (1 день), 7 (1 неделя), 31 (1 месяц) или
+4 (1 квартал). По умолчанию дневные данные</li>
+<li><strong>start</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории</li>
+<li><strong>end</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории</li>
 <li><strong>market</strong> – Рынок - по умолчанию акции</li>
 <li><strong>engine</strong> – Движок - по умолчанию акции</li>
 </ul>
