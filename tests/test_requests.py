@@ -147,7 +147,7 @@ async def test_get_market_candles_to_end():
     assert df.loc[4, 'value'] == pytest.approx(163600)
     assert df.loc[5, 'volume'] == pytest.approx(49400)
     assert df.loc[6, 'begin'] == '2009-01-01 00:00:00'
-    assert df.loc[47, 'end'] == '2018-11-26 00:00:00'
+    assert df.loc[46, 'end'] == '2018-09-28 00:00:00'
 
 
 @pytest.mark.asyncio
@@ -183,7 +183,7 @@ async def test_get_board_candles_to_end():
     assert df.loc[4, 'value'] == pytest.approx(2713625)
     assert df.loc[5, 'volume'] == pytest.approx(20180000)
     assert df.loc[6, 'begin'] == '2015-01-01 00:00:00'
-    assert df.loc[52, 'end'] == '2018-11-26 00:00:00'
+    assert df.loc[51, 'end'] == '2018-10-31 00:00:00'
 
 
 @pytest.mark.asyncio
