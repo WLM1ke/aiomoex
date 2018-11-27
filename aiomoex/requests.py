@@ -12,6 +12,7 @@ __all__ = ['ISSClientSession',
            'get_market_candle_borders',
            'get_board_candle_borders',
            'get_market_candles',
+           'get_board_candles',
            'get_board_securities',
            'get_market_history',
            'get_board_history']
@@ -202,6 +203,42 @@ async def get_market_candles(security, interval=24, start=None, end=None, market
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candles.json'
+    table = 'candles'
+    query = _make_query(start=start, end=end)
+    query['interval'] = interval
+    iss = client.ISSClient(url, query)
+    data = await iss.get_all()
+    return data[table]
+
+
+async def get_board_candles(security, interval=24, start=None, end=None, board='TQBR', market='shares', engine='stock'):
+    """Получить свечи в формате HLOCV указанного инструмента в указанном режиме торгов за интервал дат
+
+    Для работы требуется открытая ISSClientSession
+
+    Описание запроса - https://iss.moex.com/iss/reference/46
+
+    :param security:
+        Тикер ценной бумаги
+    :param interval:
+        Размер свечки - целое число 1 (1 минута), 10 (10 минут), 60 (1 час), 24 (1 день), 7 (1 неделя), 31 (1 месяц) или
+        4 (1 квартал). По умолчанию дневные данные
+    :param start:
+        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории
+    :param end:
+        Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории
+    :param board:
+        Режим торгов - по умолчанию основной режим торгов T+2
+    :param market:
+        Рынок - по умолчанию акции
+    :param engine:
+        Движок - по умолчанию акции
+
+    :return:
+        Список словарей, которые напрямую конвертируется в pandas.DataFrame
+    """
+    url = (f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/'
+           f'boards/{board}/securities/{security}/candles.json')
     table = 'candles'
     query = _make_query(start=start, end=end)
     query['interval'] = interval

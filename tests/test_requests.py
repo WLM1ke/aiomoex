@@ -152,6 +152,42 @@ async def test_get_market_candles_to_end():
 
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
+async def test_get_board_candles_from_beginning():
+    data = await aiomoex.get_board_candles('MTSS', interval=10, end='2011-12-22')
+    assert isinstance(data, list)
+    assert len(data) > 500
+    df = pd.DataFrame(data)
+    assert df.columns.size == 8
+    assert df.loc[0, 'open'] == pytest.approx(202.7)
+    assert df.loc[1, 'close'] == pytest.approx(204.12)
+    assert df.loc[2, 'high'] == pytest.approx(205)
+    assert df.loc[3, 'low'] == pytest.approx(204.93)
+    assert df.loc[4, 'value'] == pytest.approx(3990683.9)
+    assert df.loc[5, 'volume'] == pytest.approx(3000)
+    assert df.loc[6, 'begin'] == '2011-12-08 11:00:00'
+    assert df.iloc[-1]['end'] == '2011-12-22 18:49:59'
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
+async def test_get_board_candles_to_end():
+    data = await aiomoex.get_board_candles('TTLK', interval=31, start='2014-07-01')
+    assert isinstance(data, list)
+    assert len(data) > 52
+    df = pd.DataFrame(data)
+    assert df.columns.size == 8
+    assert df.loc[0, 'open'] == pytest.approx(0.152)
+    assert df.loc[1, 'close'] == pytest.approx(0.15689)
+    assert df.loc[2, 'high'] == pytest.approx(0.15998)
+    assert df.loc[3, 'low'] == pytest.approx(0.149)
+    assert df.loc[4, 'value'] == pytest.approx(2713625)
+    assert df.loc[5, 'volume'] == pytest.approx(20180000)
+    assert df.loc[6, 'begin'] == '2015-01-01 00:00:00'
+    assert df.loc[52, 'end'] == '2018-11-26 00:00:00'
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_board_securities():
     data = await aiomoex.get_board_securities()
     assert isinstance(data, list)

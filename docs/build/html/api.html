@@ -76,7 +76,7 @@
 запросов.</p>
 <dl class="function">
 <dt id="aiomoex.get_reference">
-<code class="descclassname">aiomoex.</code><code class="descname">get_reference</code><span class="sig-paren">(</span><em>placeholder='boards'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_reference" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_reference</code><span class="sig-paren">(</span><em>placeholder='boards'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_reference" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить перечень доступных значений плейсхолдера в адресе запроса</p>
 <p>Например в описание запроса <a class="reference external" href="https://iss.moex.com/iss/reference/32">https://iss.moex.com/iss/reference/32</a> присутствует следующий адрес
 /iss/engines/[engine]/markets/[market]/boards/[board]/securities с плейсхолдерами engines, markets и boards</p>
@@ -97,7 +97,7 @@ securitygroups, securitycollections</td>
 
 <dl class="function">
 <dt id="aiomoex.find_securities">
-<code class="descclassname">aiomoex.</code><code class="descname">find_securities</code><span class="sig-paren">(</span><em>sting: str</em>, <em>columns=('secid'</em>, <em>'regnumber')</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.find_securities" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">find_securities</code><span class="sig-paren">(</span><em>sting: str</em>, <em>columns=('secid'</em>, <em>'regnumber')</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.find_securities" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации</p>
 <p>Один из вариантов использования - по регистрационному номеру узнать предыдущие тикеры эмитента, и с помощью
 нескольких запросов об истории котировок собрать длинную историю с использованием всех предыдущих тикеров</p>
@@ -123,7 +123,7 @@ securitygroups, securitycollections</td>
 
 </div>
 <div class="section" id="id4">
-<h3>Исторические данные по свечкам (появится в версии 1.1)<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Исторические данные по свечкам<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>MOEX ISS формирует свечки в формате HLOCV, при этом используются следующие условные числовые коды:</p>
 <ul class="simple">
 <li>1 - 1 минута</li>
@@ -139,7 +139,7 @@ get_market_candle_borders() или get_board_candle_borders(), а получит
 get_market_candles() или get_board_candles(), используя числовой код размера свечки.</p>
 <dl class="function">
 <dt id="aiomoex.get_market_candle_borders">
-<code class="descclassname">aiomoex.</code><code class="descname">get_market_candle_borders</code><span class="sig-paren">(</span><em>security</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_candle_borders" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_market_candle_borders</code><span class="sig-paren">(</span><em>security</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_candle_borders" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить таблицу интервалов доступных дат для свечей различного размера на рынке для всех режимов торгов</p>
 <p>Для работы требуется открытая ISSClientSession</p>
 <p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/156">https://iss.moex.com/iss/reference/156</a></p>
@@ -163,7 +163,7 @@ get_market_candles() или get_board_candles(), используя числов
 
 <dl class="function">
 <dt id="aiomoex.get_board_candle_borders">
-<code class="descclassname">aiomoex.</code><code class="descname">get_board_candle_borders</code><span class="sig-paren">(</span><em>security</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_candle_borders" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_board_candle_borders</code><span class="sig-paren">(</span><em>security</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_candle_borders" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить таблицу интервалов доступных дат для свечей различного размера в указанном режиме торгов</p>
 <p>Для работы требуется открытая ISSClientSession</p>
 <p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/48">https://iss.moex.com/iss/reference/48</a></p>
@@ -188,7 +188,7 @@ get_market_candles() или get_board_candles(), используя числов
 
 <dl class="function">
 <dt id="aiomoex.get_market_candles">
-<code class="descclassname">aiomoex.</code><code class="descname">get_market_candles</code><span class="sig-paren">(</span><em>security</em>, <em>interval=24</em>, <em>start=None</em>, <em>end=None</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_candles" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_market_candles</code><span class="sig-paren">(</span><em>security</em>, <em>interval=24</em>, <em>start=None</em>, <em>end=None</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_candles" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить свечи в формате HLOCV указанного инструмента на рынке для всех режимов торгов за интервал дат</p>
 <p>Если торговля идет в нескольких режимах, то на один интервал времени может быть выдано несколько свечек - по свечке
 на каждый режим</p>
@@ -216,6 +216,35 @@ get_market_candles() или get_board_candles(), используя числов
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="aiomoex.get_board_candles">
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_board_candles</code><span class="sig-paren">(</span><em>security</em>, <em>interval=24</em>, <em>start=None</em>, <em>end=None</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_candles" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Получить свечи в формате HLOCV указанного инструмента в указанном режиме торгов за интервал дат</p>
+<p>Для работы требуется открытая ISSClientSession</p>
+<p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/46">https://iss.moex.com/iss/reference/46</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><ul class="first simple">
+<li><strong>security</strong> – Тикер ценной бумаги</li>
+<li><strong>interval</strong> – Размер свечки - целое число 1 (1 минута), 10 (10 минут), 60 (1 час), 24 (1 день), 7 (1 неделя), 31 (1 месяц) или
+4 (1 квартал). По умолчанию дневные данные</li>
+<li><strong>start</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены с начала истории</li>
+<li><strong>end</strong> – Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории</li>
+<li><strong>board</strong> – Режим торгов - по умолчанию основной режим торгов T+2</li>
+<li><strong>market</strong> – Рынок - по умолчанию акции</li>
+<li><strong>engine</strong> – Движок - по умолчанию акции</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body"><p class="first last">Список словарей, которые напрямую конвертируется в pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="id5">
 <h3>Исторические данные по дневным котировкам<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
@@ -226,7 +255,7 @@ get_market_candles() или get_board_candles(), используя числов
 конкретного режима торгов, соответственно.</p>
 <dl class="function">
 <dt id="aiomoex.get_board_securities">
-<code class="descclassname">aiomoex.</code><code class="descname">get_board_securities</code><span class="sig-paren">(</span><em>table='securities'</em>, <em>columns=('SECID'</em>, <em>'REGNUMBER'</em>, <em>'LOTSIZE'</em>, <em>'SHORTNAME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_securities" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_board_securities</code><span class="sig-paren">(</span><em>table='securities'</em>, <em>columns=('SECID'</em>, <em>'REGNUMBER'</em>, <em>'LOTSIZE'</em>, <em>'SHORTNAME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_securities" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить таблицу инструментов по режиму торгов со вспомогательной информацией</p>
 <p>Для работы требуется открытая ISSClientSession</p>
 <p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/32">https://iss.moex.com/iss/reference/32</a></p>
@@ -254,7 +283,7 @@ get_market_candles() или get_board_candles(), используя числов
 
 <dl class="function">
 <dt id="aiomoex.get_market_history">
-<code class="descclassname">aiomoex.</code><code class="descname">get_market_history</code><span class="sig-paren">(</span><em>security</em>, <em>start=None</em>, <em>end=None</em>, <em>columns=('BOARDID'</em>, <em>'TRADEDATE'</em>, <em>'CLOSE'</em>, <em>'VOLUME')</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_history" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_market_history</code><span class="sig-paren">(</span><em>security</em>, <em>start=None</em>, <em>end=None</em>, <em>columns=('BOARDID'</em>, <em>'TRADEDATE'</em>, <em>'CLOSE'</em>, <em>'VOLUME')</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_history" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить историю по одной бумаге на рынке для всех режимов торгов за интервал дат</p>
 <p>На одну дату может приходиться несколько значений, если торги шли в нескольких режимах</p>
 <p>Для работы требуется открытая ISSClientSession</p>
@@ -283,7 +312,7 @@ get_market_candles() или get_board_candles(), используя числов
 
 <dl class="function">
 <dt id="aiomoex.get_board_history">
-<code class="descclassname">aiomoex.</code><code class="descname">get_board_history</code><span class="sig-paren">(</span><em>security</em>, <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>, <em>'VOLUME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_history" title="Ссылка на это определение">¶</a></dt>
+<em class="property">coroutine </em><code class="descclassname">aiomoex.</code><code class="descname">get_board_history</code><span class="sig-paren">(</span><em>security</em>, <em>start=None</em>, <em>end=None</em>, <em>columns=('TRADEDATE'</em>, <em>'CLOSE'</em>, <em>'VOLUME')</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_history" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить историю торгов для указанной бумаги в указанном режиме торгов за указанный интервал дат</p>
 <p>Для работы требуется открытая ISSClientSession</p>
 <p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/65">https://iss.moex.com/iss/reference/65</a></p>
@@ -457,7 +486,7 @@ get_market_candles() или get_board_candles(), используя числов
 <li class="toctree-l2"><a class="reference internal" href="#id1">Открытие сессии</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Функции-запросы</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Справочная информация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Исторические данные по свечкам (появится в версии 1.1)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Исторические данные по свечкам</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id5">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
@@ -465,7 +494,7 @@ get_market_candles() или get_board_candles(), используя числов
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.1.0 (2018-11-__)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.1.0 (2018-11-27)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.0.1 (2018-11-25)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.0.0 (2018-11-24)</a></li>
 </ul>

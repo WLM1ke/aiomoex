@@ -23,12 +23,12 @@
 Функции из данного раздела носят вспомогательный характер и нужны для получения данных для построения остальных
 запросов.
 
-.. autofunction:: aiomoex.get_reference
+.. autocofunction:: aiomoex.get_reference
 
-.. autofunction:: aiomoex.find_securities
+.. autocofunction:: aiomoex.find_securities
 
-Исторические данные по свечкам (появится в версии 1.1)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Исторические данные по свечкам
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 MOEX ISS формирует свечки в формате HLOCV, при этом используются следующие условные числовые коды:
 
 * 1 - 1 минута
@@ -43,11 +43,13 @@ MOEX ISS формирует свечки в формате HLOCV, при это�
 get_market_candle_borders() или get_board_candle_borders(), а получить исторические значения свечек с помощью
 get_market_candles() или get_board_candles(), используя числовой код размера свечки.
 
-.. autofunction:: aiomoex.get_market_candle_borders
+.. autocofunction:: aiomoex.get_market_candle_borders
 
-.. autofunction:: aiomoex.get_board_candle_borders
+.. autocofunction:: aiomoex.get_board_candle_borders
 
-.. autofunction:: aiomoex.get_market_candles
+.. autocofunction:: aiomoex.get_market_candles
+
+.. autocofunction:: aiomoex.get_board_candles
 
 Исторические данные по дневным котировкам
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -57,11 +59,11 @@ get_market_candles() или get_board_candles(), используя числов
 котировки с различной вспомогательной информацией для конкретной бумаги для всех режимов торгов рынка или для
 конкретного режима торгов, соответственно.
 
-.. autofunction:: aiomoex.get_board_securities
+.. autocofunction:: aiomoex.get_board_securities
 
-.. autofunction:: aiomoex.get_market_history
+.. autocofunction:: aiomoex.get_market_history
 
-.. autofunction:: aiomoex.get_board_history
+.. autocofunction:: aiomoex.get_board_history
 
 Реализация произвольного запроса
 --------------------------------
