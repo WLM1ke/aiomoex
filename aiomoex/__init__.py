@@ -9,4 +9,4 @@ from .requests import *
 # noinspection PyUnresolvedReferences
 from .client import ISSClient
 
-__version__ = '1.1.0'
+__version__ = '1.1.1'

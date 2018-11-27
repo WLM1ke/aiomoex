@@ -304,7 +304,8 @@ async def _get_history(url, start, end, columns):
     return data
 
 
-async def get_market_history(security, start=None, end=None, columns=('BOARDID', 'TRADEDATE', 'CLOSE', 'VOLUME'),
+async def get_market_history(security, start=None, end=None,
+                             columns=('BOARDID', 'TRADEDATE', 'CLOSE', 'VOLUME', 'VALUE'),
                              market='shares', engine='stock'):
     """Получить историю по одной бумаге на рынке для всех режимов торгов за интервал дат
 
@@ -321,8 +322,8 @@ async def get_market_history(security, start=None, end=None, columns=('BOARDID',
     :param end:
         Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории
     :param columns:
-        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов, цена закрытия и объем. Если
-        пустой или None, то загружаются все столбцы
+        Кортеж столбцов, которые нужно загрузить - по умолчанию режим торгов, дата торгов, цена закрытия и объем в
+        штуках и стоимости. Если пустой или None, то загружаются все столбцы
     :param market:
         Рынок - по умолчанию акции
     :param engine:
@@ -336,7 +337,8 @@ async def get_market_history(security, start=None, end=None, columns=('BOARDID',
     return data
 
 
-async def get_board_history(security, start=None, end=None, columns=('TRADEDATE', 'CLOSE', 'VOLUME'),
+async def get_board_history(security, start=None, end=None,
+                            columns=('BOARDID', 'TRADEDATE', 'CLOSE', 'VOLUME', 'VALUE'),
                             board='TQBR', market='shares', engine='stock'):
     """Получить историю торгов для указанной бумаги в указанном режиме торгов за указанный интервал дат
 
@@ -351,8 +353,8 @@ async def get_board_history(security, start=None, end=None, columns=('TRADEDATE'
     :param end:
         Дата вида ГГГГ-ММ-ДД. При отсутствии данные будут загружены до конца истории
     :param columns:
-        Кортеж столбцов, которые нужно загрузить - по умолчанию дата торгов, цена закрытия и объем. Если
-        пустой или None, то загружаются все столбцы
+        Кортеж столбцов, которые нужно загрузить - по умолчанию режим торгов, дата торгов, цена закрытия и объем в
+        штуках и стоимости. Если пустой или None, то загружаются все столбцы
     :param board:
         Режим торгов - по умолчанию основной режим торгов T+2
     :param market:

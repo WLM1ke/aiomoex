@@ -217,7 +217,7 @@ async def test_get_market_history_from_beginning():
     assert isinstance(data, list)
     assert data[0]['TRADEDATE'] == '2006-10-11'
     assert data[-1]['TRADEDATE'] == '2006-12-01'
-    assert len(data[-2]) == 4
+    assert len(data[-2]) == 5
     assert 'CLOSE' in data[2]
     assert 'VOLUME' in data[3]
 
@@ -246,7 +246,7 @@ async def test_get_board_history_from_beginning():
     data = await aiomoex.get_board_history('LSNGP', end='2014-08-01')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
-    assert len(df.columns) == 2
+    assert len(df.columns) == 4
     assert df.index[0] == '2014-06-09'
     assert df.at['2014-06-09', 'CLOSE'] == pytest.approx(14.7)
     assert df.at['2014-08-01', 'VOLUME'] == 4000
@@ -258,10 +258,12 @@ async def test_get_board_history_to_end():
     data = await aiomoex.get_board_history('LSRG', start='2018-08-07')
     df = pd.DataFrame(data)
     df.set_index('TRADEDATE', inplace=True)
-    assert len(df.columns) == 2
+    assert len(df.columns) == 4
     assert df.index[0] == '2018-08-07'
     assert df.index[-1] >= '2018-11-19'
     assert df.at['2018-08-07', 'CLOSE'] == 777
     assert df.at['2018-08-10', 'VOLUME'] == 11313
+    assert df.at['2018-08-10', 'BOARDID'] == 'TQBR'
+    assert df.at['2018-08-10', 'VALUE'] == pytest.approx(8626464.5)
     assert df.at['2018-09-06', 'CLOSE'] == pytest.approx(660)
     assert df.at['2018-08-28', 'VOLUME'] == 47428
