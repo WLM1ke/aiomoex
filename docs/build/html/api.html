@@ -162,6 +162,31 @@ get_market_candles() или get_board_candles(), используя числов
 </dd></dl>
 
 <dl class="function">
+<dt id="aiomoex.get_board_candle_borders">
+<code class="descclassname">aiomoex.</code><code class="descname">get_board_candle_borders</code><span class="sig-paren">(</span><em>security</em>, <em>board='TQBR'</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_board_candle_borders" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Получить таблицу интервалов доступных дат для свечей различного размера в указанном режиме торгов</p>
+<p>Для работы требуется открытая ISSClientSession</p>
+<p>Описание запроса - <a class="reference external" href="https://iss.moex.com/iss/reference/48">https://iss.moex.com/iss/reference/48</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Параметры:</th><td class="field-body"><ul class="first simple">
+<li><strong>security</strong> – Тикер ценной бумаги</li>
+<li><strong>board</strong> – Режим торгов - по умолчанию основной режим торгов T+2</li>
+<li><strong>market</strong> – Рынок - по умолчанию акции</li>
+<li><strong>engine</strong> – Движок - по умолчанию акции</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Результат:</th><td class="field-body"><p class="first last">Список словарей, которые напрямую конвертируется в pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="aiomoex.get_market_candles">
 <code class="descclassname">aiomoex.</code><code class="descname">get_market_candles</code><span class="sig-paren">(</span><em>security</em>, <em>interval=24</em>, <em>start=None</em>, <em>end=None</em>, <em>market='shares'</em>, <em>engine='stock'</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.get_market_candles" title="Ссылка на это определение">¶</a></dt>
 <dd><p>Получить свечи в формате HLOCV указанного инструмента на рынке для всех режимов торгов за интервал дат</p>

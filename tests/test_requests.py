@@ -98,6 +98,24 @@ async def test_get_market_candle_borders():
 
 @pytest.mark.asyncio
 @pytest.mark.usefixtures('iss_client_session')
+async def test_get_board_candle_borders():
+    data = await aiomoex.get_board_candle_borders('UPRO')
+    assert isinstance(data, list)
+    assert len(data) == 7
+    for i in data:
+        del i['end']
+    assert data == [
+        {"begin": "2016-07-01 09:59:00", "interval": 1},
+        {"begin": "2016-07-01 00:00:00", "interval": 4},
+        {"begin": "2016-06-27 00:00:00", "interval": 7},
+        {"begin": "2016-07-01 09:50:00", "interval": 10},
+        {"begin": "2016-07-01 00:00:00", "interval": 24},
+        {"begin": "2016-07-01 00:00:00", "interval": 31},
+        {"begin": "2016-07-01 09:00:00", "interval": 60}]
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures('iss_client_session')
 async def test_get_market_candles_from_beginning():
     data = await aiomoex.get_market_candles('RTKM', interval=1, end='2011-12-16')
     assert isinstance(data, list)

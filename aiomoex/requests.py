@@ -10,6 +10,7 @@ __all__ = ['ISSClientSession',
            'get_reference',
            'find_securities',
            'get_market_candle_borders',
+           'get_board_candle_borders',
            'get_market_candles',
            'get_board_securities',
            'get_market_history',
@@ -140,6 +141,33 @@ async def get_market_candle_borders(security, market='shares', engine='stock'):
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candleborders.json'
+    table = 'borders'
+    iss = client.ISSClient(url)
+    data = await iss.get()
+    return data[table]
+
+
+async def get_board_candle_borders(security, board='TQBR', market='shares', engine='stock'):
+    """Получить таблицу интервалов доступных дат для свечей различного размера в указанном режиме торгов
+
+    Для работы требуется открытая ISSClientSession
+
+    Описание запроса - https://iss.moex.com/iss/reference/48
+
+    :param security:
+        Тикер ценной бумаги
+    :param board:
+        Режим торгов - по умолчанию основной режим торгов T+2
+    :param market:
+        Рынок - по умолчанию акции
+    :param engine:
+        Движок - по умолчанию акции
+
+    :return:
+        Список словарей, которые напрямую конвертируется в pandas.DataFrame
+    """
+    url = (f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/'
+           f'boards/{board}/securities/{security}/candleborders.json')
     table = 'borders'
     iss = client.ISSClient(url)
     data = await iss.get()

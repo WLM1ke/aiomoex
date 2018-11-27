@@ -45,6 +45,8 @@ get_market_candles() или get_board_candles(), используя числов
 
 .. autofunction:: aiomoex.get_market_candle_borders
 
+.. autofunction:: aiomoex.get_board_candle_borders
+
 .. autofunction:: aiomoex.get_market_candles
 
 Исторические данные по дневным котировкам
