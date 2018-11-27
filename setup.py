@@ -3,6 +3,8 @@ import re
 
 import setuptools
 
+name = 'aiomoex'
+
 with open(pathlib.Path(__file__).parent / 'aiomoex' / '__init__.py') as file:
     try:
         version = re.search(r"^__version__ = '(.+)'$", file.read(), re.M)[1]
@@ -13,7 +15,7 @@ with open('README.rst') as file:
     long_description = file.read()
 
 setuptools.setup(
-    name='aiomoex',
+    name=name,
     version=version,
     description='Asyncio MOEX ISS API',
     long_description=long_description,
