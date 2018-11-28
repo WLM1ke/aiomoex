@@ -45,11 +45,15 @@ class ISSClientSession:
         return client.ISSClient.is_session_closed()
 
 
-def _make_query(*, start=None, end=None, table=None, columns=None):
+def _make_query(*, q=None, interval=None, start=None, end=None, table=None, columns=None):
     """Формирует дополнительные параметры запроса к MOEX ISS
 
     В случае False значений не добавляются в запрос
 
+    :param q:
+        Строка с частью характеристик бумаги для поиска
+    :param interval:
+        Размер свечки
     :param start:
         Начальная дата котировок
     :param end:
@@ -63,6 +67,10 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
         Словарь с дополнительными параметрами запроса
     """
     query = dict()
+    if q:
+        query['q'] = q
+    if interval:
+        query['interval'] = interval
     if start:
         query['from'] = start
     if end:
@@ -72,6 +80,47 @@ def _make_query(*, start=None, end=None, table=None, columns=None):
     if columns:
         query[f'{table}.columns'] = ','.join(columns)
     return query
+
+
+def _get_table(data, table):
+    """Извлекает конкретную таблицу из данных"""
+    try:
+        data = data[table]
+    except KeyError:
+        raise client.ISSMoexError(f'Отсутствует таблица {table} в данных')
+    return data
+
+
+async def _get_short_data(url, table, query=None):
+    """Получить данные для запроса с выдачей всей информации за раз
+
+    :param url:
+        URL запроса
+    :param query:
+        Дополнительные параметры запроса - None, если нет параметров
+    :param table:
+        Таблица, которую нужно выбрать
+    :return:
+    """
+    iss = client.ISSClient(url, query)
+    data = await iss.get()
+    return _get_table(data, table)
+
+
+async def _get_long_data(url, table, query=None):
+    """Получить данные для запроса, в котором информация выдается несколькими блоками
+
+    :param url:
+        URL запроса
+    :param query:
+        Дополнительные параметры запроса - None, если нет параметров
+    :param table:
+        Таблица, которую нужно выбрать
+    :return:
+    """
+    iss = client.ISSClient(url, query)
+    data = await iss.get_all()
+    return _get_table(data, table)
 
 
 async def get_reference(placeholder='boards'):
@@ -92,12 +141,10 @@ async def get_reference(placeholder='boards'):
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = 'https://iss.moex.com/iss/index.json'
-    iss = client.ISSClient(url)
-    data = await iss.get()
-    return data[placeholder]
+    return await _get_short_data(url, placeholder)
 
 
-async def find_securities(sting: str, columns=('secid', 'regnumber')):
+async def find_securities(string: str, columns=('secid', 'regnumber')):
     """Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
 
     Один из вариантов использования - по регистрационному номеру узнать предыдущие тикеры эмитента, и с помощью
@@ -107,7 +154,7 @@ async def find_securities(sting: str, columns=('secid', 'regnumber')):
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
-    :param sting:
+    :param string:
         Часть Кода, Названия, ISIN, Идентификатора Эмитента, Номера гос.регистрации
     :param columns:
         Кортеж столбцов, которые нужно загрузить - по умолчанию тикер и номер государственно регистрации.
@@ -117,11 +164,8 @@ async def find_securities(sting: str, columns=('secid', 'regnumber')):
     """
     url = 'https://iss.moex.com/iss/securities.json'
     table = 'securities'
-    query = _make_query(table=table, columns=columns)
-    query['q'] = sting
-    iss = client.ISSClient(url, query)
-    data = await iss.get()
-    return data[table]
+    query = _make_query(q=string, table=table, columns=columns)
+    return await _get_short_data(url, table, query)
 
 
 async def get_market_candle_borders(security, market='shares', engine='stock'):
@@ -143,9 +187,7 @@ async def get_market_candle_borders(security, market='shares', engine='stock'):
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candleborders.json'
     table = 'borders'
-    iss = client.ISSClient(url)
-    data = await iss.get()
-    return data[table]
+    return await _get_short_data(url, table)
 
 
 async def get_board_candle_borders(security, board='TQBR', market='shares', engine='stock'):
@@ -170,9 +212,7 @@ async def get_board_candle_borders(security, board='TQBR', market='shares', engi
     url = (f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/'
            f'boards/{board}/securities/{security}/candleborders.json')
     table = 'borders'
-    iss = client.ISSClient(url)
-    data = await iss.get()
-    return data[table]
+    return await _get_short_data(url, table)
 
 
 async def get_market_candles(security, interval=24, start=None, end=None, market='shares', engine='stock'):
@@ -204,11 +244,8 @@ async def get_market_candles(security, interval=24, start=None, end=None, market
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candles.json'
     table = 'candles'
-    query = _make_query(start=start, end=end)
-    query['interval'] = interval
-    iss = client.ISSClient(url, query)
-    data = await iss.get_all()
-    return data[table]
+    query = _make_query(interval=interval, start=start, end=end)
+    return await _get_long_data(url, table, query)
 
 
 async def get_board_candles(security, interval=24, start=None, end=None, board='TQBR', market='shares', engine='stock'):
@@ -240,11 +277,8 @@ async def get_board_candles(security, interval=24, start=None, end=None, board='
     url = (f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/'
            f'boards/{board}/securities/{security}/candles.json')
     table = 'candles'
-    query = _make_query(start=start, end=end)
-    query['interval'] = interval
-    iss = client.ISSClient(url, query)
-    data = await iss.get_all()
-    return data[table]
+    query = _make_query(interval=interval, start=start, end=end)
+    return await _get_long_data(url, table, query)
 
 
 async def get_board_securities(table='securities', columns=('SECID', 'REGNUMBER', 'LOTSIZE', 'SHORTNAME'),
@@ -273,35 +307,7 @@ async def get_board_securities(table='securities', columns=('SECID', 'REGNUMBER'
     """
     url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/boards/{board}/securities.json'
     query = _make_query(table=table, columns=columns)
-    iss = client.ISSClient(url, query)
-    data = await iss.get()
-    return data[table]
-
-
-async def _get_history(url, start, end, columns):
-    """Осуществляет запрос характерный для раздела history MOEX ISS
-
-    :param url:
-        Адрес запроса из раздела history
-    :param start:
-        Начальная дата котировок
-    :param end:
-        Конечная дата котировок
-    :param columns:
-        Кортеж столбцов, которые нужно загрузить
-
-    :return:
-        Список словарей, которые напрямую конвертируется в pandas.DataFrame
-    """
-    table = 'history'
-    query = _make_query(start=start, end=end, table=table, columns=columns)
-    iss = client.ISSClient(url, query)
-    tables = await iss.get_all()
-    try:
-        data = tables[table]
-    except KeyError:
-        raise client.ISSMoexError(f'Отсутствуют исторические котировки для {url}')
-    return data
+    return await _get_short_data(url, table, query)
 
 
 async def get_market_history(security, start=None, end=None,
@@ -333,8 +339,9 @@ async def get_market_history(security, start=None, end=None,
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json'
-    data = await _get_history(url, start, end, columns)
-    return data
+    table = 'history'
+    query = _make_query(start=start, end=end, table=table, columns=columns)
+    return await _get_long_data(url, table, query)
 
 
 async def get_board_history(security, start=None, end=None,
@@ -367,5 +374,6 @@ async def get_board_history(security, start=None, end=None,
     """
     url = (f'https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/'
            f'boards/{board}/securities/{security}.json')
-    data = await _get_history(url, start, end, columns)
-    return data
+    table = 'history'
+    query = _make_query(start=start, end=end, table=table, columns=columns)
+    return await _get_long_data(url, table, query)

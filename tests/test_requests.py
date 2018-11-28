@@ -237,7 +237,7 @@ async def test_get_market_history_to_end():
 async def test_get_history_error():
     with pytest.raises(client.ISSMoexError) as error:
         await aiomoex.get_board_history('XXXX')
-    assert 'Отсутствуют исторические котировки для' in str(error)
+    assert 'Отсутствует таблица history в данных' == str(error.value)
 
 
 @pytest.mark.asyncio
