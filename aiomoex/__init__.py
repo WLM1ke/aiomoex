@@ -5,8 +5,8 @@
 перечень доступных функций-запросов может быть легко расширен.
 """
 # noinspection PyUnresolvedReferences
-from .requests import *
-# noinspection PyUnresolvedReferences
 from .client import ISSClient
+# noinspection PyUnresolvedReferences
+from .requests import *
 
-__version__ = '1.1.1'
+__version__ = "1.2.0"

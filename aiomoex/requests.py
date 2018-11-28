@@ -14,6 +14,7 @@ __all__ = [
     "get_board_candle_borders",
     "get_market_candles",
     "get_board_candles",
+    "get_board_dates",
     "get_board_securities",
     "get_market_history",
     "get_board_history",
@@ -303,6 +304,28 @@ async def get_board_candles(
     table = "candles"
     query = _make_query(interval=interval, start=start, end=end)
     return await _get_long_data(url, table, query)
+
+
+async def get_board_dates(board="TQBR", market="shares", engine="stock"):
+    """Получить интервал дат, доступных в истории для рынка по заданному режиму торгов
+
+    Для работы требуется открытая ISSClientSession
+
+    Описание запроса - https://iss.moex.com/iss/reference/26
+
+    :param board:
+        Режим торгов - по умолчанию основной режим торгов T+2
+    :param market:
+        Рынок - по умолчанию акции
+    :param engine:
+        Движок - по умолчанию акции
+
+    :return:
+        Список словарей, которые напрямую конвертируется в pandas.DataFrame
+    """
+    url = f"https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/boards/{board}/dates.json"
+    table = "dates"
+    return await _get_short_data(url, table)
 
 
 async def get_board_securities(
