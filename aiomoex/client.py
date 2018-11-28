@@ -4,7 +4,7 @@ import collections
 import aiohttp
 from aiohttp import client_exceptions
 
-BASE_QUERY = {'iss.json': 'extended', 'iss.meta': 'off'}
+BASE_QUERY = {"iss.json": "extended", "iss.meta": "off"}
 
 
 class ISSMoexError(Exception):
@@ -22,6 +22,7 @@ class ISSClient:
     Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из нескольких блоков данных
     поддерживается протокол асинхронного генератора отдельных блоков или метод get_all для их автоматического сбора
     """
+
     _client_session = None
 
     def __init__(self, url: str, query: dict = None):
@@ -38,7 +39,7 @@ class ISSClient:
         self._query = query or dict()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(url={self._url}, query={self._query})'
+        return f"{self.__class__.__name__}(url={self._url}, query={self._query})"
 
     async def __aiter__(self):
         """Асинхронный генератор по ответам состоящим из нескольких блоков
@@ -51,15 +52,17 @@ class ISSClient:
         start = 0
         while start is not None:
             data = await self.get(start)
-            if 'history.cursor' in data:
-                if len(data['history.cursor']) != 1:
-                    raise ISSMoexError(f'Некорректные данные history.cursor: {data["history.cursor"]}')
-                cursor = data['history.cursor'][0]
-                if cursor['INDEX'] + cursor['PAGESIZE'] < cursor['TOTAL']:
-                    start += cursor['PAGESIZE']
+            if "history.cursor" in data:
+                if len(data["history.cursor"]) != 1:
+                    raise ISSMoexError(
+                        f'Некорректные данные history.cursor: {data["history.cursor"]}'
+                    )
+                cursor = data["history.cursor"][0]
+                if cursor["INDEX"] + cursor["PAGESIZE"] < cursor["TOTAL"]:
+                    start += cursor["PAGESIZE"]
                 else:
                     start = None
-                del data['history.cursor']
+                del data["history.cursor"]
                 yield data
             else:
                 block_size = len(data[next(iter(data))])
@@ -75,7 +78,7 @@ class ISSClient:
         if cls.is_session_closed():
             cls._client_session = aiohttp.ClientSession()
         else:
-            raise ISSMoexError('Сессия для работы с MOEX ISS уже создана')
+            raise ISSMoexError("Сессия для работы с MOEX ISS уже создана")
 
     @classmethod
     async def close_session(cls):
@@ -83,7 +86,7 @@ class ISSClient:
         if not cls.is_session_closed():
             await cls._client_session.close()
         else:
-            raise ISSMoexError('Сессия для работы с MOEX ISS уже закрыта')
+            raise ISSMoexError("Сессия для работы с MOEX ISS уже закрыта")
 
     @classmethod
     def is_session_closed(cls):
@@ -107,14 +110,14 @@ class ISSClient:
         if not self.is_session_closed():
             session = self._client_session
         else:
-            raise ISSMoexError('Откройте сессию для работы с MOEX ISS')
+            raise ISSMoexError("Откройте сессию для работы с MOEX ISS")
         url = self._url
         query = self._make_query(start)
         async with session.get(url, params=query) as respond:
             try:
                 respond.raise_for_status()
             except client_exceptions.ClientResponseError:
-                raise ISSMoexError('Неверный url', respond.url)
+                raise ISSMoexError("Неверный url", respond.url)
             else:
                 data = await respond.json()
                 return data[1]
@@ -123,7 +126,7 @@ class ISSClient:
         """К общему набору параметров запроса добавляется требование предоставить ответ в виде расширенного json"""
         params = collections.ChainMap(dict(), BASE_QUERY, self._query)
         if start:
-            params['start'] = start
+            params["start"] = start
         return params
 
     async def get_all(self):
