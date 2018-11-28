@@ -6,6 +6,7 @@
 """
 # noinspection PyUnresolvedReferences
 from .client import ISSClient
+
 # noinspection PyUnresolvedReferences
 from .requests import *
 

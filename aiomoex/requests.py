@@ -321,7 +321,7 @@ async def get_board_dates(board="TQBR", market="shares", engine="stock"):
         Движок - по умолчанию акции
 
     :return:
-        Список словарей, которые напрямую конвертируется в pandas.DataFrame
+        Список из одного элемента - словаря с ключами 'from' и 'till'
     """
     url = f"https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/boards/{board}/dates.json"
     table = "dates"
