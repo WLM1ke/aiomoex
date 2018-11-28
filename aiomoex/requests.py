@@ -100,7 +100,9 @@ async def _get_short_data(url, table, query=None):
         Дополнительные параметры запроса - None, если нет параметров
     :param table:
         Таблица, которую нужно выбрать
+
     :return:
+        Конкретная таблица из запроса
     """
     iss = client.ISSClient(url, query)
     data = await iss.get()
@@ -116,7 +118,9 @@ async def _get_long_data(url, table, query=None):
         Дополнительные параметры запроса - None, если нет параметров
     :param table:
         Таблица, которую нужно выбрать
+
     :return:
+        Конкретная таблица из запроса
     """
     iss = client.ISSClient(url, query)
     data = await iss.get_all()
