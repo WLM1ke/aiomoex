@@ -1,9 +1,14 @@
 import pathlib
 import re
+import sys
 
 import setuptools
 
 name = "aiomoex"
+python_minimal = "3.6"
+
+if sys.version_info < tuple(int(i) for i in python_minimal.split(".")):
+    raise RuntimeError(f"{name} requires Python {python_minimal}+")
 
 with open(pathlib.Path(__file__).parent / "aiomoex" / "__init__.py") as file:
     try:
@@ -43,5 +48,5 @@ setuptools.setup(
     project_urls={"Source": "https://github.com/WLM1ke/aiomoex"},
     packages=setuptools.find_packages(exclude=["tests"]),
     install_requires=["aiohttp"],
-    python_requires=">=3.6",
+    python_requires=f">={python_minimal}",
 )
