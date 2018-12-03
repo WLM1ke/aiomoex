@@ -5,6 +5,7 @@
     Дополнительное описание https://fs.moex.com/files/6523
 """
 import contextlib
+import sys
 
 from . import client
 
@@ -22,8 +23,13 @@ __all__ = [
     "get_board_history",
 ]
 
+if sys.version_info >= (3, 7):
+    BaseClass = contextlib.AbstractAsyncContextManager
+else:
+    BaseClass = object
 
-class ISSClientSession(contextlib.AbstractAsyncContextManager):
+
+class ISSClientSession(BaseClass):
     """Менеджер сессий соединений с MOEX ISS
 
     Открывает сессию - возможно использование с async with для своевременного закрытия
