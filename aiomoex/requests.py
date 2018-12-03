@@ -4,6 +4,8 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
+import contextlib
+
 from . import client
 
 __all__ = [
@@ -21,11 +23,10 @@ __all__ = [
 ]
 
 
-class ISSClientSession:
+class ISSClientSession(contextlib.AbstractAsyncContextManager):
     """Менеджер сессий соединений с MOEX ISS
 
-    Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async with)
-    для своевременного закрытия
+    Открывает сессию - возможно использование с async with для своевременного закрытия
     """
 
     def __init__(self):

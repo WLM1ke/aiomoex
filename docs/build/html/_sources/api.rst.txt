@@ -10,6 +10,7 @@
 
 .. autoclass:: aiomoex.ISSClientSession
     :members:
+    :show-inheritance:
 
 Функции-запросы
 ----------------
@@ -78,3 +79,4 @@ get_market_candles() или get_board_candles(), используя числов
 
 .. autoclass:: aiomoex.ISSClient
     :members:
+    :show-inheritance:

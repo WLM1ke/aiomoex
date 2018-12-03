@@ -46,9 +46,10 @@
 <dl class="class">
 <dt id="aiomoex.ISSClientSession">
 <em class="property">class </em><code class="descclassname">aiomoex.</code><code class="descname">ISSClientSession</code><a class="headerlink" href="#aiomoex.ISSClientSession" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Менеджер сессий соединений с MOEX ISS</p>
-<p>Открывает сессию и поддерживает протокол асинхронного контекстного менеджера (async with)
-для своевременного закрытия</p>
+<dd><blockquote>
+<div>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">contextlib.AbstractAsyncContextManager</span></code></div></blockquote>
+<p>Менеджер сессий соединений с MOEX ISS</p>
+<p>Открывает сессию - возможно использование с async with для своевременного закрытия</p>
 <dl class="attribute">
 <dt id="aiomoex.ISSClientSession.closed">
 <code class="descname">closed</code><a class="headerlink" href="#aiomoex.ISSClientSession.closed" title="Ссылка на это определение">¶</a></dt>
@@ -377,8 +378,9 @@ get_market_candles() или get_board_candles(), используя числов
 <dl class="class">
 <dt id="aiomoex.ISSClient">
 <em class="property">class </em><code class="descclassname">aiomoex.</code><code class="descname">ISSClient</code><span class="sig-paren">(</span><em>url: str</em>, <em>query: dict = None</em><span class="sig-paren">)</span><a class="headerlink" href="#aiomoex.ISSClient" title="Ссылка на это определение">¶</a></dt>
-<dd><p>Асинхронный клиент для MOEX ISS</p>
-<p>Поддерживает протокол асинхронного генератора (async for)</p>
+<dd><blockquote>
+<div>Базовые классы: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.AsyncIterable</span></code></div></blockquote>
+<p>Асинхронный клиент для MOEX ISS - может быть использован с async for</p>
 <p>Для работы клиентов необходимо начать сессию соединений с MOEX ISS (общая для всех клиентов). А после
 окончания использования всех клиентов закрыть сессию для высвобождения ресурсов</p>
 <p>Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из нескольких блоков данных

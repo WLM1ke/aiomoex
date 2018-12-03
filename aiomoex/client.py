@@ -1,5 +1,6 @@
 """Асинхронный клиент для MOEX ISS"""
 import collections
+from collections import abc
 
 import aiohttp
 from aiohttp import client_exceptions
@@ -11,10 +12,8 @@ class ISSMoexError(Exception):
     pass
 
 
-class ISSClient:
-    """Асинхронный клиент для MOEX ISS
-
-    Поддерживает протокол асинхронного генератора (async for)
+class ISSClient(abc.AsyncIterable):
+    """Асинхронный клиент для MOEX ISS - может быть использован с async for
 
     Для работы клиентов необходимо начать сессию соединений с MOEX ISS (общая для всех клиентов). А после
     окончания использования всех клиентов закрыть сессию для высвобождения ресурсов
