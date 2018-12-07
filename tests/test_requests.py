@@ -4,7 +4,6 @@ import pandas as pd
 import pytest
 
 import aiomoex
-from aiomoex import client
 from aiomoex import requests
 
 
@@ -158,6 +157,14 @@ async def test_get_market_candles_to_end():
 
 @pytest.mark.asyncio
 @pytest.mark.usefixtures("iss_client_session")
+async def test_get_market_candles_empty():
+    data = await aiomoex.get_market_candles("OGK4", interval=24)
+    assert isinstance(data, list)
+    assert len(data) == 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.usefixtures("iss_client_session")
 async def test_get_board_candles_from_beginning():
     data = await aiomoex.get_board_candles("MTSS", interval=10, end="2011-12-22")
     assert isinstance(data, list)
@@ -246,14 +253,6 @@ async def test_get_market_history_to_end():
     assert len(data) > 100
     assert data[0]["TRADEDATE"] == "2017-10-02"
     assert data[-1]["TRADEDATE"] >= "2018-11-19"
-
-
-@pytest.mark.asyncio
-@pytest.mark.usefixtures("iss_client_session")
-async def test_get_history_error():
-    with pytest.raises(client.ISSMoexError) as error:
-        await aiomoex.get_board_history("XXXX")
-    assert "Отсутствует таблица history в данных" == str(error.value)
 
 
 @pytest.mark.asyncio

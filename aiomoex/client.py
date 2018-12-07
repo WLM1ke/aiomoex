@@ -67,9 +67,9 @@ class ISSClient(abc.AsyncIterable):
                 block_size = len(data[next(iter(data))])
                 if block_size:
                     start += block_size
-                    yield data
                 else:
                     start = None
+                yield data
 
     @classmethod
     def start_session(cls):
