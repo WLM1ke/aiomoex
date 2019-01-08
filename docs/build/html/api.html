@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Справочник API &#8212; Документация aiomoex 1.2.1</title>
+    <title>Справочник API &#8212; Документация aiomoex 1.2.2</title>
     <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -42,7 +42,7 @@
 <p>Для начала работы необходимо открыть клиентскую сессию поддерживающую пул соединений с MOEX ISS в режиме keep alive.
 При осуществлении множества запросов рекомендуется иметь одну клиентскую сессию в течении всей работы приложения для
 ускорения взаимодействия с сервером, а не открывать и закрывать их для отдельных запросов.
-В конце работы для высвобождения ресурсов сессия должна быть закрыта вызовом метода closed.</p>
+В конце работы для высвобождения ресурсов сессия должна быть закрыта вызовом метода close.</p>
 <dl class="class">
 <dt id="aiomoex.ISSClientSession">
 <em class="property">class </em><code class="descclassname">aiomoex.</code><code class="descname">ISSClientSession</code><a class="headerlink" href="#aiomoex.ISSClientSession" title="Ссылка на это определение">¶</a></dt>
@@ -521,12 +521,13 @@ get_market_candles() или get_board_candles(), используя числов
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
