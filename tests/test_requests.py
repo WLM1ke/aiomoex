@@ -4,32 +4,34 @@ import pandas as pd
 import pytest
 
 import aiomoex
-from aiomoex import requests
+import aiomoex.reference
+import aiomoex.request_helpers
+from aiomoex import history
 
 
 @pytest.mark.asyncio
 async def test_iss_client_session():
-    assert issubclass(requests.ISSClientSession, typing.AsyncContextManager)
-    async with requests.ISSClientSession() as session:
+    assert issubclass(history.ISSClientSession, typing.AsyncContextManager)
+    async with history.ISSClientSession() as session:
         assert not session.closed
     assert session.closed
 
 
 @pytest.fixture
 async def iss_client_session():
-    async with requests.ISSClientSession():
+    async with history.ISSClientSession():
         yield
 
 
 def test_make_query_empty():
     # noinspection PyProtectedMember
-    query = requests._make_query()
+    query = aiomoex.request_helpers.make_query()
     assert query == {}
 
 
 def test_make_query_full():
     # noinspection PyProtectedMember
-    query = requests._make_query(start=1, end=2, table=3, columns=("4",))
+    query = aiomoex.request_helpers.make_query(start=1, end=2, table=3, columns=("4",))
     assert isinstance(query, dict)
     assert len(query) == 4
     assert query["from"] == 1
@@ -40,7 +42,7 @@ def test_make_query_full():
 
 def test_make_query_many_columns():
     # noinspection PyProtectedMember
-    query = requests._make_query(table=1, columns=("2", "3"))
+    query = aiomoex.request_helpers.make_query(table=1, columns=("2", "3"))
     assert isinstance(query, dict)
     assert len(query) == 2
     assert query["iss.only"] == f"1,history.cursor"
@@ -50,7 +52,7 @@ def test_make_query_many_columns():
 @pytest.mark.asyncio
 @pytest.mark.usefixtures("iss_client_session")
 async def test_get_reference():
-    data = await aiomoex.get_reference("engines")
+    data = await aiomoex.reference.get_reference("engines")
     assert isinstance(data, list)
     assert len(data) == 7
     assert data == [
@@ -76,7 +78,7 @@ check_points = [
 @pytest.mark.asyncio
 @pytest.mark.usefixtures("iss_client_session")
 async def test_find_find_securities(reg_number, expected):
-    data = await aiomoex.find_securities(reg_number)
+    data = await aiomoex.reference.find_securities(reg_number)
     assert isinstance(data, list)
     assert expected == {row["secid"] for row in data if row["regnumber"] == reg_number}
 
@@ -205,8 +207,8 @@ async def test_get_board_dates():
     data = await aiomoex.get_board_dates()
     assert isinstance(data, list)
     assert len(data) == 1
-    assert data[0]['from'] == "2013-03-25"
-    assert data[0]['till'] >= "2018-11-27"
+    assert data[0]["from"] == "2013-03-25"
+    assert data[0]["till"] >= "2018-11-27"
 
 
 @pytest.mark.asyncio
