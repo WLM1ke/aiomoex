@@ -24,7 +24,7 @@ class ISSClient(abc.AsyncIterable):
 
     _client_session = None
 
-    def __init__(self, url: str, query: dict = None):
+    def __init__(self, session: aiohttp.ClientSession, url: str, query: dict = None):
         """MOEX ISS является REST сервером
 
         Полный перечень запросов и параметров к ним https://iss.moex.com/iss/reference/
@@ -34,6 +34,7 @@ class ISSClient(abc.AsyncIterable):
         :param query: перечень дополнительных параметров запроса. К списку дополнительных параметров всегда добавляется
         требование предоставить ответ в виде расширенного json без метаданных
         """
+        self._session = session
         self._url = url
         self._query = query or dict()
 
@@ -71,29 +72,6 @@ class ISSClient(abc.AsyncIterable):
                     start = None
                 yield data
 
-    @classmethod
-    def start_session(cls):
-        """Создает aiohttp.ClientSession для работы с MOEX ISS"""
-        if cls.is_session_closed():
-            cls._client_session = aiohttp.ClientSession()
-        else:
-            raise ISSMoexError("Сессия для работы с MOEX ISS уже создана")
-
-    @classmethod
-    async def close_session(cls):
-        """Закрывает aiohttp.ClientSession для работы с MOEX ISS"""
-        if not cls.is_session_closed():
-            await cls._client_session.close()
-        else:
-            raise ISSMoexError("Сессия для работы с MOEX ISS уже закрыта")
-
-    @classmethod
-    def is_session_closed(cls):
-        """Закрыта ли сессия соединений с MOEX ISS"""
-        if cls._client_session is None or cls._client_session.closed:
-            return True
-        return False
-
     async def get(self, start=None):
         """Загрузка данных
 
@@ -106,13 +84,9 @@ class ISSClient(abc.AsyncIterable):
             соответствует одной из таблиц с данными. Таблицы являются списками словарей, которые напрямую конвертируются
             в pandas.DataFrame
         """
-        if not self.is_session_closed():
-            session = self._client_session
-        else:
-            raise ISSMoexError("Откройте сессию для работы с MOEX ISS")
         url = self._url
         query = self._make_query(start)
-        async with session.get(url, params=query) as respond:
+        async with self._session.get(url, params=query) as respond:
             try:
                 respond.raise_for_status()
             except client_exceptions.ClientResponseError:
