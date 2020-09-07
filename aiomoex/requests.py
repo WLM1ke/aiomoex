@@ -4,6 +4,8 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
+from typing import Iterable, Optional
+
 import aiohttp
 
 __all__ = [
@@ -22,7 +24,15 @@ __all__ = [
 from aiomoex import client
 
 
-def _make_query(*, q=None, interval=None, start=None, end=None, table=None, columns=None):
+def _make_query(
+    *,
+    q: Optional[str] = None,
+    interval: Optional[int] = None,
+    start: Optional[str] = None,
+    end: Optional[str] = None,
+    table: Optional[str] = None,
+    columns: Optional[Iterable[str]] = None,
+) -> client.WebQuery:
     """Формирует дополнительные параметры запроса к MOEX ISS
 
     В случае False значений не добавляются в запрос
@@ -43,7 +53,7 @@ def _make_query(*, q=None, interval=None, start=None, end=None, table=None, colu
     :return:
         Словарь с дополнительными параметрами запроса
     """
-    query = dict()
+    query: client.WebQuery = dict()
     if q:
         query["q"] = q
     if interval:
@@ -59,16 +69,18 @@ def _make_query(*, q=None, interval=None, start=None, end=None, table=None, colu
     return query
 
 
-def _get_table(data, table):
+def _get_table(data: client.TablesDict, table_name: str) -> client.Table:
     """Извлекает конкретную таблицу из данных"""
     try:
-        data = data[table]
+        table = data[table_name]
     except KeyError:
-        raise client.ISSMoexError(f"Отсутствует таблица {table} в данных")
-    return data
+        raise client.ISSMoexError(f"Отсутствует таблица {table_name} в данных")
+    return table
 
 
-async def _get_short_data(session: aiohttp.ClientSession, url, table, query=None):
+async def _get_short_data(
+    session: aiohttp.ClientSession, url: str, table_name: str, query: Optional[client.WebQuery] = None,
+) -> client.Table:
     """Получить данные для запроса с выдачей всей информации за раз
 
     :param session:
@@ -77,7 +89,7 @@ async def _get_short_data(session: aiohttp.ClientSession, url, table, query=None
         URL запроса
     :param query:
         Дополнительные параметры запроса - None, если нет параметров
-    :param table:
+    :param table_name:
         Таблица, которую нужно выбрать
 
     :return:
@@ -85,10 +97,12 @@ async def _get_short_data(session: aiohttp.ClientSession, url, table, query=None
     """
     iss = client.ISSClient(session, url, query)
     data = await iss.get()
-    return _get_table(data, table)
+    return _get_table(data, table_name)
 
 
-async def _get_long_data(session: aiohttp.ClientSession, url, table, query=None):
+async def _get_long_data(
+    session: aiohttp.ClientSession, url: str, table_name: str, query: Optional[client.WebQuery] = None,
+) -> client.Table:
     """Получить данные для запроса, в котором информация выдается несколькими блоками
 
     :param session:
@@ -97,7 +111,7 @@ async def _get_long_data(session: aiohttp.ClientSession, url, table, query=None)
         URL запроса
     :param query:
         Дополнительные параметры запроса - None, если нет параметров
-    :param table:
+    :param table_name:
         Таблица, которую нужно выбрать
 
     :return:
@@ -105,10 +119,10 @@ async def _get_long_data(session: aiohttp.ClientSession, url, table, query=None)
     """
     iss = client.ISSClient(session, url, query)
     data = await iss.get_all()
-    return _get_table(data, table)
+    return _get_table(data, table_name)
 
 
-async def get_reference(session: aiohttp.ClientSession, placeholder="boards"):
+async def get_reference(session: aiohttp.ClientSession, placeholder: str = "boards") -> client.Table:
     """Получить перечень доступных значений плейсхолдера в адресе запроса
 
     Например в описание запроса https://iss.moex.com/iss/reference/32 присутствует следующий адрес
@@ -131,7 +145,11 @@ async def get_reference(session: aiohttp.ClientSession, placeholder="boards"):
     return await _get_short_data(session, url, placeholder)
 
 
-async def find_securities(session: aiohttp.ClientSession, string: str, columns=("secid", "regnumber")):
+async def find_securities(
+    session: aiohttp.ClientSession,
+    string: str,
+    columns: Optional[Iterable[str]] = ("secid", "regnumber"),
+) -> client.Table:
     """Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
 
     Один из вариантов использования - по регистрационному номеру узнать предыдущие тикеры эмитента, и с помощью
@@ -158,8 +176,8 @@ async def find_securities(session: aiohttp.ClientSession, string: str, columns=(
 
 
 async def get_market_candle_borders(
-    session: aiohttp.ClientSession, security, market="shares", engine="stock"
-):
+    session: aiohttp.ClientSession, security: str, market: str = "shares", engine: str = "stock",
+) -> client.Table:
     """Получить таблицу интервалов доступных дат для свечей различного размера на рынке для всех режимов торгов
 
     Для работы требуется открытая ISSClientSession
@@ -184,8 +202,12 @@ async def get_market_candle_borders(
 
 
 async def get_board_candle_borders(
-    session: aiohttp.ClientSession, security, board="TQBR", market="shares", engine="stock"
-):
+    session: aiohttp.ClientSession,
+    security: str,
+    board: str = "TQBR",
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить таблицу интервалов доступных дат для свечей различного размера в указанном режиме торгов
 
     Для работы требуется открытая ISSClientSession
@@ -216,13 +238,13 @@ async def get_board_candle_borders(
 
 async def get_market_candles(
     session: aiohttp.ClientSession,
-    security,
-    interval=24,
-    start=None,
-    end=None,
-    market="shares",
-    engine="stock",
-):
+    security: str,
+    interval: int = 24,
+    start: Optional[str] = None,
+    end: Optional[str] = None,
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить свечи в формате HLOCV указанного инструмента на рынке для основного режима торгов за интервал дат
 
     Если торговля идет в нескольких основных режимах, то на один интервал времени может быть выдано несколько свечек -
@@ -261,14 +283,14 @@ async def get_market_candles(
 
 async def get_board_candles(
     session: aiohttp.ClientSession,
-    security,
-    interval=24,
-    start=None,
-    end=None,
-    board="TQBR",
-    market="shares",
-    engine="stock",
-):
+    security: str,
+    interval: int = 24,
+    start: Optional[str] = None,
+    end: Optional[str] = None,
+    board: str = "TQBR",
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить свечи в формате HLOCV указанного инструмента в указанном режиме торгов за интервал дат
 
     Для работы требуется открытая ISSClientSession
@@ -305,7 +327,9 @@ async def get_board_candles(
     return await _get_long_data(session, url, table, query)
 
 
-async def get_board_dates(session: aiohttp.ClientSession, board="TQBR", market="shares", engine="stock"):
+async def get_board_dates(
+    session: aiohttp.ClientSession, board: str = "TQBR", market: str = "shares", engine: str = "stock",
+) -> client.Table:
     """Получить интервал дат, доступных в истории для рынка по заданному режиму торгов
 
     Для работы требуется открытая ISSClientSession
@@ -331,12 +355,12 @@ async def get_board_dates(session: aiohttp.ClientSession, board="TQBR", market="
 
 async def get_board_securities(
     session: aiohttp.ClientSession,
-    table="securities",
-    columns=("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
-    board="TQBR",
-    market="shares",
-    engine="stock",
-):
+    table: str = "securities",
+    columns: Optional[Iterable[str]] = ("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
+    board: str = "TQBR",
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить таблицу инструментов по режиму торгов со вспомогательной информацией
 
     Для работы требуется открытая ISSClientSession
@@ -368,13 +392,13 @@ async def get_board_securities(
 
 async def get_market_history(
     session: aiohttp.ClientSession,
-    security,
-    start=None,
-    end=None,
-    columns=("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
-    market="shares",
-    engine="stock",
-):
+    security: str,
+    start: Optional[str] = None,
+    end: Optional[str] = None,
+    columns: Optional[Iterable[str]] = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить историю по одной бумаге на рынке для всех режимов торгов за интервал дат
 
     На одну дату может приходиться несколько значений, если торги шли в нескольких режимах
@@ -412,14 +436,14 @@ async def get_market_history(
 
 async def get_board_history(
     session: aiohttp.ClientSession,
-    security,
-    start=None,
-    end=None,
-    columns=("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
-    board="TQBR",
-    market="shares",
-    engine="stock",
-):
+    security: str,
+    start: Optional[str] = None,
+    end: Optional[str] = None,
+    columns: Optional[Iterable[str]] = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
+    board: str = "TQBR",
+    market: str = "shares",
+    engine: str = "stock",
+) -> client.Table:
     """Получить историю торгов для указанной бумаги в указанном режиме торгов за указанный интервал дат
 
     Для работы требуется открытая ISSClientSession
