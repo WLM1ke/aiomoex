@@ -4,13 +4,9 @@
     Полный перечень запросов https://iss.moex.com/iss/reference/
     Дополнительное описание https://fs.moex.com/files/6523
 """
-import contextlib
-import sys
-
-from . import client
+import aiohttp
 
 __all__ = [
-    "ISSClientSession",
     "get_reference",
     "find_securities",
     "get_market_candle_borders",
@@ -23,41 +19,10 @@ __all__ = [
     "get_board_history",
 ]
 
-if sys.version_info >= (3, 7):
-    BaseClass = contextlib.AbstractAsyncContextManager
-else:
-    BaseClass = object
+from aiomoex import client
 
 
-class ISSClientSession(BaseClass):
-    """Менеджер сессий соединений с MOEX ISS
-
-    Открывает сессию - возможно использование с async with для своевременного закрытия
-    """
-
-    def __init__(self):
-        client.ISSClient.start_session()
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.close()
-
-    @staticmethod
-    async def close():
-        """Закрывает сессию"""
-        await client.ISSClient.close_session()
-
-    @property
-    def closed(self):
-        """Закрыта ли данная сессия"""
-        return client.ISSClient.is_session_closed()
-
-
-def _make_query(
-    *, q=None, interval=None, start=None, end=None, table=None, columns=None
-):
+def _make_query(*, q=None, interval=None, start=None, end=None, table=None, columns=None):
     """Формирует дополнительные параметры запроса к MOEX ISS
 
     В случае False значений не добавляются в запрос
@@ -103,9 +68,11 @@ def _get_table(data, table):
     return data
 
 
-async def _get_short_data(url, table, query=None):
+async def _get_short_data(session: aiohttp.ClientSession, url, table, query=None):
     """Получить данные для запроса с выдачей всей информации за раз
 
+    :param session:
+        Сессия http соединения.
     :param url:
         URL запроса
     :param query:
@@ -116,14 +83,16 @@ async def _get_short_data(url, table, query=None):
     :return:
         Конкретная таблица из запроса
     """
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(session, url, query)
     data = await iss.get()
     return _get_table(data, table)
 
 
-async def _get_long_data(url, table, query=None):
+async def _get_long_data(session: aiohttp.ClientSession, url, table, query=None):
     """Получить данные для запроса, в котором информация выдается несколькими блоками
 
+    :param session:
+        Сессия http соединения.
     :param url:
         URL запроса
     :param query:
@@ -134,12 +103,12 @@ async def _get_long_data(url, table, query=None):
     :return:
         Конкретная таблица из запроса
     """
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(session, url, query)
     data = await iss.get_all()
     return _get_table(data, table)
 
 
-async def get_reference(placeholder="boards"):
+async def get_reference(session: aiohttp.ClientSession, placeholder="boards"):
     """Получить перечень доступных значений плейсхолдера в адресе запроса
 
     Например в описание запроса https://iss.moex.com/iss/reference/32 присутствует следующий адрес
@@ -149,6 +118,8 @@ async def get_reference(placeholder="boards"):
 
     Описание запроса - https://iss.moex.com/iss/reference/28
 
+    :param session:
+        Сессия http соединения.
     :param placeholder:
         Наименование плейсхолдера в адресе запроса: engines, markets, boards, boardgroups, durations, securitytypes,
         securitygroups, securitycollections
@@ -157,10 +128,10 @@ async def get_reference(placeholder="boards"):
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = "https://iss.moex.com/iss/index.json"
-    return await _get_short_data(url, placeholder)
+    return await _get_short_data(session, url, placeholder)
 
 
-async def find_securities(string: str, columns=("secid", "regnumber")):
+async def find_securities(session: aiohttp.ClientSession, string: str, columns=("secid", "regnumber")):
     """Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации
 
     Один из вариантов использования - по регистрационному номеру узнать предыдущие тикеры эмитента, и с помощью
@@ -170,6 +141,8 @@ async def find_securities(string: str, columns=("secid", "regnumber")):
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
+    :param session:
+        Сессия http соединения.
     :param string:
         Часть Кода, Названия, ISIN, Идентификатора Эмитента, Номера гос.регистрации
     :param columns:
@@ -181,16 +154,20 @@ async def find_securities(string: str, columns=("secid", "regnumber")):
     url = "https://iss.moex.com/iss/securities.json"
     table = "securities"
     query = _make_query(q=string, table=table, columns=columns)
-    return await _get_short_data(url, table, query)
+    return await _get_short_data(session, url, table, query)
 
 
-async def get_market_candle_borders(security, market="shares", engine="stock"):
+async def get_market_candle_borders(
+    session: aiohttp.ClientSession, security, market="shares", engine="stock"
+):
     """Получить таблицу интервалов доступных дат для свечей различного размера на рынке для всех режимов торгов
 
     Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/156
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param market:
@@ -203,11 +180,11 @@ async def get_market_candle_borders(security, market="shares", engine="stock"):
     """
     url = f"https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candleborders.json"
     table = "borders"
-    return await _get_short_data(url, table)
+    return await _get_short_data(session, url, table)
 
 
 async def get_board_candle_borders(
-    security, board="TQBR", market="shares", engine="stock"
+    session: aiohttp.ClientSession, security, board="TQBR", market="shares", engine="stock"
 ):
     """Получить таблицу интервалов доступных дат для свечей различного размера в указанном режиме торгов
 
@@ -215,6 +192,8 @@ async def get_board_candle_borders(
 
     Описание запроса - https://iss.moex.com/iss/reference/48
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param board:
@@ -232,11 +211,17 @@ async def get_board_candle_borders(
         f"boards/{board}/securities/{security}/candleborders.json"
     )
     table = "borders"
-    return await _get_short_data(url, table)
+    return await _get_short_data(session, url, table)
 
 
 async def get_market_candles(
-    security, interval=24, start=None, end=None, market="shares", engine="stock"
+    session: aiohttp.ClientSession,
+    security,
+    interval=24,
+    start=None,
+    end=None,
+    market="shares",
+    engine="stock",
 ):
     """Получить свечи в формате HLOCV указанного инструмента на рынке для основного режима торгов за интервал дат
 
@@ -247,6 +232,8 @@ async def get_market_candles(
 
     Описание запроса - https://iss.moex.com/iss/reference/155
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param interval:
@@ -264,13 +251,16 @@ async def get_market_candles(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    url = f"https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candles.json"
+    url = (
+        f"https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}/candles.json"
+    )
     table = "candles"
     query = _make_query(interval=interval, start=start, end=end)
-    return await _get_long_data(url, table, query)
+    return await _get_long_data(session, url, table, query)
 
 
 async def get_board_candles(
+    session: aiohttp.ClientSession,
     security,
     interval=24,
     start=None,
@@ -285,6 +275,8 @@ async def get_board_candles(
 
     Описание запроса - https://iss.moex.com/iss/reference/46
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param interval:
@@ -310,16 +302,18 @@ async def get_board_candles(
     )
     table = "candles"
     query = _make_query(interval=interval, start=start, end=end)
-    return await _get_long_data(url, table, query)
+    return await _get_long_data(session, url, table, query)
 
 
-async def get_board_dates(board="TQBR", market="shares", engine="stock"):
+async def get_board_dates(session: aiohttp.ClientSession, board="TQBR", market="shares", engine="stock"):
     """Получить интервал дат, доступных в истории для рынка по заданному режиму торгов
 
     Для работы требуется открытая ISSClientSession
 
     Описание запроса - https://iss.moex.com/iss/reference/26
 
+    :param session:
+        Сессия http соединения.
     :param board:
         Режим торгов - по умолчанию основной режим торгов T+2
     :param market:
@@ -332,10 +326,11 @@ async def get_board_dates(board="TQBR", market="shares", engine="stock"):
     """
     url = f"https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/boards/{board}/dates.json"
     table = "dates"
-    return await _get_short_data(url, table)
+    return await _get_short_data(session, url, table)
 
 
 async def get_board_securities(
+    session: aiohttp.ClientSession,
     table="securities",
     columns=("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
     board="TQBR",
@@ -348,6 +343,8 @@ async def get_board_securities(
 
     Описание запроса - https://iss.moex.com/iss/reference/32
 
+    :param session:
+        Сессия http соединения.
     :param table:
         Таблица с данными, которую нужно вернуть: securities - справочник торгуемых ценных бумаг, marketdata -
         данные с результатами торгов текущего дня
@@ -366,10 +363,11 @@ async def get_board_securities(
     """
     url = f"https://iss.moex.com/iss/engines/{engine}/markets/{market}/boards/{board}/securities.json"
     query = _make_query(table=table, columns=columns)
-    return await _get_short_data(url, table, query)
+    return await _get_short_data(session, url, table, query)
 
 
 async def get_market_history(
+    session: aiohttp.ClientSession,
     security,
     start=None,
     end=None,
@@ -385,6 +383,8 @@ async def get_market_history(
 
     Описание запроса - https://iss.moex.com/iss/reference/63
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param start:
@@ -402,13 +402,16 @@ async def get_market_history(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    url = f"https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json"
+    url = (
+        f"https://iss.moex.com/iss/history/engines/{engine}/markets/{market}/securities/{security}.json"
+    )
     table = "history"
     query = _make_query(start=start, end=end, table=table, columns=columns)
-    return await _get_long_data(url, table, query)
+    return await _get_long_data(session, url, table, query)
 
 
 async def get_board_history(
+    session: aiohttp.ClientSession,
     security,
     start=None,
     end=None,
@@ -423,6 +426,8 @@ async def get_board_history(
 
     Описание запроса - https://iss.moex.com/iss/reference/65
 
+    :param session:
+        Сессия http соединения.
     :param security:
         Тикер ценной бумаги
     :param start:
@@ -448,4 +453,4 @@ async def get_board_history(
     )
     table = "history"
     query = _make_query(start=start, end=end, table=table, columns=columns)
-    return await _get_long_data(url, table, query)
+    return await _get_long_data(session, url, table, query)
