@@ -3,6 +3,7 @@ python:
   - "3.8"
 install:
   - pip install codacy-coverage
+  - pip install -r requirements.txt
   - pip install -U pytest
   - pip install -U pytest-cov
   - pip install -U pytest-asyncio
