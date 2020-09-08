@@ -1,4 +1,6 @@
-from aiomoex import request_helpers
+import pytest
+
+from aiomoex import client, request_helpers
 
 
 def test_make_query_empty():
@@ -22,3 +24,9 @@ def test_make_query_many_columns():
     assert len(query) == 2
     assert query["iss.only"] == f"1,history.cursor"
     assert query[f"{1}.columns"] == "2,3"
+
+
+def test_get_table_notable():
+    with pytest.raises(client.ISSMoexError) as error:
+        request_helpers.get_table(dict(a="b"), "b")
+    assert "Отсутствует таблица b в данных" in str(error.value)
