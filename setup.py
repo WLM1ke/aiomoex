@@ -1,20 +1,8 @@
-import pathlib
-import re
-import sys
-
 import setuptools
 
 name = "aiomoex"
-python_minimal = "3.6"
-
-if sys.version_info < tuple(int(i) for i in python_minimal.split(".")):
-    raise RuntimeError(f"{name} requires Python {python_minimal}+")
-
-with open(pathlib.Path(__file__).parent / "aiomoex" / "__init__.py") as file:
-    try:
-        version = re.search(r"^__version__ = \"(.+)\"$", file.read(), re.M)[1]
-    except IndexError:
-        raise RuntimeError("Unable to determine version.")
+python_minimal = "3.8"
+version = "2.0.0"
 
 with open("README.rst") as file:
     long_description = file.read()
@@ -39,8 +27,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Utilities",
     ],
