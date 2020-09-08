@@ -5,38 +5,14 @@ import pytest
 from aiomoex import client
 
 
-@pytest.mark.asyncio
-async def test_start_close_session():
-    cls = client.ISSClient
-    assert cls.is_session_closed()
-    cls.start_session()
-    assert not cls.is_session_closed()
-    with pytest.raises(client.ISSMoexError) as error:
-        cls.start_session()
-    assert "Сессия для работы с MOEX ISS уже создана" == str(error.value)
-    await cls.close_session()
-    assert cls.is_session_closed()
-    with pytest.raises(client.ISSMoexError) as error:
-        await cls.close_session()
-    assert "Сессия для работы с MOEX ISS уже закрыта" == str(error.value)
-
-
-@pytest.fixture
-async def manage_session():
-    cls = client.ISSClient
-    cls.start_session()
-    yield
-    await cls.close_session()
-
-
-def test_iss_client_async_iterable():
-    iss = client.ISSClient("test_url")
+def test_iss_client_async_iterable(http_session):
+    iss = client.ISSClient(http_session, "test_url")
     assert isinstance(iss, typing.AsyncIterable)
     assert str(iss) == "ISSClient(url=test_url, query={})"
 
 
-def test_make_query_empty():
-    iss = client.ISSClient("test_url")
+def test_make_query_empty(http_session):
+    iss = client.ISSClient(http_session, "test_url")
     # noinspection PyProtectedMember
     query = iss._make_query()
     assert isinstance(query, typing.Mapping)
@@ -45,8 +21,8 @@ def test_make_query_empty():
     assert query["iss.meta"] == "off"
 
 
-def test_make_query_not_empty():
-    iss = client.ISSClient("test_url", dict(test_param="test_value"))
+def test_make_query_not_empty(http_session):
+    iss = client.ISSClient(http_session, "test_url", dict(test_param="test_value"))
     # noinspection PyProtectedMember
     query = iss._make_query()
     assert isinstance(query, typing.Mapping)
@@ -56,8 +32,8 @@ def test_make_query_not_empty():
     assert query["test_param"] == "test_value"
 
 
-def test_make_query_not_empty_with_start():
-    iss = client.ISSClient("test_url", dict(test_param="test_value"))
+def test_make_query_not_empty_with_start(http_session):
+    iss = client.ISSClient(http_session, "test_url", dict(test_param="test_value"))
     # noinspection PyProtectedMember
     query = iss._make_query(100)
     assert isinstance(query, typing.Mapping)
@@ -69,11 +45,10 @@ def test_make_query_not_empty_with_start():
 
 
 @pytest.mark.asyncio
-@pytest.mark.usefixtures("manage_session")
-async def test_get():
+async def test_get(http_session):
     url = "https://iss.moex.com/iss/securities.json"
     query = dict(q="1-02-65104-D")
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(http_session, url, query)
     raw = await iss.get()
     data = raw["securities"]
     assert isinstance(data, list)
@@ -84,11 +59,10 @@ async def test_get():
 
 
 @pytest.mark.asyncio
-@pytest.mark.usefixtures("manage_session")
-async def test_get_with_start():
+async def test_get_with_start(http_session):
     url = "https://iss.moex.com/iss/securities.json"
     query = dict(q="1-02-65104-D")
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(http_session, url, query)
     raw = await iss.get(1)
     data = raw["securities"]
     assert isinstance(data, list)
@@ -99,10 +73,9 @@ async def test_get_with_start():
 
 
 @pytest.mark.asyncio
-@pytest.mark.usefixtures("manage_session")
-async def test_get_error():
+async def test_get_error(http_session):
     url = "https://iss.moex.com/iss/securities1.json"
-    iss = client.ISSClient(url)
+    iss = client.ISSClient(http_session, url)
     with pytest.raises(client.ISSMoexError) as error:
         await iss.get()
     assert "Неверный url" in str(error.value)
@@ -110,11 +83,10 @@ async def test_get_error():
 
 
 @pytest.mark.asyncio
-@pytest.mark.usefixtures("manage_session")
-async def test_get_all_with_cursor():
+async def test_get_all_with_cursor(http_session):
     url = "https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SNGSP.json"
     query = {"from": "2018-01-01", "till": "2018-03-01"}
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(http_session, url, query)
     raw = await iss.get_all()
     data = raw["history"]
     assert isinstance(data, list)
@@ -127,11 +99,12 @@ async def test_get_all_with_cursor():
 
 
 @pytest.mark.asyncio
-@pytest.mark.usefixtures("manage_session")
-async def test_get_all_without_cursor():
-    url = "https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SNGSP.json"
+async def test_get_all_without_cursor(http_session):
+    url = (
+        "https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SNGSP.json"
+    )
     query = {"from": "2018-01-03", "till": "2018-06-01"}
-    iss = client.ISSClient(url, query)
+    iss = client.ISSClient(http_session, url, query)
     raw = await iss.get_all()
     data = raw["history"]
     assert isinstance(data, list)
@@ -143,17 +116,21 @@ async def test_get_all_without_cursor():
             assert column in row
 
 
-@pytest.mark.asyncio
-async def test_get_all_error(monkeypatch):
-    iss = client.ISSClient("")
-    data = {"history.cursor": [0, 1]}
+def test_cursor_block_size():
+    assert client._cursor_block_size(5, [{"INDEX": 5, "PAGESIZE": 8, "TOTAL": 14}]) == 8
 
-    async def fake_get(_):
-        return data
 
-    monkeypatch.setattr(iss, "get", fake_get)
+def test_cursor_block_size_zero():
+    assert client._cursor_block_size(5, [{"INDEX": 5, "PAGESIZE": 8, "TOTAL": 13}]) == 0
+
+
+def test_cursor_block_size_raise_bad_start():
     with pytest.raises(client.ISSMoexError) as error:
-        await iss.get_all()
-    assert f'Некорректные данные history.cursor: {data["history.cursor"]}' in str(
-        error.value
-    )
+        client._cursor_block_size(5, [{"INDEX": 6, "PAGESIZE": 8, "TOTAL": 14}])
+    assert "Некорректные данные history.cursor" in str(error.value)
+
+
+def test_cursor_block_size_raise_bad_structure():
+    with pytest.raises(client.ISSMoexError) as error:
+        client._cursor_block_size(5, [{}, {}])
+    assert "Некорректные данные history.cursor" in str(error.value)
