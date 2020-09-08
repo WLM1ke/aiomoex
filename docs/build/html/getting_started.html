@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<html lang="ru">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Начало работы &#8212; Документация aiomoex 1.2.2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Начало работы &#8212; документация aiomoex 2.0.0</title>
     <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/translations.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/translations.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Справочник API" href="api.html" />
@@ -48,46 +48,52 @@
 <p>История котировок SNGSP в режиме TQBR:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
-<span class="kn">import</span> <span class="nn">aiomoex</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+ <span class="kn">import</span> <span class="nn">aiohttp</span>
+
+ <span class="kn">import</span> <span class="nn">aiomoex</span>
+ <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">aiomoex</span><span class="o">.</span><span class="n">ISSClientSession</span><span class="p">():</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aiomoex</span><span class="o">.</span><span class="n">get_board_history</span><span class="p">(</span><span class="s1">&#39;SNGSP&#39;</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;TRADEDATE&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+ <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+     <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aiomoex</span><span class="o">.</span><span class="n">get_board_history</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="s1">&#39;SNGSP&#39;</span><span class="p">)</span>
+         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+         <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;TRADEDATE&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+         <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+         <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+         <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 
 
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+ <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>            CLOSE    VOLUME
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>           BOARDID  CLOSE    VOLUME         VALUE
 TRADEDATE
-2014-06-09  27.48  12674200
-2014-06-10  27.55  14035900
-2014-06-11  28.15  27208800
-2014-06-16  28.27  68059900
-2014-06-17  28.20  22101600
+2014-06-09    TQBR  27.48  12674200  3.484352e+08
+2014-06-10    TQBR  27.55  14035900  3.856417e+08
+2014-06-11    TQBR  28.15  27208800  7.602146e+08
+2014-06-16    TQBR  28.27  68059900  1.913160e+09
+2014-06-17    TQBR  28.20  22101600  6.292844e+08
 
-             CLOSE    VOLUME
+           BOARDID   CLOSE    VOLUME         VALUE
 TRADEDATE
-2018-11-16  37.860   9660800
-2018-11-19  37.315  28765600
-2018-11-20  36.790  19853500
-2018-11-21  36.930  14583000
-2018-11-22  37.480   9656600
+2020-09-01    TQBR  37.245  15671200  5.824013e+08
+2020-09-02    TQBR  37.535  34659700  1.296441e+09
+2020-09-03    TQBR  36.955  28177000  1.049745e+09
+2020-09-04    TQBR  36.915  21908000  8.076767e+08
+2020-09-07    TQBR  37.200  13334400  4.955280e+08
 
 &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-Index: 1125 entries, 2014-06-09 to 2018-11-22
-Data columns (total 2 columns):
-CLOSE     1125 non-null float64
-VOLUME    1125 non-null int64
-dtypes: float64(1), int64(1)
-memory usage: 26.4+ KB
+Index: 1573 entries, 2014-06-09 to 2020-09-07
+Data columns (total 4 columns):
+ #   Column   Non-Null Count  Dtype
+---  ------   --------------  -----
+ 0   BOARDID  1573 non-null   object
+ 1   CLOSE    1573 non-null   float64
+ 2   VOLUME   1573 non-null   int64
+ 3   VALUE    1573 non-null   float64
+dtypes: float64(2), int64(1), object(1)
+memory usage: 61.4+ KB
 </pre></div>
 </div>
 </div>
@@ -96,55 +102,55 @@ memory usage: 26.4+ KB
 <p>Перечень акций, торгующихся в режиме TQBR (<a class="reference external" href="https://iss.moex.com/iss/reference/32">описание запроса</a>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
+<span class="kn">import</span> <span class="nn">aiohttp</span>
+
 <span class="kn">import</span> <span class="nn">aiomoex</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
 <span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">request_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://iss.moex.com/iss/engines/stock/&#39;</span>
-                   <span class="s1">&#39;markets/shares/boards/TQBR/securities.json&#39;</span><span class="p">)</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;securities.columns&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;SECID,&#39;</span>
-                                        <span class="s1">&#39;REGNUMBER,&#39;</span>
-                                        <span class="s1">&#39;LOTSIZE,&#39;</span>
-                                        <span class="s1">&#39;SHORTNAME&#39;</span><span class="p">)}</span>
-    <span class="n">iss</span> <span class="o">=</span> <span class="n">aiomoex</span><span class="o">.</span><span class="n">ISSClient</span><span class="p">(</span><span class="n">request_url</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
-    <span class="n">iss</span><span class="o">.</span><span class="n">start_session</span><span class="p">()</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;securities&#39;</span><span class="p">])</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;SECID&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-    <span class="k">await</span> <span class="n">iss</span><span class="o">.</span><span class="n">close_session</span><span class="p">()</span>
+    <span class="n">request_url</span> <span class="o">=</span> <span class="s2">&quot;https://iss.moex.com/iss/engines/stock/&quot;</span> <span class="s2">&quot;markets/shares/boards/TQBR/securities.json&quot;</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;securities.columns&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;SECID,&quot;</span> <span class="s2">&quot;REGNUMBER,&quot;</span> <span class="s2">&quot;LOTSIZE,&quot;</span> <span class="s2">&quot;SHORTNAME&quot;</span><span class="p">)}</span>
+
+    <span class="k">async</span> <span class="k">with</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">iss</span> <span class="o">=</span> <span class="n">aiomoex</span><span class="o">.</span><span class="n">ISSClient</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">request_url</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">iss</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;securities&quot;</span><span class="p">])</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;SECID&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>       LOTSIZE     REGNUMBER   SHORTNAME
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>          REGNUMBER  LOTSIZE   SHORTNAME
 SECID
-ABRD        10  1-02-12500-A  АбрауДюрсо
-AFKS       100  1-05-01669-A  Система ао
-AFLT        10  1-01-00010-A    Аэрофлот
-AGRO         1          None    AGRO-гдр
-AKRN         1  1-03-00207-A       Акрон
+ABRD   1-02-12500-A       10  АбрауДюрсо
+AFKS   1-05-01669-A      100  Система ао
+AFLT   1-01-00010-A       10    Аэрофлот
+AGRO           None        1    AGRO-гдр
+AKRN   1-03-00207-A        1       Акрон
 
-       LOTSIZE     REGNUMBER  SHORTNAME
+          REGNUMBER  LOTSIZE   SHORTNAME
 SECID
-YRSBP      100  2-01-50099-A  ТНСэнЯр-п
-ZILL         1  1-02-00036-A     ЗИЛ ао
-ZMZN        10  1-01-00230-A     ЗМЗ-ао
-ZMZNP      100  2-01-00230-A     ЗМЗ-ап
-ZVEZ      1000  1-01-00169-D  ЗВЕЗДА ао
+YNDX           None        1  Yandex clA
+YRSB   1-01-50099-A       10     ТНСэнЯр
+YRSBP  2-01-50099-A       10   ТНСэнЯр-п
+ZILL   1-02-00036-A        1      ЗИЛ ао
+ZVEZ   1-01-00169-D     1000   ЗВЕЗДА ао
 
 &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-Index: 277 entries, ABRD to ZVEZ
+Index: 260 entries, ABRD to ZVEZ
 Data columns (total 3 columns):
-LOTSIZE      277 non-null int64
-REGNUMBER    268 non-null object
-SHORTNAME    277 non-null object
+ #   Column     Non-Null Count  Dtype
+---  ------     --------------  -----
+ 0   REGNUMBER  248 non-null    object
+ 1   LOTSIZE    260 non-null    int64
+ 2   SHORTNAME  260 non-null    object
 dtypes: int64(1), object(2)
-memory usage: 8.7+ KB
+memory usage: 8.1+ KB
 </pre></div>
 </div>
 </div>
@@ -193,13 +199,6 @@ memory usage: 8.7+ KB
     />
   </a>
   
-  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-    <img src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
-	 alt="Code quality status"
-	 height="20"
-    />
-  </a>
-  
   <li><a href="https://badge.fury.io/py/aiomoex">
     <img src="https://badge.fury.io/py/aiomoex.svg"
 	 alt="Latest PyPI package version"
@@ -217,24 +216,24 @@ memory usage: 8.7+ KB
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id2">Функции-запросы</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id3">Справочная информация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по свечкам</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id5">Исторические данные по дневным котировкам</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Функции-запросы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id2">Справочная информация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id3">Исторические данные по свечкам</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id6">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -248,7 +247,7 @@ memory usage: 8.7+ KB
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       
       |
       <a href="_sources/getting_started.rst.txt"

@@ -6,14 +6,11 @@ _package_name = "aiomoex"
 
 _route_path = os.path.abspath("../")
 sys.path.insert(0, _route_path)
-_version_path = os.path.abspath(os.path.join(_route_path, _package_name, "__init__.py"))
+_version_path = os.path.abspath(os.path.join(_route_path, "setup.py"))
 with open(_version_path) as file:
     try:
         _version_info = re.search(
-            r"^__version__ = \""
-            r"(?P<major>\d+)"
-            r"\.(?P<minor>\d+)"
-            r"\.(?P<patch>\d+)\"$",
+            r"^version = \"" r"(?P<major>\d+)" r"\.(?P<minor>\d+)" r"\.(?P<patch>\d+)\"$",
             file.read(),
             re.M,
         ).groupdict()
@@ -54,12 +51,6 @@ html_theme_options = {
             "target": "https://app.codacy.com/project/wlmike/aiomoex/dashboard",
             "height": "20",
             "alt": "Code coverage status",
-        },
-        {
-            "image": "https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c",
-            "target": "https://app.codacy.com/project/wlmike/aiomoex/dashboard",
-            "height": "20",
-            "alt": "Code quality status",
         },
         {
             "image": "https://badge.fury.io/py/aiomoex.svg",

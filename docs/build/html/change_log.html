@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<html lang="ru">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Список изменений &#8212; Документация aiomoex 1.2.2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Список изменений &#8212; документация aiomoex 2.0.0</title>
     <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/translations.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/translations.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="prev" title="Справочник API" href="api.html" />
@@ -37,48 +37,57 @@
   <div class="section" id="id1">
 <h1>Список изменений<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="id2">
-<h2>1.2.2 (2018-12-07)<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>2.0.0 (2020-09-08)<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Исправлена ошибка при обработке некоторых пустых ответов MOEX ISS</li>
+<li><p>Изменены все сигнатуры - сессия aiohttp передается в явном виде</p></li>
+<li><p>Минимальная версия Python 3.8</p></li>
+<li><p>Полная анотация типов и проверкой <a class="reference external" href="https://mypy.readthedocs.io/en/stable/">MyPy</a></p></li>
+<li><p>Рефакторинг с учетом требований <a class="reference external" href="https://wemake-python-stylegui.de/en/latest/">wemake-python-styleguide</a></p></li>
 </ul>
 </div>
 <div class="section" id="id3">
-<h2>1.2.1 (2018-12-01)<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.2.2 (2018-12-07)<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Добавлена дополнительная проверка версии при установке</li>
+<li><p>Исправлена ошибка при обработке некоторых пустых ответов MOEX ISS</p></li>
 </ul>
 </div>
 <div class="section" id="id4">
-<h2>1.2.0 (2018-11-28)<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.2.1 (2018-12-01)<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Добавлена функция получения интервала дат, доступных в истории для рынка по заданному режиму торгов get_board_dates()</li>
+<li><p>Добавлена дополнительная проверка версии при установке</p></li>
 </ul>
 </div>
 <div class="section" id="id5">
-<h2>1.1.1 (2018-11-27)<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.2.0 (2018-11-28)<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Для исторических котировок в перечень загружаемых по умолчанию колонок добавлены режим торгов и объем в рублях</li>
+<li><p>Добавлена функция получения интервала дат, доступных в истории для рынка по заданному режиму торгов get_board_dates()</p></li>
 </ul>
 </div>
 <div class="section" id="id6">
-<h2>1.1.0 (2018-11-27)<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.1.1 (2018-11-27)<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Добавлена функция получения справочника разделов MOEX ISS get_reference()</li>
-<li>Добавлены функции для получения исторических данных по свечкам get_market_candle_borders(), get_market_candles(), get_board_candle_borders() и get_board_candles()</li>
-<li>Добавлена группировка функций в документации</li>
-<li>Удалена функция get_index_history() - эквивалентна вызову get_board_history(„MCFTRR“, start, end, columns, „RTSI“, „index“)</li>
+<li><p>Для исторических котировок в перечень загружаемых по умолчанию колонок добавлены режим торгов и объем в рублях</p></li>
 </ul>
 </div>
 <div class="section" id="id7">
-<h2>1.0.1 (2018-11-25)<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.1.0 (2018-11-27)<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Добавлено сравнение скорости</li>
+<li><p>Добавлена функция получения справочника разделов MOEX ISS get_reference()</p></li>
+<li><p>Добавлены функции для получения исторических данных по свечкам get_market_candle_borders(), get_market_candles(), get_board_candle_borders() и get_board_candles()</p></li>
+<li><p>Добавлена группировка функций в документации</p></li>
+<li><p>Удалена функция get_index_history() - эквивалентна вызову get_board_history(„MCFTRR“, start, end, columns, „RTSI“, „index“)</p></li>
 </ul>
 </div>
 <div class="section" id="id8">
-<h2>1.0.0 (2018-11-24)<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>1.0.1 (2018-11-25)<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h2>
 <ul class="simple">
-<li>Начальная версия</li>
+<li><p>Добавлено сравнение скорости</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h2>1.0.0 (2018-11-24)<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h2>
+<ul class="simple">
+<li><p>Начальная версия</p></li>
 </ul>
 </div>
 </div>
@@ -126,13 +135,6 @@
     />
   </a>
   
-  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-    <img src="https://api.codacy.com/project/badge/Grade/363c10e1d85b404882326cf62b78f25c"
-	 alt="Code quality status"
-	 height="20"
-    />
-  </a>
-  
   <li><a href="https://badge.fury.io/py/aiomoex">
     <img src="https://badge.fury.io/py/aiomoex.svg"
 	 alt="Latest PyPI package version"
@@ -150,24 +152,24 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Справочник API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Открытие сессии</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id2">Функции-запросы</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id3">Справочная информация</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по свечкам</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api.html#id5">Исторические данные по дневным котировкам</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">Функции-запросы</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id2">Справочная информация</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id3">Исторические данные по свечкам</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id6">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -181,7 +183,7 @@
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
       
       |
       <a href="_sources/change_log.rst.txt"
