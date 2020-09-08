@@ -19,14 +19,17 @@ class ISSMoexError(Exception):
     """Ошибки во время обработки запросов."""
 
 
-def _cursor_has_more_data(start: int, cursor_table: Table) -> bool:
+def _cursor_block_size(start: int, cursor_table: Table) -> int:
     cursor, *wrong_data = cursor_table
 
     if wrong_data or cast(int, cursor["INDEX"]) != start:
         raise ISSMoexError(f"Некорректные данные history.cursor: {cursor_table}")
 
-    start += cast(int, cursor["PAGESIZE"])
-    return start < cast(int, cursor["TOTAL"])
+    block_size = cast(int, cursor["PAGESIZE"])
+
+    if start + block_size < cast(int, cursor["TOTAL"]):
+        return block_size
+    return 0
 
 
 class ISSClient(AsyncIterable[TablesDict]):
@@ -130,14 +133,13 @@ class ISSClient(AsyncIterable[TablesDict]):
                 respond.pop("history.cursor")
                 yield respond
 
-                if not _cursor_has_more_data(start, cursor_table):
-                    return
+                block_size = _cursor_block_size(start, cursor_table)
             else:
                 yield respond
 
                 table_name = next(iter(respond))
                 block_size = len(respond[table_name])
 
-                if not block_size:
-                    return
-                start += block_size
+            if not block_size:
+                return
+            start += block_size
