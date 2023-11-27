@@ -1,6 +1,6 @@
 [project]
 name = "aiomoex"
-version = "2.1.1"
+version = "2.1.2"
 description = "Asyncio MOEX ISS API"
 authors = [
     { name = "Mikhail Korotkov aka WLMike", email = "wlmike@gmail.com" }
@@ -49,10 +49,6 @@ line-length = 120
 select = ["ALL"]
 fixable = ["ALL"]
 fix = true
-
-exclude = [
-    "__init__.py", # library helper import
-]
 
 ignore = [
     "ANN101",   # Missing-type-self
