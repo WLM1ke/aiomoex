@@ -1,6 +1,6 @@
 [project]
 name = "aiomoex"
-version = "2.1.0"
+version = "2.1.1"
 description = "Asyncio MOEX ISS API"
 authors = [
     { name = "Mikhail Korotkov aka WLMike", email = "wlmike@gmail.com" }
