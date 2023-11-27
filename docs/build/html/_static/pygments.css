@@ -1,5 +1,10 @@
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
 .highlight .hll { background-color: #ffffcc }
-.highlight  { background: #424750; color: #f0f0f0; background-color: #424750 }
+.highlight { background: #424750; color: #f0f0f0; background-color: #424750 }
 .highlight .c { color: #808080; font-style: italic; background-color: #424750 } /* Comment */
 .highlight .err { color: #f0f0f0; background-color: #424750 } /* Error */
 .highlight .esc { color: #f0f0f0; background-color: #424750 } /* Escape */
@@ -18,6 +23,7 @@
 .highlight .cs { color: #808080; font-style: italic; background-color: #424750 } /* Comment.Special */
 .highlight .gd { color: #f0f0f0; background-color: #424750 } /* Generic.Deleted */
 .highlight .ge { color: #f0f0f0; background-color: #424750 } /* Generic.Emph */
+.highlight .ges { color: #f0f0f0; background-color: #424750 } /* Generic.EmphStrong */
 .highlight .gr { color: #f0f0f0; background-color: #424750 } /* Generic.Error */
 .highlight .gh { color: #ffffff; font-weight: bold; background-color: #424750 } /* Generic.Heading */
 .highlight .gi { color: #f0f0f0; background-color: #424750 } /* Generic.Inserted */
@@ -50,6 +56,7 @@
 .highlight .nt { color: #77b4c7; background-color: #424750 } /* Name.Tag */
 .highlight .nv { color: #cdff00; background-color: #424750 } /* Name.Variable */
 .highlight .ow { color: #f0f0f0; background-color: #424750 } /* Operator.Word */
+.highlight .pm { color: #f0f0f0; background-color: #424750 } /* Punctuation.Marker */
 .highlight .w { color: #f0f0f0; background-color: #424750 } /* Text.Whitespace */
 .highlight .mb { color: #ff3b77; background-color: #424750 } /* Literal.Number.Bin */
 .highlight .mf { color: #ff3b77; background-color: #424750 } /* Literal.Number.Float */

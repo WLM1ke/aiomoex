@@ -1,18 +1,15 @@
 """Асинхронный клиент для MOEX ISS."""
-import collections
-import types
-from typing import AsyncIterable, AsyncIterator, Dict, List, MutableMapping, Optional, Union, cast
+from collections.abc import AsyncIterable, AsyncIterator
+from typing import cast
 
 import aiohttp
 from aiohttp import client_exceptions
 
-Values = Union[str, int, float]
-TableRow = Dict[str, Values]
-Table = List[TableRow]
-TablesDict = Dict[str, Table]
-WebQuery = MutableMapping[str, Union[str, int]]
-
-BASE_QUERY = types.MappingProxyType({"iss.json": "extended", "iss.meta": "off"})
+Values = str | int | float
+TableRow = dict[str, Values]
+Table = list[TableRow]
+TablesDict = dict[str, Table]
+WebQuery = dict[str, str | int]
 
 
 class ISSMoexError(Exception):
@@ -36,13 +33,13 @@ class ISSClient(AsyncIterable[TablesDict]):
     """Асинхронный клиент для MOEX ISS - может быть использован с async for.
 
     Загружает данные для простых ответов с помощью метода get. Для ответов состоящих из нескольких блоков
-    поддер живается протокол асинхронного генератора отдельных блоков или метод get_all для их
+    поддерживается протокол асинхронного генератора отдельных блоков или метод get_all для их
     автоматического сбора.
     """
 
     _client_session = None
 
-    def __init__(self, session: aiohttp.ClientSession, url: str, query: Optional[WebQuery] = None):
+    def __init__(self, session: aiohttp.ClientSession, url: str, query: WebQuery | None = None) -> None:
         """MOEX ISS является REST сервером.
 
         Полный перечень запросов и параметров к ним https://iss.moex.com/iss/reference/
@@ -75,7 +72,7 @@ class ISSClient(AsyncIterable[TablesDict]):
         """
         return self._iterator_maker()
 
-    async def get(self, start: Optional[int] = None) -> TablesDict:
+    async def get(self, start: int | None = None) -> TablesDict:
         """Загрузка данных.
 
         :param start:
@@ -94,10 +91,10 @@ class ISSClient(AsyncIterable[TablesDict]):
         async with self._session.get(url, params=query) as respond:
             try:
                 respond.raise_for_status()
-            except client_exceptions.ClientResponseError:
-                raise ISSMoexError("Неверный url", respond.url)
+            except client_exceptions.ClientResponseError as err:
+                raise ISSMoexError("Неверный url", respond.url) from err
             else:
-                raw_respond: List[Dict[str, Table]] = await respond.json()
+                raw_respond: list[dict[str, Table]] = await respond.json()
                 return raw_respond[1]
 
     async def get_all(self) -> TablesDict:
@@ -114,13 +111,13 @@ class ISSClient(AsyncIterable[TablesDict]):
                 all_data.setdefault(table_name, []).extend(table_rows)
         return all_data
 
-    def _make_query(self, start: Optional[int] = None) -> WebQuery:
+    def _make_query(self, start: int | None = None) -> WebQuery:
         """Формирует параметры запроса.
 
         К общему набору параметров запроса добавляется требование предоставить ответ в виде
         расширенного json.
         """
-        query: WebQuery = collections.ChainMap({}, BASE_QUERY, self._query)
+        query: WebQuery = {"iss.json": "extended", "iss.meta": "off"} | self._query
         if start:
             query["start"] = start
         return query

@@ -1,5 +1,4 @@
 """Функции для получения информации о свечках."""
-from typing import Optional
 
 import aiohttp
 
@@ -36,7 +35,10 @@ async def get_market_candle_borders(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
     url = request_helpers.make_url(
-        engine=engine, market=market, security=security, ending=CANDLE_BORDERS,
+        engine=engine,
+        market=market,
+        security=security,
+        ending=CANDLE_BORDERS,
     )
     table = "borders"
     return await request_helpers.get_short_data(session, url, table)
@@ -56,7 +58,7 @@ async def get_board_candle_borders(
     :param session:
         Сессия http соединения.
     :param security:
-        Тикер ценной бумагию
+        Тикер ценной бумаги
     :param board:
         Режим торгов - по умолчанию основной режим торгов T+2.
     :param market:
@@ -68,7 +70,11 @@ async def get_board_candle_borders(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
     url = request_helpers.make_url(
-        engine=engine, market=market, board=board, security=security, ending=CANDLE_BORDERS,
+        engine=engine,
+        market=market,
+        board=board,
+        security=security,
+        ending=CANDLE_BORDERS,
     )
     table = "borders"
     return await request_helpers.get_short_data(session, url, table)
@@ -78,8 +84,8 @@ async def get_market_candles(
     session: aiohttp.ClientSession,
     security: str,
     interval: int = 24,
-    start: Optional[str] = None,
-    end: Optional[str] = None,
+    start: str | None = None,
+    end: str | None = None,
     market: str = DEFAULT_MARKET,
     engine: str = DEFAULT_ENGINE,
 ) -> client.Table:
@@ -120,8 +126,8 @@ async def get_board_candles(
     session: aiohttp.ClientSession,
     security: str,
     interval: int = 24,
-    start: Optional[str] = None,
-    end: Optional[str] = None,
+    start: str | None = None,
+    end: str | None = None,
     board: str = DEFAULT_BOARD,
     market: str = DEFAULT_MARKET,
     engine: str = DEFAULT_ENGINE,
@@ -152,7 +158,11 @@ async def get_board_candles(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
     url = request_helpers.make_url(
-        engine=engine, market=market, board=board, security=security, ending=CANDLES,
+        engine=engine,
+        market=market,
+        board=board,
+        security=security,
+        ending=CANDLES,
     )
     table = CANDLES
     query = request_helpers.make_query(interval=interval, start=start, end=end)

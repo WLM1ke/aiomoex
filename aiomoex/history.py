@@ -1,5 +1,5 @@
 """Функции для получения данных об исторических дневных котировках."""
-from typing import Iterable, Optional
+from collections.abc import Iterable
 
 import aiohttp
 
@@ -30,7 +30,11 @@ async def get_board_dates(
         Список из одного элемента - словаря с ключами 'from' и 'till'.
     """
     url = request_helpers.make_url(
-        history=True, engine=engine, market=market, board=board, ending="dates",
+        history=True,
+        engine=engine,
+        market=market,
+        board=board,
+        ending="dates",
     )
     table = "dates"
     return await request_helpers.get_short_data(session, url, table)
@@ -39,7 +43,7 @@ async def get_board_dates(
 async def get_board_securities(
     session: aiohttp.ClientSession,
     table: str = SECURITIES,
-    columns: Optional[Iterable[str]] = ("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
+    columns: Iterable[str] | None = ("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
     board: str = DEFAULT_BOARD,
     market: str = DEFAULT_MARKET,
     engine: str = DEFAULT_ENGINE,
@@ -74,9 +78,9 @@ async def get_board_securities(
 async def get_market_history(
     session: aiohttp.ClientSession,
     security: str,
-    start: Optional[str] = None,
-    end: Optional[str] = None,
-    columns: Optional[Iterable[str]] = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
+    start: str | None = None,
+    end: str | None = None,
+    columns: Iterable[str] | None = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
     market: str = DEFAULT_MARKET,
     engine: str = DEFAULT_ENGINE,
 ) -> client.Table:
@@ -114,9 +118,9 @@ async def get_market_history(
 async def get_board_history(
     session: aiohttp.ClientSession,
     security: str,
-    start: Optional[str] = None,
-    end: Optional[str] = None,
-    columns: Optional[Iterable[str]] = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
+    start: str | None = None,
+    end: str | None = None,
+    columns: Iterable[str] | None = ("BOARDID", "TRADEDATE", "CLOSE", "VOLUME", "VALUE"),
     board: str = DEFAULT_BOARD,
     market: str = DEFAULT_MARKET,
     engine: str = DEFAULT_ENGINE,
@@ -147,7 +151,11 @@ async def get_board_history(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
     url = request_helpers.make_url(
-        history=True, engine=engine, market=market, board=board, security=security,
+        history=True,
+        engine=engine,
+        market=market,
+        board=board,
+        security=security,
     )
     table = "history"
     query = request_helpers.make_query(start=start, end=end, table=table, columns=columns)

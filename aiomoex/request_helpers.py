@@ -1,5 +1,6 @@
 """Вспомогательные функции для построения запросов."""
-from typing import Final, Iterable, Optional
+from collections.abc import Iterable
+from typing import Final
 
 import aiohttp
 
@@ -9,7 +10,7 @@ from aiomoex import client
 DEFAULT_ENGINE: Final = "stock"
 DEFAULT_MARKET: Final = "shares"
 DEFAULT_BOARD: Final = "TQBR"
-# Ключивые плейсхолдеры и константы для запросов
+# Ключевые плейсхолдеры и константы для запросов
 SECURITIES: Final = "securities"
 CANDLE_BORDERS: Final = "candleborders"
 CANDLES: Final = "candles"
@@ -17,12 +18,12 @@ CANDLES: Final = "candles"
 
 def make_url(
     *,
-    history: Optional[bool] = None,
-    engine: Optional[str] = None,
-    market: Optional[str] = None,
-    board: Optional[str] = None,
-    security: Optional[str] = None,
-    ending: Optional[str] = None,
+    history: bool | None = None,
+    engine: str | None = None,
+    market: str | None = None,
+    board: str | None = None,
+    security: str | None = None,
+    ending: str | None = None,
 ) -> str:
     """Формирует URL для запроса."""
     url_parts = ["https://iss.moex.com/iss"]
@@ -44,12 +45,12 @@ def make_url(
 
 def make_query(
     *,
-    question: Optional[str] = None,
-    interval: Optional[int] = None,
-    start: Optional[str] = None,
-    end: Optional[str] = None,
-    table: Optional[str] = None,
-    columns: Optional[Iterable[str]] = None,
+    question: str | None = None,
+    interval: int | None = None,
+    start: str | None = None,
+    end: str | None = None,
+    table: str | None = None,
+    columns: Iterable[str] | None = None,
 ) -> client.WebQuery:
     """Формирует дополнительные параметры запроса к MOEX ISS.
 
@@ -89,13 +90,16 @@ def get_table(table_dict: client.TablesDict, table_name: str) -> client.Table:
     """Извлекает конкретную таблицу из данных."""
     try:
         table = table_dict[table_name]
-    except KeyError:
-        raise client.ISSMoexError(f"Отсутствует таблица {table_name} в данных")
+    except KeyError as err:
+        raise client.ISSMoexError(f"Отсутствует таблица {table_name} в данных") from err
     return table
 
 
 async def get_short_data(
-    session: aiohttp.ClientSession, url: str, table_name: str, query: Optional[client.WebQuery] = None,
+    session: aiohttp.ClientSession,
+    url: str,
+    table_name: str,
+    query: client.WebQuery | None = None,
 ) -> client.Table:
     """Получить данные для запроса с выдачей всей информации за раз.
 
@@ -117,7 +121,10 @@ async def get_short_data(
 
 
 async def get_long_data(
-    session: aiohttp.ClientSession, url: str, table_name: str, query: Optional[client.WebQuery] = None,
+    session: aiohttp.ClientSession,
+    url: str,
+    table_name: str,
+    query: client.WebQuery | None = None,
 ) -> client.Table:
     """Получить данные для запроса, в котором информация выдается несколькими блоками.
 

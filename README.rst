@@ -1,11 +1,5 @@
 Asyncio MOEX ISS API
 ====================
-.. image:: https://travis-ci.org/WLM1ke/aiomoex.svg?branch=master
-    :target: https://travis-ci.org/WLM1ke/aiomoex
-.. image:: https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c
-    :target: https://www.codacy.com/app/wlmike/aiomoex?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=WLM1ke/aiomoex&amp;utm_campaign=Badge_Coverage
-.. image:: https://badge.fury.io/py/aiomoex.svg
-    :target: https://badge.fury.io/py/aiomoex
 
 Реализация на основе asyncio части  запросов к `MOEX Informational & Statistical Server <https://www.moex.com/a2193>`_.
 

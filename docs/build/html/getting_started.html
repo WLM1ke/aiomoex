@@ -1,19 +1,17 @@
-
 <!DOCTYPE html>
 
-<html lang="ru">
+<html lang="ru" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Начало работы &#8212; документация aiomoex 2.0.0</title>
-    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/translations.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Начало работы &#8212; документация aiomoex 2.1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=c55eb6a5" />
+    <link rel="stylesheet" type="text/css" href="_static/aiohttp.css?v=7c8ee731" />
+    <script src="_static/documentation_options.js?v=4e641825"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Справочник API" href="api.html" />
@@ -35,16 +33,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="id1">
-<h1>Начало работы<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="id2">
-<h2>Установка<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>$ pip install aiomoex
+  <section id="id1">
+<h1>Начало работы<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>Установка<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>aiomoex
 </pre></div>
 </div>
-</div>
-<div class="section" id="id3">
-<h2>Пример использования реализованных запросов<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+</section>
+<section id="id3">
+<h2>Пример использования реализованных запросов<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <p>История котировок SNGSP в режиме TQBR:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
@@ -96,9 +94,9 @@ dtypes: float64(2), int64(1), object(1)
 memory usage: 61.4+ KB
 </pre></div>
 </div>
-</div>
-<div class="section" id="id4">
-<h2>Пример реализации запроса с помощью клиента<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+</section>
+<section id="id4">
+<h2>Пример реализации запроса с помощью клиента<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
 <p>Перечень акций, торгующихся в режиме TQBR (<a class="reference external" href="https://iss.moex.com/iss/reference/32">описание запроса</a>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 
@@ -153,8 +151,8 @@ dtypes: int64(1), object(2)
 memory usage: 8.1+ KB
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -175,29 +173,10 @@ memory usage: 8.1+ KB
 
 
 
-    
-
-<p>
-<a href="https://travis-ci.org/WLM1ke/aiomoex">
-    <img
-        alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-        src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-    />
-</a>
-</p>
-
-
 
 
 
 <ul class="badges">
-  
-  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
-	 alt="Code coverage status"
-	 height="20"
-    />
-  </a>
   
   <li><a href="https://badge.fury.io/py/aiomoex">
     <img src="https://badge.fury.io/py/aiomoex.svg"
@@ -222,7 +201,10 @@ memory usage: 8.1+ KB
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
@@ -247,7 +229,7 @@ memory usage: 8.1+ KB
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       
       |
       <a href="_sources/getting_started.rst.txt"

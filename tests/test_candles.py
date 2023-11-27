@@ -1,10 +1,8 @@
 import pytest
-import pandas as pd
 
 from aiomoex import candles
 
 
-@pytest.mark.asyncio
 async def test_get_market_candle_borders(http_session):
     data = await candles.get_market_candle_borders(http_session, "SNGSP")
     assert isinstance(data, list)
@@ -22,7 +20,6 @@ async def test_get_market_candle_borders(http_session):
     ]
 
 
-@pytest.mark.asyncio
 async def test_get_board_candle_borders(http_session):
     data = await candles.get_board_candle_borders(http_session, "UPRO")
     assert isinstance(data, list)
@@ -40,7 +37,6 @@ async def test_get_board_candle_borders(http_session):
     ]
 
 
-@pytest.mark.asyncio
 async def test_get_market_candles_from_beginning(http_session):
     data = await candles.get_market_candles(http_session, "RTKM", interval=1, end="2011-12-16")
     assert isinstance(data, list)
@@ -56,7 +52,6 @@ async def test_get_market_candles_from_beginning(http_session):
     assert data[-1]["end"] == "2011-12-16 18:44:59"
 
 
-@pytest.mark.asyncio
 async def test_get_market_candles_to_end(http_session):
     data = await candles.get_market_candles(http_session, "LSRG", interval=24, start="2020-08-20")
     assert isinstance(data, list)
@@ -70,14 +65,12 @@ async def test_get_market_candles_to_end(http_session):
     assert data[6]["begin"] == "2020-08-28 00:00:00"
 
 
-@pytest.mark.asyncio
 async def test_get_market_candles_empty(http_session):
     data = await candles.get_market_candles(http_session, "KSGR", interval=24)
     assert isinstance(data, list)
     assert len(data) == 0
 
 
-@pytest.mark.asyncio
 async def test_get_board_candles_from_beginning(http_session):
     data = await candles.get_board_candles(http_session, "MTSS", interval=10, end="2011-12-22")
     assert isinstance(data, list)
@@ -93,7 +86,6 @@ async def test_get_board_candles_from_beginning(http_session):
     assert data[-1]["end"] == "2011-12-22 18:49:59"
 
 
-@pytest.mark.asyncio
 async def test_get_board_candles_to_end(http_session):
     data = await candles.get_board_candles(http_session, "TTLK", interval=31, start="2014-07-01")
     assert isinstance(data, list)

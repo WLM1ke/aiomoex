@@ -8,6 +8,7 @@
 - Полный перечень запросов https://iss.moex.com/iss/reference/
 - Дополнительное описание https://fs.moex.com/files/6523
 """
+# pyright: reportUnusedImport=false
 from aiomoex.candles import (
     get_board_candle_borders,
     get_board_candles,

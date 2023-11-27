@@ -22,7 +22,7 @@ def test_make_query_empty(http_session):
 
 
 def test_make_query_not_empty(http_session):
-    iss = client.ISSClient(http_session, "test_url", dict(test_param="test_value"))
+    iss = client.ISSClient(http_session, "test_url", {"test_param": "test_value"})
     # noinspection PyProtectedMember
     query = iss._make_query()
     assert isinstance(query, typing.Mapping)
@@ -33,7 +33,7 @@ def test_make_query_not_empty(http_session):
 
 
 def test_make_query_not_empty_with_start(http_session):
-    iss = client.ISSClient(http_session, "test_url", dict(test_param="test_value"))
+    iss = client.ISSClient(http_session, "test_url", {"test_param": "test_value"})
     # noinspection PyProtectedMember
     query = iss._make_query(100)
     assert isinstance(query, typing.Mapping)
@@ -44,10 +44,9 @@ def test_make_query_not_empty_with_start(http_session):
     assert query["start"] == 100
 
 
-@pytest.mark.asyncio
 async def test_get(http_session):
     url = "https://iss.moex.com/iss/securities.json"
-    query = dict(q="1-02-65104-D")
+    query = {"q": "1-02-65104-D"}
     iss = client.ISSClient(http_session, url, query)
     raw = await iss.get()
     data = raw["securities"]
@@ -58,10 +57,9 @@ async def test_get(http_session):
     assert "Юнипро" in data[2]["emitent_title"]
 
 
-@pytest.mark.asyncio
 async def test_get_with_start(http_session):
     url = "https://iss.moex.com/iss/securities.json"
-    query = dict(q="1-02-65104-D")
+    query = {"q": "1-02-65104-D"}
     iss = client.ISSClient(http_session, url, query)
     raw = await iss.get(1)
     data = raw["securities"]
@@ -72,7 +70,6 @@ async def test_get_with_start(http_session):
     assert "Юнипро" in data[2]["emitent_title"]
 
 
-@pytest.mark.asyncio
 async def test_get_error(http_session):
     url = "https://iss.moex.com/iss/securities1.json"
     iss = client.ISSClient(http_session, url)
@@ -82,7 +79,6 @@ async def test_get_error(http_session):
     assert "url" in str(error.value)
 
 
-@pytest.mark.asyncio
 async def test_get_all_with_cursor(http_session):
     url = "https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/SNGSP.json"
     query = {"from": "2018-01-01", "till": "2018-03-01"}
@@ -98,11 +94,8 @@ async def test_get_all_with_cursor(http_session):
             assert column in row
 
 
-@pytest.mark.asyncio
 async def test_get_all_without_cursor(http_session):
-    url = (
-        "https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SNGSP.json"
-    )
+    url = "https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/TQBR/securities/SNGSP.json"
     query = {"from": "2018-01-03", "till": "2018-06-01"}
     iss = client.ISSClient(http_session, url, query)
     raw = await iss.get_all()

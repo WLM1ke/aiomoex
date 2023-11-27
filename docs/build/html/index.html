@@ -1,19 +1,17 @@
-
 <!DOCTYPE html>
 
-<html lang="ru">
+<html lang="ru" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Asyncio MOEX ISS API &#8212; документация aiomoex 2.0.0</title>
-    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/translations.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Asyncio MOEX ISS API &#8212; документация aiomoex 2.1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=c55eb6a5" />
+    <link rel="stylesheet" type="text/css" href="_static/aiohttp.css?v=7c8ee731" />
+    <script src="_static/documentation_options.js?v=4e641825"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Начало работы" href="getting_started.html" />
@@ -34,11 +32,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="asyncio-moex-iss-api">
-<h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api" title="Ссылка на этот заголовок">¶</a></h1>
+  <section id="asyncio-moex-iss-api">
+<h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api" title="Link to this heading">¶</a></h1>
 <p>Реализация на основе asyncio части  запросов к <a class="reference external" href="https://www.moex.com/a2193">MOEX Informational &amp; Statistical Server</a>.</p>
-<div class="section" id="id1">
-<h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
+<section id="id1">
+<h2>Основные возможности<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических котировках, результаты которых
 напрямую конвертируются в pandas.DataFrame.</p>
 <p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные запросы к MOEX ISS, поэтому
@@ -48,20 +46,15 @@
 <li><p>Полный перечень возможных <a class="reference external" href="https://iss.moex.com/iss/reference/">запросов</a> к MOEX ISS</p></li>
 <li><p>Официальное <a class="reference external" href="https://fs.moex.com/files/6523">Руководство разработчика</a> с дополнительной информацией</p></li>
 </ul>
-</div>
-<div class="section" id="asyncio">
-<h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Ссылка на этот заголовок">¶</a></h2>
+</section>
+<section id="asyncio">
+<h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Link to this heading">¶</a></h2>
 <p>На многие запросы MOEX ISS выдает данные порциями по 100 элементов, и для получения всей информации требуются
 дополнительные обращения к серверу для загрузки данных не с начальной позиции. Например, для скачивания котировок
 всех акций во всех режимах может потребоваться несколько десятков тысяч обращений к серверу.</p>
 <p>Результаты маленького тестирования загрузки исторических котировок в режиме TQBR для 35 и 277 (всех торгуемых) акций с
 помощью синхронных запросов:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 37%" />
-<col style="width: 32%" />
-<col style="width: 32%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Вид запросов</p></th>
 <th class="head"><p>35 акций</p></th>
@@ -83,9 +76,9 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="id4">
-<h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+</section>
+<section id="id4">
+<h2>Оглавление<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a><ul>
@@ -101,24 +94,28 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.0.0 (2020-09-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.1.0 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -139,29 +136,10 @@
 
 
 
-    
-
-<p>
-<a href="https://travis-ci.org/WLM1ke/aiomoex">
-    <img
-        alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-        src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-    />
-</a>
-</p>
-
-
 
 
 
 <ul class="badges">
-  
-  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
-	 alt="Code coverage status"
-	 height="20"
-    />
-  </a>
   
   <li><a href="https://badge.fury.io/py/aiomoex">
     <img src="https://badge.fury.io/py/aiomoex.svg"
@@ -186,18 +164,22 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.0.0 (2020-09-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.1.0 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -211,7 +193,7 @@
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       
       |
       <a href="_sources/index.rst.txt"

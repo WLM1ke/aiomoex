@@ -6,7 +6,7 @@ _package_name = "aiomoex"
 
 _route_path = os.path.abspath("../")
 sys.path.insert(0, _route_path)
-_version_path = os.path.abspath(os.path.join(_route_path, "setup.py"))
+_version_path = os.path.abspath(os.path.join(_route_path, "pyproject.toml"))
 with open(_version_path) as file:
     try:
         _version_info = re.search(
@@ -20,7 +20,7 @@ with open(_version_path) as file:
 version = "{major}.{minor}".format(**_version_info)
 release = "{major}.{minor}.{patch}".format(**_version_info)
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.githubpages", "sphinxcontrib.asyncio"]
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.githubpages"]
 autodoc_member_order = "bysource"
 templates_path = ["templates"]
 html_static_path = ["static"]
@@ -44,14 +44,7 @@ html_theme_options = {
     "github_button": False,
     "github_type": "",
     "github_banner": True,
-    "travis_button": True,
     "badges": [
-        {
-            "image": "https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c",
-            "target": "https://app.codacy.com/project/wlmike/aiomoex/dashboard",
-            "height": "20",
-            "alt": "Code coverage status",
-        },
         {
             "image": "https://badge.fury.io/py/aiomoex.svg",
             "target": "https://badge.fury.io/py/aiomoex",

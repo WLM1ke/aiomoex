@@ -14,7 +14,7 @@ def test_make_query_full():
     assert len(query) == 4
     assert query["from"] == 1
     assert query["till"] == 2
-    assert query["iss.only"] == f"3,history.cursor"
+    assert query["iss.only"] == "3,history.cursor"
     assert query[f"{3}.columns"] == "4"
 
 
@@ -22,11 +22,11 @@ def test_make_query_many_columns():
     query = request_helpers.make_query(table=1, columns=("2", "3"))
     assert isinstance(query, dict)
     assert len(query) == 2
-    assert query["iss.only"] == f"1,history.cursor"
+    assert query["iss.only"] == "1,history.cursor"
     assert query[f"{1}.columns"] == "2,3"
 
 
 def test_get_table_notable():
     with pytest.raises(client.ISSMoexError) as error:
-        request_helpers.get_table(dict(a="b"), "b")
+        request_helpers.get_table({"a": "b"}, "b")
     assert "Отсутствует таблица b в данных" in str(error.value)

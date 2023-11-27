@@ -1,21 +1,19 @@
-
 <!DOCTYPE html>
 
-<html lang="ru">
+<html lang="ru" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Поиск &#8212; документация aiomoex 2.0.0</title>
-    <link rel="stylesheet" href="_static/aiohttp.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <title>Поиск &#8212; документация aiomoex 2.1.0</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=c55eb6a5" />
+    <link rel="stylesheet" type="text/css" href="_static/aiohttp.css?v=7c8ee731" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/translations.js"></script>
+    <script src="_static/documentation_options.js?v=4e641825"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
     <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="#" />
   <script src="searchindex.js" defer></script>
@@ -39,25 +37,34 @@
           <div class="body" role="main">
             
   <h1 id="search-documentation">Поиск</h1>
-  <div id="fallback" class="admonition warning">
-  <script>$('#fallback').hide();</script>
+  
+  <noscript>
+  <div class="admonition warning">
   <p>
     Для работы поиска включите JavaScript в браузере.
   </p>
   </div>
+  </noscript>
+  
+  
   <p>
     Searching for multiple words only shows matches that contain
     all words.
   </p>
+  
+  
   <form action="" method="get">
-    <input type="text" name="q" aria-labelledby="search-documentation" value="" />
+    <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
     <input type="submit" value="искать" />
     <span id="search-progress" style="padding-left: 10px"></span>
   </form>
   
+  
+  
   <div id="search-results">
   
   </div>
+  
 
           </div>
         </div>
@@ -77,29 +84,10 @@
 
 
 
-    
-
-<p>
-<a href="https://travis-ci.org/WLM1ke/aiomoex">
-    <img
-        alt="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-        src="https://secure.travis-ci.org/WLM1ke/aiomoex.svg?branch=master"
-    />
-</a>
-</p>
-
-
 
 
 
 <ul class="badges">
-  
-  <li><a href="https://app.codacy.com/project/wlmike/aiomoex/dashboard">
-    <img src="https://api.codacy.com/project/badge/Coverage/363c10e1d85b404882326cf62b78f25c"
-	 alt="Code coverage status"
-	 height="20"
-    />
-  </a>
   
   <li><a href="https://badge.fury.io/py/aiomoex">
     <img src="https://badge.fury.io/py/aiomoex.svg"
@@ -124,18 +112,22 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.0.0 (2020-09-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.1.0 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -149,7 +141,7 @@
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       
     </div>
 

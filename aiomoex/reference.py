@@ -1,5 +1,5 @@
 """Функции для получения справочной информации."""
-from typing import Iterable, Optional
+from collections.abc import Iterable
 
 import aiohttp
 
@@ -32,7 +32,7 @@ async def get_reference(session: aiohttp.ClientSession, placeholder: str = "boar
 async def find_securities(
     session: aiohttp.ClientSession,
     string: str,
-    columns: Optional[Iterable[str]] = ("secid", "regnumber"),
+    columns: Iterable[str] | None = ("secid", "regnumber"),
 ) -> client.Table:
     """Найти инструменты по части Кода, Названию, ISIN, Идентификатору Эмитента, Номеру гос.регистрации.
 
