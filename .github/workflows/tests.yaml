@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout poptimizer
+    - name: Checkout aiomoex
       uses: actions/checkout@v3
 
     - name: Install go-task

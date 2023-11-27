@@ -44,3 +44,10 @@ tasks:
     desc: Update html docs
     cmds:
       - rye run sphinx-build -M html docs docs/build
+
+  publish:
+    desc: Publish to pypi
+    deps: [lint, docs]
+    cmds:
+      - rye build --clean
+      - rye publish

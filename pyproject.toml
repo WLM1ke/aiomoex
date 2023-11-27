@@ -39,7 +39,7 @@ typeCheckingMode = "strict"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-addopts = "--cov-report=term-missing --cov-report=xml --setup-show --verbose"
+addopts = "--cov-report=term-missing --setup-show --verbose"
 
 [tool.coverage.run]
 branch = true
