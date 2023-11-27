@@ -19,6 +19,6 @@ jobs:
       run:
         task setup
 
-    - name:Lint and test
+    - name: Lint and test
       run:
         task test
