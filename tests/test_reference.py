@@ -6,7 +6,7 @@ from aiomoex import reference
 async def test_get_reference(http_session):
     data = await reference.get_reference(http_session, "engines")
     assert isinstance(data, list)
-    assert len(data) == 10
+    assert len(data) == 11
     assert data[0] == {"id": 1, "name": "stock", "title": "Фондовый рынок и рынок депозитов"}
 
 
