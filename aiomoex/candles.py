@@ -4,11 +4,11 @@ import aiohttp
 
 from aiomoex import client, request_helpers
 from aiomoex.request_helpers import (
-    CANDLE_BORDERS,
-    CANDLES,
     DEFAULT_BOARD,
     DEFAULT_ENGINE,
     DEFAULT_MARKET,
+    SUFFIX_CANDLE_BORDERS,
+    SUFFIX_CANDLES,
 )
 
 
@@ -38,7 +38,7 @@ async def get_market_candle_borders(
         engine=engine,
         market=market,
         security=security,
-        ending=CANDLE_BORDERS,
+        suffix=SUFFIX_CANDLE_BORDERS,
     )
     table = "borders"
     return await request_helpers.get_short_data(session, url, table)
@@ -74,7 +74,7 @@ async def get_board_candle_borders(
         market=market,
         board=board,
         security=security,
-        ending=CANDLE_BORDERS,
+        suffix=SUFFIX_CANDLE_BORDERS,
     )
     table = "borders"
     return await request_helpers.get_short_data(session, url, table)
@@ -116,8 +116,8 @@ async def get_market_candles(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
-    url = request_helpers.make_url(engine=engine, market=market, security=security, ending=CANDLES)
-    table = CANDLES
+    url = request_helpers.make_url(engine=engine, market=market, security=security, suffix=SUFFIX_CANDLES)
+    table = SUFFIX_CANDLES
     query = request_helpers.make_query(interval=interval, start=start, end=end)
     return await request_helpers.get_long_data(session, url, table, query)
 
@@ -162,8 +162,8 @@ async def get_board_candles(
         market=market,
         board=board,
         security=security,
-        ending=CANDLES,
+        suffix=SUFFIX_CANDLES,
     )
-    table = CANDLES
+    table = SUFFIX_CANDLES
     query = request_helpers.make_query(interval=interval, start=start, end=end)
     return await request_helpers.get_long_data(session, url, table, query)

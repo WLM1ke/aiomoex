@@ -12,11 +12,11 @@ DEFAULT_ENGINE: Final = "stock"
 DEFAULT_MARKET: Final = "shares"
 DEFAULT_BOARD: Final = "TQBR"
 # Ключевые плейсхолдеры и константы для запросов
-HISTORY: Final = "history"
-STATISTICS: Final = "statistics"
-SECURITIES: Final = "securities"
-CANDLE_BORDERS: Final = "candleborders"
-CANDLES: Final = "candles"
+PREFIX_HISTORY: Final = "history"
+PREFIX_STATISTICS: Final = "statistics"
+SUFFIX_SECURITIES: Final = "securities"
+SUFFIX_CANDLE_BORDERS: Final = "candleborders"
+SUFFIX_CANDLES: Final = "candles"
 
 
 def make_url(
@@ -26,7 +26,7 @@ def make_url(
     market: str | None = None,
     board: str | None = None,
     security: str | None = None,
-    ending: str | None = None,
+    suffix: str | None = None,
 ) -> str:
     """Формирует URL для запроса."""
     url_parts = ["https://iss.moex.com/iss"]
@@ -40,8 +40,8 @@ def make_url(
         url_parts.append(f"/boards/{board}")
     if security:
         url_parts.append(f"/securities/{security}")
-    if ending:
-        url_parts.append(f"/{ending}")
+    if suffix:
+        url_parts.append(f"/{suffix}")
     url_parts.append(".json")
     return "".join(url_parts)
 

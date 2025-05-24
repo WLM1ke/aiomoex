@@ -5,7 +5,7 @@ from collections.abc import Iterable
 import aiohttp
 
 from aiomoex import client, request_helpers
-from aiomoex.request_helpers import SECURITIES
+from aiomoex.request_helpers import SUFFIX_SECURITIES
 
 
 async def get_reference(session: aiohttp.ClientSession, placeholder: str = "boards") -> client.Table:
@@ -26,7 +26,7 @@ async def get_reference(session: aiohttp.ClientSession, placeholder: str = "boar
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
-    url = request_helpers.make_url(ending="index")
+    url = request_helpers.make_url(suffix="index")
     return await request_helpers.get_short_data(session, url, placeholder)
 
 
@@ -53,7 +53,7 @@ async def find_securities(
 
     :return: Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
-    url = request_helpers.make_url(ending=SECURITIES)
-    table = SECURITIES
+    url = request_helpers.make_url(suffix=SUFFIX_SECURITIES)
+    table = SUFFIX_SECURITIES
     query = request_helpers.make_query(question=string, table=table, columns=columns)
     return await request_helpers.get_short_data(session, url, table, query)
