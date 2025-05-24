@@ -12,6 +12,8 @@ DEFAULT_ENGINE: Final = "stock"
 DEFAULT_MARKET: Final = "shares"
 DEFAULT_BOARD: Final = "TQBR"
 # Ключевые плейсхолдеры и константы для запросов
+HISTORY: Final = "history"
+STATISTICS: Final = "statistics"
 SECURITIES: Final = "securities"
 CANDLE_BORDERS: Final = "candleborders"
 CANDLES: Final = "candles"
@@ -19,7 +21,7 @@ CANDLES: Final = "candles"
 
 def make_url(
     *,
-    history: bool | None = None,
+    prefix: str | None = None,
     engine: str | None = None,
     market: str | None = None,
     board: str | None = None,
@@ -28,8 +30,8 @@ def make_url(
 ) -> str:
     """Формирует URL для запроса."""
     url_parts = ["https://iss.moex.com/iss"]
-    if history:
-        url_parts.append("/history")
+    if prefix:
+        url_parts.append("/{prefix}")
     if engine:
         url_parts.append(f"/engines/{engine}")
     if market:

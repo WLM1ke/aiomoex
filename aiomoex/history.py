@@ -31,7 +31,7 @@ async def get_board_dates(
         Список из одного элемента - словаря с ключами 'from' и 'till'.
     """
     url = request_helpers.make_url(
-        history=True,
+        prefix=request_helpers.HISTORY,
         engine=engine,
         market=market,
         board=board,
@@ -110,7 +110,7 @@ async def get_market_history(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
-    url = request_helpers.make_url(history=True, engine=engine, market=market, security=security)
+    url = request_helpers.make_url(prefix=request_helpers.HISTORY, engine=engine, market=market, security=security)
     table = "history"
     query = request_helpers.make_query(start=start, end=end, table=table, columns=columns)
     return await request_helpers.get_long_data(session, url, table, query)
@@ -152,7 +152,7 @@ async def get_board_history(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
     url = request_helpers.make_url(
-        history=True,
+        prefix=request_helpers.HISTORY,
         engine=engine,
         market=market,
         board=board,
