@@ -1,8 +1,8 @@
-from aiomoex import statistics
+import aiomoex
 
 
 async def test_get_board_securities(http_session) -> None:
-    out = await statistics.get_index_tickers(
+    out = await aiomoex.get_index_tickers(
         http_session,
         "MOEXTL",
         date="2025-05-23",

@@ -1,19 +1,930 @@
 /*
- * language_data.js
- * ~~~~~~~~~~~~~~~~
- *
  * This script contains the language-specific data used by searchtools.js,
  * namely the list of stopwords, stemmer, scorer and splitter.
- *
- * :copyright: Copyright 2007-2023 by the Sphinx team, see AUTHORS.
- * :license: BSD, see LICENSE for details.
- *
  */
 
 var stopwords = ["\u0430", "\u0431\u0435\u0437", "\u0431\u043e\u043b\u0435\u0435", "\u0431\u043e\u043b\u044c\u0448\u0435", "\u0431\u0443\u0434\u0435\u0442", "\u0431\u0443\u0434\u0442\u043e", "\u0431\u044b", "\u0431\u044b\u043b", "\u0431\u044b\u043b\u0430", "\u0431\u044b\u043b\u0438", "\u0431\u044b\u043b\u043e", "\u0431\u044b\u0442\u044c", "\u0432", "\u0432\u0430\u043c", "\u0432\u0430\u0441", "\u0432\u0434\u0440\u0443\u0433", "\u0432\u0435\u0434\u044c", "\u0432\u043e", "\u0432\u043e\u0442", "\u0432\u043f\u0440\u043e\u0447\u0435\u043c", "\u0432\u0441\u0435", "\u0432\u0441\u0435\u0433\u0434\u0430", "\u0432\u0441\u0435\u0433\u043e", "\u0432\u0441\u0435\u0445", "\u0432\u0441\u044e", "\u0432\u044b", "\u0433\u0434\u0435", "\u0433\u043e\u0432\u043e\u0440\u0438\u043b", "\u0434\u0430", "\u0434\u0430\u0436\u0435", "\u0434\u0432\u0430", "\u0434\u043b\u044f", "\u0434\u043e", "\u0434\u0440\u0443\u0433\u043e\u0439", "\u0435\u0433\u043e", "\u0435\u0435", "\u0435\u0439", "\u0435\u043c\u0443", "\u0435\u0441\u043b\u0438", "\u0435\u0441\u0442\u044c", "\u0435\u0449\u0435", "\u0436", "\u0436\u0435", "\u0436\u0438\u0437\u043d\u044c", "\u0437\u0430", "\u0437\u0430\u0447\u0435\u043c", "\u0437\u0434\u0435\u0441\u044c", "\u0438", "\u0438\u0437", "\u0438\u043b\u0438", "\u0438\u043c", "\u0438\u043d\u043e\u0433\u0434\u0430", "\u0438\u0445", "\u043a", "\u043a\u0430\u0436\u0435\u0442\u0441\u044f", "\u043a\u0430\u043a", "\u043a\u0430\u043a\u0430\u044f", "\u043a\u0430\u043a\u043e\u0439", "\u043a\u043e\u0433\u0434\u0430", "\u043a\u043e\u043d\u0435\u0447\u043d\u043e", "\u043a\u0442\u043e", "\u043a\u0443\u0434\u0430", "\u043b\u0438", "\u043b\u0443\u0447\u0448\u0435", "\u043c\u0435\u0436\u0434\u0443", "\u043c\u0435\u043d\u044f", "\u043c\u043d\u0435", "\u043c\u043d\u043e\u0433\u043e", "\u043c\u043e\u0436\u0435\u0442", "\u043c\u043e\u0436\u043d\u043e", "\u043c\u043e\u0439", "\u043c\u043e\u044f", "\u043c\u044b", "\u043d\u0430", "\u043d\u0430\u0434", "\u043d\u0430\u0434\u043e", "\u043d\u0430\u043a\u043e\u043d\u0435\u0446", "\u043d\u0430\u0441", "\u043d\u0435", "\u043d\u0435\u0433\u043e", "\u043d\u0435\u0435", "\u043d\u0435\u0439", "\u043d\u0435\u043b\u044c\u0437\u044f", "\u043d\u0435\u0442", "\u043d\u0438", "\u043d\u0438\u0431\u0443\u0434\u044c", "\u043d\u0438\u043a\u043e\u0433\u0434\u0430", "\u043d\u0438\u043c", "\u043d\u0438\u0445", "\u043d\u0438\u0447\u0435\u0433\u043e", "\u043d\u043e", "\u043d\u0443", "\u043e", "\u043e\u0431", "\u043e\u0434\u0438\u043d", "\u043e\u043d", "\u043e\u043d\u0430", "\u043e\u043d\u0438", "\u043e\u043f\u044f\u0442\u044c", "\u043e\u0442", "\u043f\u0435\u0440\u0435\u0434", "\u043f\u043e", "\u043f\u043e\u0434", "\u043f\u043e\u0441\u043b\u0435", "\u043f\u043e\u0442\u043e\u043c", "\u043f\u043e\u0442\u043e\u043c\u0443", "\u043f\u043e\u0447\u0442\u0438", "\u043f\u0440\u0438", "\u043f\u0440\u043e", "\u0440\u0430\u0437", "\u0440\u0430\u0437\u0432\u0435", "\u0441", "\u0441\u0430\u043c", "\u0441\u0432\u043e\u044e", "\u0441\u0435\u0431\u0435", "\u0441\u0435\u0431\u044f", "\u0441\u0435\u0433\u043e\u0434\u043d\u044f", "\u0441\u0435\u0439\u0447\u0430\u0441", "\u0441\u043a\u0430\u0437\u0430\u043b", "\u0441\u043a\u0430\u0437\u0430\u043b\u0430", "\u0441\u043a\u0430\u0437\u0430\u0442\u044c", "\u0441\u043e", "\u0441\u043e\u0432\u0441\u0435\u043c", "\u0442\u0430\u043a", "\u0442\u0430\u043a\u043e\u0439", "\u0442\u0430\u043c", "\u0442\u0435\u0431\u044f", "\u0442\u0435\u043c", "\u0442\u0435\u043f\u0435\u0440\u044c", "\u0442\u043e", "\u0442\u043e\u0433\u0434\u0430", "\u0442\u043e\u0433\u043e", "\u0442\u043e\u0436\u0435", "\u0442\u043e\u043b\u044c\u043a\u043e", "\u0442\u043e\u043c", "\u0442\u043e\u0442", "\u0442\u0440\u0438", "\u0442\u0443\u0442", "\u0442\u044b", "\u0443", "\u0443\u0436", "\u0443\u0436\u0435", "\u0445\u043e\u0440\u043e\u0448\u043e", "\u0445\u043e\u0442\u044c", "\u0447\u0435\u0433\u043e", "\u0447\u0435\u043b\u043e\u0432\u0435\u043a", "\u0447\u0435\u043c", "\u0447\u0435\u0440\u0435\u0437", "\u0447\u0442\u043e", "\u0447\u0442\u043e\u0431", "\u0447\u0442\u043e\u0431\u044b", "\u0447\u0443\u0442\u044c", "\u044d\u0442\u0438", "\u044d\u0442\u043e\u0433\u043e", "\u044d\u0442\u043e\u0439", "\u044d\u0442\u043e\u043c", "\u044d\u0442\u043e\u0442", "\u044d\u0442\u0443", "\u044f"];
 
 
-/* Non-minified version is copied as a separate JS file, is available */
-BaseStemmer=function(){this.setCurrent=function(r){this.current=r;this.cursor=0;this.limit=this.current.length;this.limit_backward=0;this.bra=this.cursor;this.ket=this.limit};this.getCurrent=function(){return this.current};this.copy_from=function(r){this.current=r.current;this.cursor=r.cursor;this.limit=r.limit;this.limit_backward=r.limit_backward;this.bra=r.bra;this.ket=r.ket};this.in_grouping=function(r,t,i){if(this.cursor>=this.limit)return false;var s=this.current.charCodeAt(this.cursor);if(s>i||s<t)return false;s-=t;if((r[s>>>3]&1<<(s&7))==0)return false;this.cursor++;return true};this.in_grouping_b=function(r,t,i){if(this.cursor<=this.limit_backward)return false;var s=this.current.charCodeAt(this.cursor-1);if(s>i||s<t)return false;s-=t;if((r[s>>>3]&1<<(s&7))==0)return false;this.cursor--;return true};this.out_grouping=function(r,t,i){if(this.cursor>=this.limit)return false;var s=this.current.charCodeAt(this.cursor);if(s>i||s<t){this.cursor++;return true}s-=t;if((r[s>>>3]&1<<(s&7))==0){this.cursor++;return true}return false};this.out_grouping_b=function(r,t,i){if(this.cursor<=this.limit_backward)return false;var s=this.current.charCodeAt(this.cursor-1);if(s>i||s<t){this.cursor--;return true}s-=t;if((r[s>>>3]&1<<(s&7))==0){this.cursor--;return true}return false};this.eq_s=function(r){if(this.limit-this.cursor<r.length)return false;if(this.current.slice(this.cursor,this.cursor+r.length)!=r){return false}this.cursor+=r.length;return true};this.eq_s_b=function(r){if(this.cursor-this.limit_backward<r.length)return false;if(this.current.slice(this.cursor-r.length,this.cursor)!=r){return false}this.cursor-=r.length;return true};this.find_among=function(r){var t=0;var i=r.length;var s=this.cursor;var e=this.limit;var h=0;var u=0;var n=false;while(true){var c=t+(i-t>>>1);var a=0;var f=h<u?h:u;var l=r[c];var o;for(o=f;o<l[0].length;o++){if(s+f==e){a=-1;break}a=this.current.charCodeAt(s+f)-l[0].charCodeAt(o);if(a!=0)break;f++}if(a<0){i=c;u=f}else{t=c;h=f}if(i-t<=1){if(t>0)break;if(i==t)break;if(n)break;n=true}}do{var l=r[t];if(h>=l[0].length){this.cursor=s+l[0].length;if(l.length<4)return l[2];var v=l[3](this);this.cursor=s+l[0].length;if(v)return l[2]}t=l[1]}while(t>=0);return 0};this.find_among_b=function(r){var t=0;var i=r.length;var s=this.cursor;var e=this.limit_backward;var h=0;var u=0;var n=false;while(true){var c=t+(i-t>>1);var a=0;var f=h<u?h:u;var l=r[c];var o;for(o=l[0].length-1-f;o>=0;o--){if(s-f==e){a=-1;break}a=this.current.charCodeAt(s-1-f)-l[0].charCodeAt(o);if(a!=0)break;f++}if(a<0){i=c;u=f}else{t=c;h=f}if(i-t<=1){if(t>0)break;if(i==t)break;if(n)break;n=true}}do{var l=r[t];if(h>=l[0].length){this.cursor=s-l[0].length;if(l.length<4)return l[2];var v=l[3](this);this.cursor=s-l[0].length;if(v)return l[2]}t=l[1]}while(t>=0);return 0};this.replace_s=function(r,t,i){var s=i.length-(t-r);this.current=this.current.slice(0,r)+i+this.current.slice(t);this.limit+=s;if(this.cursor>=t)this.cursor+=s;else if(this.cursor>r)this.cursor=r;return s};this.slice_check=function(){if(this.bra<0||this.bra>this.ket||this.ket>this.limit||this.limit>this.current.length){return false}return true};this.slice_from=function(r){var t=false;if(this.slice_check()){this.replace_s(this.bra,this.ket,r);t=true}return t};this.slice_del=function(){return this.slice_from("")};this.insert=function(r,t,i){var s=this.replace_s(r,t,i);if(r<=this.bra)this.bra+=s;if(r<=this.ket)this.ket+=s};this.slice_to=function(){var r="";if(this.slice_check()){r=this.current.slice(this.bra,this.ket)}return r};this.assign_to=function(){return this.current.slice(0,this.limit)}};
-RussianStemmer=function(){var r=new BaseStemmer;var e=[["в",-1,1],["ив",0,2],["ыв",0,2],["вши",-1,1],["ивши",3,2],["ывши",3,2],["вшись",-1,1],["ившись",6,2],["ывшись",6,2]];var i=[["ее",-1,1],["ие",-1,1],["ое",-1,1],["ые",-1,1],["ими",-1,1],["ыми",-1,1],["ей",-1,1],["ий",-1,1],["ой",-1,1],["ый",-1,1],["ем",-1,1],["им",-1,1],["ом",-1,1],["ым",-1,1],["его",-1,1],["ого",-1,1],["ему",-1,1],["ому",-1,1],["их",-1,1],["ых",-1,1],["ею",-1,1],["ою",-1,1],["ую",-1,1],["юю",-1,1],["ая",-1,1],["яя",-1,1]];var u=[["ем",-1,1],["нн",-1,1],["вш",-1,1],["ивш",2,2],["ывш",2,2],["щ",-1,1],["ющ",5,1],["ующ",6,2]];var s=[["сь",-1,1],["ся",-1,1]];var a=[["ла",-1,1],["ила",0,2],["ыла",0,2],["на",-1,1],["ена",3,2],["ете",-1,1],["ите",-1,2],["йте",-1,1],["ейте",7,2],["уйте",7,2],["ли",-1,1],["или",10,2],["ыли",10,2],["й",-1,1],["ей",13,2],["уй",13,2],["л",-1,1],["ил",16,2],["ыл",16,2],["ем",-1,1],["им",-1,2],["ым",-1,2],["н",-1,1],["ен",22,2],["ло",-1,1],["ило",24,2],["ыло",24,2],["но",-1,1],["ено",27,2],["нно",27,1],["ет",-1,1],["ует",30,2],["ит",-1,2],["ыт",-1,2],["ют",-1,1],["уют",34,2],["ят",-1,2],["ны",-1,1],["ены",37,2],["ть",-1,1],["ить",39,2],["ыть",39,2],["ешь",-1,1],["ишь",-1,2],["ю",-1,2],["ую",44,2]];var t=[["а",-1,1],["ев",-1,1],["ов",-1,1],["е",-1,1],["ие",3,1],["ье",3,1],["и",-1,1],["еи",6,1],["ии",6,1],["ами",6,1],["ями",6,1],["иями",10,1],["й",-1,1],["ей",12,1],["ией",13,1],["ий",12,1],["ой",12,1],["ам",-1,1],["ем",-1,1],["ием",18,1],["ом",-1,1],["ям",-1,1],["иям",21,1],["о",-1,1],["у",-1,1],["ах",-1,1],["ях",-1,1],["иях",26,1],["ы",-1,1],["ь",-1,1],["ю",-1,1],["ию",30,1],["ью",30,1],["я",-1,1],["ия",33,1],["ья",33,1]];var c=[["ост",-1,1],["ость",-1,1]];var f=[["ейше",-1,1],["н",-1,2],["ейш",-1,1],["ь",-1,3]];var l=[33,65,8,232];var o=0;var n=0;function b(){n=r.limit;o=r.limit;var e=r.cursor;r:{e:while(true){i:{if(!r.in_grouping(l,1072,1103)){break i}break e}if(r.cursor>=r.limit){break r}r.cursor++}n=r.cursor;e:while(true){i:{if(!r.out_grouping(l,1072,1103)){break i}break e}if(r.cursor>=r.limit){break r}r.cursor++}e:while(true){i:{if(!r.in_grouping(l,1072,1103)){break i}break e}if(r.cursor>=r.limit){break r}r.cursor++}e:while(true){i:{if(!r.out_grouping(l,1072,1103)){break i}break e}if(r.cursor>=r.limit){break r}r.cursor++}o=r.cursor}r.cursor=e;return true}function _(){if(!(o<=r.cursor)){return false}return true}function k(){var i;r.ket=r.cursor;i=r.find_among_b(e);if(i==0){return false}r.bra=r.cursor;switch(i){case 1:r:{var u=r.limit-r.cursor;e:{if(!r.eq_s_b("а")){break e}break r}r.cursor=r.limit-u;if(!r.eq_s_b("я")){return false}}if(!r.slice_del()){return false}break;case 2:if(!r.slice_del()){return false}break}return true}function m(){r.ket=r.cursor;if(r.find_among_b(i)==0){return false}r.bra=r.cursor;if(!r.slice_del()){return false}return true}function v(){var e;if(!m()){return false}var i=r.limit-r.cursor;r:{r.ket=r.cursor;e=r.find_among_b(u);if(e==0){r.cursor=r.limit-i;break r}r.bra=r.cursor;switch(e){case 1:e:{var s=r.limit-r.cursor;i:{if(!r.eq_s_b("а")){break i}break e}r.cursor=r.limit-s;if(!r.eq_s_b("я")){r.cursor=r.limit-i;break r}}if(!r.slice_del()){return false}break;case 2:if(!r.slice_del()){return false}break}}return true}function d(){r.ket=r.cursor;if(r.find_among_b(s)==0){return false}r.bra=r.cursor;if(!r.slice_del()){return false}return true}function g(){var e;r.ket=r.cursor;e=r.find_among_b(a);if(e==0){return false}r.bra=r.cursor;switch(e){case 1:r:{var i=r.limit-r.cursor;e:{if(!r.eq_s_b("а")){break e}break r}r.cursor=r.limit-i;if(!r.eq_s_b("я")){return false}}if(!r.slice_del()){return false}break;case 2:if(!r.slice_del()){return false}break}return true}function w(){r.ket=r.cursor;if(r.find_among_b(t)==0){return false}r.bra=r.cursor;if(!r.slice_del()){return false}return true}function h(){r.ket=r.cursor;if(r.find_among_b(c)==0){return false}r.bra=r.cursor;if(!_()){return false}if(!r.slice_del()){return false}return true}function q(){var e;r.ket=r.cursor;e=r.find_among_b(f);if(e==0){return false}r.bra=r.cursor;switch(e){case 1:if(!r.slice_del()){return false}r.ket=r.cursor;if(!r.eq_s_b("н")){return false}r.bra=r.cursor;if(!r.eq_s_b("н")){return false}if(!r.slice_del()){return false}break;case 2:if(!r.eq_s_b("н")){return false}if(!r.slice_del()){return false}break;case 3:if(!r.slice_del()){return false}break}return true}this.stem=function(){var e=r.cursor;r:{while(true){var i=r.cursor;e:{i:while(true){var u=r.cursor;u:{r.bra=r.cursor;if(!r.eq_s("ё")){break u}r.ket=r.cursor;r.cursor=u;break i}r.cursor=u;if(r.cursor>=r.limit){break e}r.cursor++}if(!r.slice_from("е")){return false}continue}r.cursor=i;break}}r.cursor=e;b();r.limit_backward=r.cursor;r.cursor=r.limit;if(r.cursor<n){return false}var s=r.limit_backward;r.limit_backward=n;var a=r.limit-r.cursor;r:{e:{var t=r.limit-r.cursor;i:{if(!k()){break i}break e}r.cursor=r.limit-t;var c=r.limit-r.cursor;i:{if(!d()){r.cursor=r.limit-c;break i}}i:{var f=r.limit-r.cursor;u:{if(!v()){break u}break i}r.cursor=r.limit-f;u:{if(!g()){break u}break i}r.cursor=r.limit-f;if(!w()){break r}}}}r.cursor=r.limit-a;var l=r.limit-r.cursor;r:{r.ket=r.cursor;if(!r.eq_s_b("и")){r.cursor=r.limit-l;break r}r.bra=r.cursor;if(!r.slice_del()){return false}}var o=r.limit-r.cursor;h();r.cursor=r.limit-o;var _=r.limit-r.cursor;q();r.cursor=r.limit-_;r.limit_backward=s;r.cursor=r.limit_backward;return true};this["stemWord"]=function(e){r.setCurrent(e);this.stem();return r.getCurrent()}};
+/* Non-minified version is copied as a separate JS file, if available */
+/**@constructor*/
+BaseStemmer = function() {
+    this.setCurrent = function(value) {
+        this.current = value;
+        this.cursor = 0;
+        this.limit = this.current.length;
+        this.limit_backward = 0;
+        this.bra = this.cursor;
+        this.ket = this.limit;
+    };
+
+    this.getCurrent = function() {
+        return this.current;
+    };
+
+    this.copy_from = function(other) {
+        this.current          = other.current;
+        this.cursor           = other.cursor;
+        this.limit            = other.limit;
+        this.limit_backward   = other.limit_backward;
+        this.bra              = other.bra;
+        this.ket              = other.ket;
+    };
+
+    this.in_grouping = function(s, min, max) {
+        if (this.cursor >= this.limit) return false;
+        var ch = this.current.charCodeAt(this.cursor);
+        if (ch > max || ch < min) return false;
+        ch -= min;
+        if ((s[ch >>> 3] & (0x1 << (ch & 0x7))) == 0) return false;
+        this.cursor++;
+        return true;
+    };
+
+    this.in_grouping_b = function(s, min, max) {
+        if (this.cursor <= this.limit_backward) return false;
+        var ch = this.current.charCodeAt(this.cursor - 1);
+        if (ch > max || ch < min) return false;
+        ch -= min;
+        if ((s[ch >>> 3] & (0x1 << (ch & 0x7))) == 0) return false;
+        this.cursor--;
+        return true;
+    };
+
+    this.out_grouping = function(s, min, max) {
+        if (this.cursor >= this.limit) return false;
+        var ch = this.current.charCodeAt(this.cursor);
+        if (ch > max || ch < min) {
+            this.cursor++;
+            return true;
+        }
+        ch -= min;
+        if ((s[ch >>> 3] & (0X1 << (ch & 0x7))) == 0) {
+            this.cursor++;
+            return true;
+        }
+        return false;
+    };
+
+    this.out_grouping_b = function(s, min, max) {
+        if (this.cursor <= this.limit_backward) return false;
+        var ch = this.current.charCodeAt(this.cursor - 1);
+        if (ch > max || ch < min) {
+            this.cursor--;
+            return true;
+        }
+        ch -= min;
+        if ((s[ch >>> 3] & (0x1 << (ch & 0x7))) == 0) {
+            this.cursor--;
+            return true;
+        }
+        return false;
+    };
+
+    this.eq_s = function(s)
+    {
+        if (this.limit - this.cursor < s.length) return false;
+        if (this.current.slice(this.cursor, this.cursor + s.length) != s)
+        {
+            return false;
+        }
+        this.cursor += s.length;
+        return true;
+    };
+
+    this.eq_s_b = function(s)
+    {
+        if (this.cursor - this.limit_backward < s.length) return false;
+        if (this.current.slice(this.cursor - s.length, this.cursor) != s)
+        {
+            return false;
+        }
+        this.cursor -= s.length;
+        return true;
+    };
+
+    /** @return {number} */ this.find_among = function(v)
+    {
+        var i = 0;
+        var j = v.length;
+
+        var c = this.cursor;
+        var l = this.limit;
+
+        var common_i = 0;
+        var common_j = 0;
+
+        var first_key_inspected = false;
+
+        while (true)
+        {
+            var k = i + ((j - i) >>> 1);
+            var diff = 0;
+            var common = common_i < common_j ? common_i : common_j; // smaller
+            // w[0]: string, w[1]: substring_i, w[2]: result, w[3]: function (optional)
+            var w = v[k];
+            var i2;
+            for (i2 = common; i2 < w[0].length; i2++)
+            {
+                if (c + common == l)
+                {
+                    diff = -1;
+                    break;
+                }
+                diff = this.current.charCodeAt(c + common) - w[0].charCodeAt(i2);
+                if (diff != 0) break;
+                common++;
+            }
+            if (diff < 0)
+            {
+                j = k;
+                common_j = common;
+            }
+            else
+            {
+                i = k;
+                common_i = common;
+            }
+            if (j - i <= 1)
+            {
+                if (i > 0) break; // v->s has been inspected
+                if (j == i) break; // only one item in v
+
+                // - but now we need to go round once more to get
+                // v->s inspected. This looks messy, but is actually
+                // the optimal approach.
+
+                if (first_key_inspected) break;
+                first_key_inspected = true;
+            }
+        }
+        do {
+            var w = v[i];
+            if (common_i >= w[0].length)
+            {
+                this.cursor = c + w[0].length;
+                if (w.length < 4) return w[2];
+                var res = w[3](this);
+                this.cursor = c + w[0].length;
+                if (res) return w[2];
+            }
+            i = w[1];
+        } while (i >= 0);
+        return 0;
+    };
+
+    // find_among_b is for backwards processing. Same comments apply
+    this.find_among_b = function(v)
+    {
+        var i = 0;
+        var j = v.length
+
+        var c = this.cursor;
+        var lb = this.limit_backward;
+
+        var common_i = 0;
+        var common_j = 0;
+
+        var first_key_inspected = false;
+
+        while (true)
+        {
+            var k = i + ((j - i) >> 1);
+            var diff = 0;
+            var common = common_i < common_j ? common_i : common_j;
+            var w = v[k];
+            var i2;
+            for (i2 = w[0].length - 1 - common; i2 >= 0; i2--)
+            {
+                if (c - common == lb)
+                {
+                    diff = -1;
+                    break;
+                }
+                diff = this.current.charCodeAt(c - 1 - common) - w[0].charCodeAt(i2);
+                if (diff != 0) break;
+                common++;
+            }
+            if (diff < 0)
+            {
+                j = k;
+                common_j = common;
+            }
+            else
+            {
+                i = k;
+                common_i = common;
+            }
+            if (j - i <= 1)
+            {
+                if (i > 0) break;
+                if (j == i) break;
+                if (first_key_inspected) break;
+                first_key_inspected = true;
+            }
+        }
+        do {
+            var w = v[i];
+            if (common_i >= w[0].length)
+            {
+                this.cursor = c - w[0].length;
+                if (w.length < 4) return w[2];
+                var res = w[3](this);
+                this.cursor = c - w[0].length;
+                if (res) return w[2];
+            }
+            i = w[1];
+        } while (i >= 0);
+        return 0;
+    };
+
+    /* to replace chars between c_bra and c_ket in this.current by the
+     * chars in s.
+     */
+    this.replace_s = function(c_bra, c_ket, s)
+    {
+        var adjustment = s.length - (c_ket - c_bra);
+        this.current = this.current.slice(0, c_bra) + s + this.current.slice(c_ket);
+        this.limit += adjustment;
+        if (this.cursor >= c_ket) this.cursor += adjustment;
+        else if (this.cursor > c_bra) this.cursor = c_bra;
+        return adjustment;
+    };
+
+    this.slice_check = function()
+    {
+        if (this.bra < 0 ||
+            this.bra > this.ket ||
+            this.ket > this.limit ||
+            this.limit > this.current.length)
+        {
+            return false;
+        }
+        return true;
+    };
+
+    this.slice_from = function(s)
+    {
+        var result = false;
+        if (this.slice_check())
+        {
+            this.replace_s(this.bra, this.ket, s);
+            result = true;
+        }
+        return result;
+    };
+
+    this.slice_del = function()
+    {
+        return this.slice_from("");
+    };
+
+    this.insert = function(c_bra, c_ket, s)
+    {
+        var adjustment = this.replace_s(c_bra, c_ket, s);
+        if (c_bra <= this.bra) this.bra += adjustment;
+        if (c_bra <= this.ket) this.ket += adjustment;
+    };
+
+    this.slice_to = function()
+    {
+        var result = '';
+        if (this.slice_check())
+        {
+            result = this.current.slice(this.bra, this.ket);
+        }
+        return result;
+    };
+
+    this.assign_to = function()
+    {
+        return this.current.slice(0, this.limit);
+    };
+};
+
+// Generated by Snowball 2.1.0 - https://snowballstem.org/
+
+/**@constructor*/
+RussianStemmer = function() {
+    var base = new BaseStemmer();
+    /** @const */ var a_0 = [
+        ["\u0432", -1, 1],
+        ["\u0438\u0432", 0, 2],
+        ["\u044B\u0432", 0, 2],
+        ["\u0432\u0448\u0438", -1, 1],
+        ["\u0438\u0432\u0448\u0438", 3, 2],
+        ["\u044B\u0432\u0448\u0438", 3, 2],
+        ["\u0432\u0448\u0438\u0441\u044C", -1, 1],
+        ["\u0438\u0432\u0448\u0438\u0441\u044C", 6, 2],
+        ["\u044B\u0432\u0448\u0438\u0441\u044C", 6, 2]
+    ];
+
+    /** @const */ var a_1 = [
+        ["\u0435\u0435", -1, 1],
+        ["\u0438\u0435", -1, 1],
+        ["\u043E\u0435", -1, 1],
+        ["\u044B\u0435", -1, 1],
+        ["\u0438\u043C\u0438", -1, 1],
+        ["\u044B\u043C\u0438", -1, 1],
+        ["\u0435\u0439", -1, 1],
+        ["\u0438\u0439", -1, 1],
+        ["\u043E\u0439", -1, 1],
+        ["\u044B\u0439", -1, 1],
+        ["\u0435\u043C", -1, 1],
+        ["\u0438\u043C", -1, 1],
+        ["\u043E\u043C", -1, 1],
+        ["\u044B\u043C", -1, 1],
+        ["\u0435\u0433\u043E", -1, 1],
+        ["\u043E\u0433\u043E", -1, 1],
+        ["\u0435\u043C\u0443", -1, 1],
+        ["\u043E\u043C\u0443", -1, 1],
+        ["\u0438\u0445", -1, 1],
+        ["\u044B\u0445", -1, 1],
+        ["\u0435\u044E", -1, 1],
+        ["\u043E\u044E", -1, 1],
+        ["\u0443\u044E", -1, 1],
+        ["\u044E\u044E", -1, 1],
+        ["\u0430\u044F", -1, 1],
+        ["\u044F\u044F", -1, 1]
+    ];
+
+    /** @const */ var a_2 = [
+        ["\u0435\u043C", -1, 1],
+        ["\u043D\u043D", -1, 1],
+        ["\u0432\u0448", -1, 1],
+        ["\u0438\u0432\u0448", 2, 2],
+        ["\u044B\u0432\u0448", 2, 2],
+        ["\u0449", -1, 1],
+        ["\u044E\u0449", 5, 1],
+        ["\u0443\u044E\u0449", 6, 2]
+    ];
+
+    /** @const */ var a_3 = [
+        ["\u0441\u044C", -1, 1],
+        ["\u0441\u044F", -1, 1]
+    ];
+
+    /** @const */ var a_4 = [
+        ["\u043B\u0430", -1, 1],
+        ["\u0438\u043B\u0430", 0, 2],
+        ["\u044B\u043B\u0430", 0, 2],
+        ["\u043D\u0430", -1, 1],
+        ["\u0435\u043D\u0430", 3, 2],
+        ["\u0435\u0442\u0435", -1, 1],
+        ["\u0438\u0442\u0435", -1, 2],
+        ["\u0439\u0442\u0435", -1, 1],
+        ["\u0435\u0439\u0442\u0435", 7, 2],
+        ["\u0443\u0439\u0442\u0435", 7, 2],
+        ["\u043B\u0438", -1, 1],
+        ["\u0438\u043B\u0438", 10, 2],
+        ["\u044B\u043B\u0438", 10, 2],
+        ["\u0439", -1, 1],
+        ["\u0435\u0439", 13, 2],
+        ["\u0443\u0439", 13, 2],
+        ["\u043B", -1, 1],
+        ["\u0438\u043B", 16, 2],
+        ["\u044B\u043B", 16, 2],
+        ["\u0435\u043C", -1, 1],
+        ["\u0438\u043C", -1, 2],
+        ["\u044B\u043C", -1, 2],
+        ["\u043D", -1, 1],
+        ["\u0435\u043D", 22, 2],
+        ["\u043B\u043E", -1, 1],
+        ["\u0438\u043B\u043E", 24, 2],
+        ["\u044B\u043B\u043E", 24, 2],
+        ["\u043D\u043E", -1, 1],
+        ["\u0435\u043D\u043E", 27, 2],
+        ["\u043D\u043D\u043E", 27, 1],
+        ["\u0435\u0442", -1, 1],
+        ["\u0443\u0435\u0442", 30, 2],
+        ["\u0438\u0442", -1, 2],
+        ["\u044B\u0442", -1, 2],
+        ["\u044E\u0442", -1, 1],
+        ["\u0443\u044E\u0442", 34, 2],
+        ["\u044F\u0442", -1, 2],
+        ["\u043D\u044B", -1, 1],
+        ["\u0435\u043D\u044B", 37, 2],
+        ["\u0442\u044C", -1, 1],
+        ["\u0438\u0442\u044C", 39, 2],
+        ["\u044B\u0442\u044C", 39, 2],
+        ["\u0435\u0448\u044C", -1, 1],
+        ["\u0438\u0448\u044C", -1, 2],
+        ["\u044E", -1, 2],
+        ["\u0443\u044E", 44, 2]
+    ];
+
+    /** @const */ var a_5 = [
+        ["\u0430", -1, 1],
+        ["\u0435\u0432", -1, 1],
+        ["\u043E\u0432", -1, 1],
+        ["\u0435", -1, 1],
+        ["\u0438\u0435", 3, 1],
+        ["\u044C\u0435", 3, 1],
+        ["\u0438", -1, 1],
+        ["\u0435\u0438", 6, 1],
+        ["\u0438\u0438", 6, 1],
+        ["\u0430\u043C\u0438", 6, 1],
+        ["\u044F\u043C\u0438", 6, 1],
+        ["\u0438\u044F\u043C\u0438", 10, 1],
+        ["\u0439", -1, 1],
+        ["\u0435\u0439", 12, 1],
+        ["\u0438\u0435\u0439", 13, 1],
+        ["\u0438\u0439", 12, 1],
+        ["\u043E\u0439", 12, 1],
+        ["\u0430\u043C", -1, 1],
+        ["\u0435\u043C", -1, 1],
+        ["\u0438\u0435\u043C", 18, 1],
+        ["\u043E\u043C", -1, 1],
+        ["\u044F\u043C", -1, 1],
+        ["\u0438\u044F\u043C", 21, 1],
+        ["\u043E", -1, 1],
+        ["\u0443", -1, 1],
+        ["\u0430\u0445", -1, 1],
+        ["\u044F\u0445", -1, 1],
+        ["\u0438\u044F\u0445", 26, 1],
+        ["\u044B", -1, 1],
+        ["\u044C", -1, 1],
+        ["\u044E", -1, 1],
+        ["\u0438\u044E", 30, 1],
+        ["\u044C\u044E", 30, 1],
+        ["\u044F", -1, 1],
+        ["\u0438\u044F", 33, 1],
+        ["\u044C\u044F", 33, 1]
+    ];
+
+    /** @const */ var a_6 = [
+        ["\u043E\u0441\u0442", -1, 1],
+        ["\u043E\u0441\u0442\u044C", -1, 1]
+    ];
+
+    /** @const */ var a_7 = [
+        ["\u0435\u0439\u0448\u0435", -1, 1],
+        ["\u043D", -1, 2],
+        ["\u0435\u0439\u0448", -1, 1],
+        ["\u044C", -1, 3]
+    ];
+
+    /** @const */ var /** Array<int> */ g_v = [33, 65, 8, 232];
+
+    var /** number */ I_p2 = 0;
+    var /** number */ I_pV = 0;
+
+
+    /** @return {boolean} */
+    function r_mark_regions() {
+        I_pV = base.limit;
+        I_p2 = base.limit;
+        var /** number */ v_1 = base.cursor;
+        lab0: {
+            golab1: while(true)
+            {
+                lab2: {
+                    if (!(base.in_grouping(g_v, 1072, 1103)))
+                    {
+                        break lab2;
+                    }
+                    break golab1;
+                }
+                if (base.cursor >= base.limit)
+                {
+                    break lab0;
+                }
+                base.cursor++;
+            }
+            I_pV = base.cursor;
+            golab3: while(true)
+            {
+                lab4: {
+                    if (!(base.out_grouping(g_v, 1072, 1103)))
+                    {
+                        break lab4;
+                    }
+                    break golab3;
+                }
+                if (base.cursor >= base.limit)
+                {
+                    break lab0;
+                }
+                base.cursor++;
+            }
+            golab5: while(true)
+            {
+                lab6: {
+                    if (!(base.in_grouping(g_v, 1072, 1103)))
+                    {
+                        break lab6;
+                    }
+                    break golab5;
+                }
+                if (base.cursor >= base.limit)
+                {
+                    break lab0;
+                }
+                base.cursor++;
+            }
+            golab7: while(true)
+            {
+                lab8: {
+                    if (!(base.out_grouping(g_v, 1072, 1103)))
+                    {
+                        break lab8;
+                    }
+                    break golab7;
+                }
+                if (base.cursor >= base.limit)
+                {
+                    break lab0;
+                }
+                base.cursor++;
+            }
+            I_p2 = base.cursor;
+        }
+        base.cursor = v_1;
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_R2() {
+        if (!(I_p2 <= base.cursor))
+        {
+            return false;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_perfective_gerund() {
+        var /** number */ among_var;
+        base.ket = base.cursor;
+        among_var = base.find_among_b(a_0);
+        if (among_var == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        switch (among_var) {
+            case 1:
+                lab0: {
+                    var /** number */ v_1 = base.limit - base.cursor;
+                    lab1: {
+                        if (!(base.eq_s_b("\u0430")))
+                        {
+                            break lab1;
+                        }
+                        break lab0;
+                    }
+                    base.cursor = base.limit - v_1;
+                    if (!(base.eq_s_b("\u044F")))
+                    {
+                        return false;
+                    }
+                }
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+            case 2:
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_adjective() {
+        base.ket = base.cursor;
+        if (base.find_among_b(a_1) == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        if (!base.slice_del())
+        {
+            return false;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_adjectival() {
+        var /** number */ among_var;
+        if (!r_adjective())
+        {
+            return false;
+        }
+        var /** number */ v_1 = base.limit - base.cursor;
+        lab0: {
+            base.ket = base.cursor;
+            among_var = base.find_among_b(a_2);
+            if (among_var == 0)
+            {
+                base.cursor = base.limit - v_1;
+                break lab0;
+            }
+            base.bra = base.cursor;
+            switch (among_var) {
+                case 1:
+                    lab1: {
+                        var /** number */ v_2 = base.limit - base.cursor;
+                        lab2: {
+                            if (!(base.eq_s_b("\u0430")))
+                            {
+                                break lab2;
+                            }
+                            break lab1;
+                        }
+                        base.cursor = base.limit - v_2;
+                        if (!(base.eq_s_b("\u044F")))
+                        {
+                            base.cursor = base.limit - v_1;
+                            break lab0;
+                        }
+                    }
+                    if (!base.slice_del())
+                    {
+                        return false;
+                    }
+                    break;
+                case 2:
+                    if (!base.slice_del())
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_reflexive() {
+        base.ket = base.cursor;
+        if (base.find_among_b(a_3) == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        if (!base.slice_del())
+        {
+            return false;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_verb() {
+        var /** number */ among_var;
+        base.ket = base.cursor;
+        among_var = base.find_among_b(a_4);
+        if (among_var == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        switch (among_var) {
+            case 1:
+                lab0: {
+                    var /** number */ v_1 = base.limit - base.cursor;
+                    lab1: {
+                        if (!(base.eq_s_b("\u0430")))
+                        {
+                            break lab1;
+                        }
+                        break lab0;
+                    }
+                    base.cursor = base.limit - v_1;
+                    if (!(base.eq_s_b("\u044F")))
+                    {
+                        return false;
+                    }
+                }
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+            case 2:
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_noun() {
+        base.ket = base.cursor;
+        if (base.find_among_b(a_5) == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        if (!base.slice_del())
+        {
+            return false;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_derivational() {
+        base.ket = base.cursor;
+        if (base.find_among_b(a_6) == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        if (!r_R2())
+        {
+            return false;
+        }
+        if (!base.slice_del())
+        {
+            return false;
+        }
+        return true;
+    };
+
+    /** @return {boolean} */
+    function r_tidy_up() {
+        var /** number */ among_var;
+        base.ket = base.cursor;
+        among_var = base.find_among_b(a_7);
+        if (among_var == 0)
+        {
+            return false;
+        }
+        base.bra = base.cursor;
+        switch (among_var) {
+            case 1:
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                base.ket = base.cursor;
+                if (!(base.eq_s_b("\u043D")))
+                {
+                    return false;
+                }
+                base.bra = base.cursor;
+                if (!(base.eq_s_b("\u043D")))
+                {
+                    return false;
+                }
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+            case 2:
+                if (!(base.eq_s_b("\u043D")))
+                {
+                    return false;
+                }
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+            case 3:
+                if (!base.slice_del())
+                {
+                    return false;
+                }
+                break;
+        }
+        return true;
+    };
+
+    this.stem = /** @return {boolean} */ function() {
+        var /** number */ v_1 = base.cursor;
+        lab0: {
+            while(true)
+            {
+                var /** number */ v_2 = base.cursor;
+                lab1: {
+                    golab2: while(true)
+                    {
+                        var /** number */ v_3 = base.cursor;
+                        lab3: {
+                            base.bra = base.cursor;
+                            if (!(base.eq_s("\u0451")))
+                            {
+                                break lab3;
+                            }
+                            base.ket = base.cursor;
+                            base.cursor = v_3;
+                            break golab2;
+                        }
+                        base.cursor = v_3;
+                        if (base.cursor >= base.limit)
+                        {
+                            break lab1;
+                        }
+                        base.cursor++;
+                    }
+                    if (!base.slice_from("\u0435"))
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+                base.cursor = v_2;
+                break;
+            }
+        }
+        base.cursor = v_1;
+        r_mark_regions();
+        base.limit_backward = base.cursor; base.cursor = base.limit;
+        if (base.cursor < I_pV)
+        {
+            return false;
+        }
+        var /** number */ v_6 = base.limit_backward;
+        base.limit_backward = I_pV;
+        var /** number */ v_7 = base.limit - base.cursor;
+        lab4: {
+            lab5: {
+                var /** number */ v_8 = base.limit - base.cursor;
+                lab6: {
+                    if (!r_perfective_gerund())
+                    {
+                        break lab6;
+                    }
+                    break lab5;
+                }
+                base.cursor = base.limit - v_8;
+                var /** number */ v_9 = base.limit - base.cursor;
+                lab7: {
+                    if (!r_reflexive())
+                    {
+                        base.cursor = base.limit - v_9;
+                        break lab7;
+                    }
+                }
+                lab8: {
+                    var /** number */ v_10 = base.limit - base.cursor;
+                    lab9: {
+                        if (!r_adjectival())
+                        {
+                            break lab9;
+                        }
+                        break lab8;
+                    }
+                    base.cursor = base.limit - v_10;
+                    lab10: {
+                        if (!r_verb())
+                        {
+                            break lab10;
+                        }
+                        break lab8;
+                    }
+                    base.cursor = base.limit - v_10;
+                    if (!r_noun())
+                    {
+                        break lab4;
+                    }
+                }
+            }
+        }
+        base.cursor = base.limit - v_7;
+        var /** number */ v_11 = base.limit - base.cursor;
+        lab11: {
+            base.ket = base.cursor;
+            if (!(base.eq_s_b("\u0438")))
+            {
+                base.cursor = base.limit - v_11;
+                break lab11;
+            }
+            base.bra = base.cursor;
+            if (!base.slice_del())
+            {
+                return false;
+            }
+        }
+        var /** number */ v_12 = base.limit - base.cursor;
+        r_derivational();
+        base.cursor = base.limit - v_12;
+        var /** number */ v_13 = base.limit - base.cursor;
+        r_tidy_up();
+        base.cursor = base.limit - v_13;
+        base.limit_backward = v_6;
+        base.cursor = base.limit_backward;
+        return true;
+    };
+
+    /**@return{string}*/
+    this['stemWord'] = function(/**string*/word) {
+        base.setCurrent(word);
+        this.stem();
+        return base.getCurrent();
+    };
+};
+
 Stemmer = RussianStemmer;

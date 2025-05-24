@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Asyncio MOEX ISS API &#8212; документация aiomoex 2.1.2</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=c55eb6a5" />
-    <link rel="stylesheet" type="text/css" href="_static/aiohttp.css?v=7c8ee731" />
-    <script src="_static/documentation_options.js?v=dde41656"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <title>Asyncio MOEX ISS API &#8212; документация aiomoex 2.2.2</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=ee51e14b" />
+    <link rel="stylesheet" type="text/css" href="_static/aiohttp.css?v=9042f6b9" />
+    <script src="_static/documentation_options.js?v=4f9bc8bd"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/translations.js?v=29b1f277"></script>
+    <script src="_static/translations.js?v=cd1d70c9"></script>
     <link rel="index" title="Алфавитный указатель" href="genindex.html" />
     <link rel="search" title="Поиск" href="search.html" />
     <link rel="next" title="Начало работы" href="getting_started.html" />
@@ -33,10 +33,10 @@
           <div class="body" role="main">
             
   <section id="asyncio-moex-iss-api">
-<h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api" title="Link to this heading">¶</a></h1>
+<h1>Asyncio MOEX ISS API<a class="headerlink" href="#asyncio-moex-iss-api" title="Ссылка на этот заголовок">¶</a></h1>
 <p>Реализация на основе asyncio части  запросов к <a class="reference external" href="https://www.moex.com/a2193">MOEX Informational &amp; Statistical Server</a>.</p>
 <section id="id1">
-<h2>Основные возможности<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<h2>Основные возможности<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Реализовано несколько функций-запросов информации о торгуемых акциях и их исторических котировках, результаты которых
 напрямую конвертируются в pandas.DataFrame.</p>
 <p>Работа функций базируется на универсальном клиенте, позволяющем осуществлять произвольные запросы к MOEX ISS, поэтому
@@ -48,7 +48,7 @@
 </ul>
 </section>
 <section id="asyncio">
-<h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Link to this heading">¶</a></h2>
+<h2>Почему asyncio?<a class="headerlink" href="#asyncio" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На многие запросы MOEX ISS выдает данные порциями по 100 элементов, и для получения всей информации требуются
 дополнительные обращения к серверу для загрузки данных не с начальной позиции. Например, для скачивания котировок
 всех акций во всех режимах может потребоваться несколько десятков тысяч обращений к серверу.</p>
@@ -78,7 +78,7 @@
 </table>
 </section>
 <section id="id4">
-<h2>Оглавление<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<h2>Оглавление<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Начало работы</a><ul>
@@ -92,26 +92,28 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#id2">Справочная информация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#id3">Исторические данные по свечкам</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id5">Статистические данные</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id6">Реализация произвольного запроса</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.1.2 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.1.1 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">2.1.0 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">2.0.0 (2020-09-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id11">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id12">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.2.0 (2025-05-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.1.2 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">2.1.1 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">2.1.0 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id11">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id12">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id13">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -123,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="#">aiomoex</a></h1>
 
@@ -164,26 +166,28 @@
 <li class="toctree-l3"><a class="reference internal" href="api.html#id2">Справочная информация</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#id3">Исторические данные по свечкам</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html#id4">Исторические данные по дневным котировкам</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#id5">Статистические данные</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#id5">Реализация произвольного запроса</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id6">Реализация произвольного запроса</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api.html#aiomoex.ISSClient"><code class="docutils literal notranslate"><span class="pre">ISSClient</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="change_log.html">Список изменений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.1.2 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.1.1 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">2.1.0 (2023-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">2.0.0 (2020-09-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">1.2.2 (2018-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.2.1 (2018-12-01)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.2.0 (2018-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.1.1 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.1.0 (2018-11-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id11">1.0.1 (2018-11-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="change_log.html#id12">1.0.0 (2018-11-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id2">2.2.0 (2025-05-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id3">2.1.2 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id4">2.1.1 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id5">2.1.0 (2023-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id6">2.0.0 (2020-09-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id7">1.2.2 (2018-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id8">1.2.1 (2018-12-01)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id9">1.2.0 (2018-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id10">1.1.1 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id11">1.1.0 (2018-11-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id12">1.0.1 (2018-11-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="change_log.html#id13">1.0.0 (2018-11-24)</a></li>
 </ul>
 </li>
 </ul>
@@ -197,7 +201,7 @@
       &copy;2018, Mikhail Korotkov aka WLMike.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 8.2.3</a>
       
       |
       <a href="_sources/index.rst.txt"
