@@ -5,7 +5,7 @@ from collections.abc import Iterable
 import aiohttp
 
 from aiomoex import client, request_helpers
-from aiomoex.request_helpers import DEFAULT_BOARD, DEFAULT_ENGINE, DEFAULT_MARKET, SUFFIX_SECURITIES
+from aiomoex.request_helpers import DEFAULT_BOARD, DEFAULT_ENGINE, DEFAULT_MARKET, SECURITIES
 
 
 async def get_board_dates(
@@ -31,7 +31,7 @@ async def get_board_dates(
         Список из одного элемента - словаря с ключами 'from' и 'till'.
     """
     url = request_helpers.make_url(
-        prefix=request_helpers.PREFIX_HISTORY,
+        prefix=request_helpers.HISTORY,
         engine=engine,
         market=market,
         board=board,
@@ -43,7 +43,7 @@ async def get_board_dates(
 
 async def get_board_securities(
     session: aiohttp.ClientSession,
-    table: str = SUFFIX_SECURITIES,
+    table: str = SECURITIES,
     columns: Iterable[str] | None = ("SECID", "REGNUMBER", "LOTSIZE", "SHORTNAME"),
     board: str = DEFAULT_BOARD,
     market: str = DEFAULT_MARKET,
@@ -71,7 +71,7 @@ async def get_board_securities(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame
     """
-    url = request_helpers.make_url(engine=engine, market=market, board=board, suffix=SUFFIX_SECURITIES)
+    url = request_helpers.make_url(engine=engine, market=market, board=board, suffix=SECURITIES)
     query = request_helpers.make_query(table=table, columns=columns)
     return await request_helpers.get_short_data(session, url, table, query)
 
@@ -110,9 +110,7 @@ async def get_market_history(
     :return:
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
-    url = request_helpers.make_url(
-        prefix=request_helpers.PREFIX_HISTORY, engine=engine, market=market, security=security
-    )
+    url = request_helpers.make_url(prefix=request_helpers.HISTORY, engine=engine, market=market, security=security)
     table = "history"
     query = request_helpers.make_query(start=start, end=end, table=table, columns=columns)
     return await request_helpers.get_long_data(session, url, table, query)
@@ -154,7 +152,7 @@ async def get_board_history(
         Список словарей, которые напрямую конвертируется в pandas.DataFrame.
     """
     url = request_helpers.make_url(
-        prefix=request_helpers.PREFIX_HISTORY,
+        prefix=request_helpers.HISTORY,
         engine=engine,
         market=market,
         board=board,

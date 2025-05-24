@@ -13,11 +13,12 @@ DEFAULT_MARKET: Final = "shares"
 INDEX_MARKET: Final = "index"
 DEFAULT_BOARD: Final = "TQBR"
 # Ключевые плейсхолдеры и константы для запросов
-PREFIX_HISTORY: Final = "history"
-PREFIX_STATISTICS: Final = "statistics"
-SUFFIX_SECURITIES: Final = "securities"
-SUFFIX_CANDLE_BORDERS: Final = "candleborders"
-SUFFIX_CANDLES: Final = "candles"
+HISTORY: Final = "history"
+STATISTICS: Final = "statistics"
+SECURITIES: Final = "securities"
+CANDLE_BORDERS: Final = "candleborders"
+CANDLES: Final = "candles"
+TICKERS: Final = "tickers"
 
 
 def make_url(
@@ -33,7 +34,7 @@ def make_url(
     """Формирует URL для запроса."""
     url_parts = ["https://iss.moex.com/iss"]
     if prefix:
-        url_parts.append("/{prefix}")
+        url_parts.append(f"/{prefix}")
     if engine:
         url_parts.append(f"/engines/{engine}")
     if market:
@@ -56,8 +57,8 @@ def make_query(
     interval: int | None = None,
     start: str | None = None,
     end: str | None = None,
-    table: str | None = None,
     date: str | None = None,
+    table: str | None = None,
     columns: Iterable[str] | None = None,
 ) -> client.WebQuery:
     """Формирует дополнительные параметры запроса к MOEX ISS.
