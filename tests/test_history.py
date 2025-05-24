@@ -4,14 +4,14 @@ import pytest
 from aiomoex import history
 
 
-async def test_get_board_dates(http_session):
+async def test_get_board_dates(http_session) -> None:
     data = await history.get_board_dates(http_session)
     assert isinstance(data, list)
     assert len(data) == 1
     assert data[0]["till"] >= "2023-11-24"
 
 
-async def test_get_board_securities(http_session):
+async def test_get_board_securities(http_session) -> None:
     data = await history.get_board_securities(http_session)
     assert isinstance(data, list)
     assert len(data) > 200
@@ -25,7 +25,7 @@ async def test_get_board_securities(http_session):
     assert df.loc["MRSB", "LOTSIZE"] == 10000
 
 
-async def test_get_market_history_from_beginning(http_session):
+async def test_get_market_history_from_beginning(http_session) -> None:
     data = await history.get_market_history(http_session, "AKRN", end="2006-12-01")
     assert isinstance(data, list)
     assert data[0]["TRADEDATE"] == "2006-10-11"
@@ -35,7 +35,7 @@ async def test_get_market_history_from_beginning(http_session):
     assert "VOLUME" in data[3]
 
 
-async def test_get_market_history_to_end(http_session):
+async def test_get_market_history_to_end(http_session) -> None:
     data = await history.get_market_history(http_session, "MOEX", start="2017-10-02")
     assert isinstance(data, list)
     assert len(data) > 100
@@ -43,7 +43,7 @@ async def test_get_market_history_to_end(http_session):
     assert data[-1]["TRADEDATE"] >= "2018-11-19"
 
 
-async def test_get_board_history_from_beginning(http_session):
+async def test_get_board_history_from_beginning(http_session) -> None:
     data = await history.get_board_history(http_session, "LSNGP", end="2014-08-01")
     df = pd.DataFrame(data)
     df = df.set_index("TRADEDATE")
@@ -53,7 +53,7 @@ async def test_get_board_history_from_beginning(http_session):
     assert df.loc["2014-08-01", "VOLUME"] == 4000
 
 
-async def test_get_board_history_to_end(http_session):
+async def test_get_board_history_to_end(http_session) -> None:
     data = await history.get_board_history(http_session, "LSRG", start="2018-08-07")
     df = pd.DataFrame(data)
     df = df.set_index("TRADEDATE")

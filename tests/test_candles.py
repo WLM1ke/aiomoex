@@ -3,7 +3,7 @@ import pytest
 from aiomoex import candles
 
 
-async def test_get_market_candle_borders(http_session):
+async def test_get_market_candle_borders(http_session) -> None:
     data = await candles.get_market_candle_borders(http_session, "SNGSP")
     assert isinstance(data, list)
     assert len(data) == 7
@@ -20,7 +20,7 @@ async def test_get_market_candle_borders(http_session):
     ]
 
 
-async def test_get_board_candle_borders(http_session):
+async def test_get_board_candle_borders(http_session) -> None:
     data = await candles.get_board_candle_borders(http_session, "UPRO")
     assert isinstance(data, list)
     assert len(data) == 7
@@ -37,7 +37,7 @@ async def test_get_board_candle_borders(http_session):
     ]
 
 
-async def test_get_market_candles_from_beginning(http_session):
+async def test_get_market_candles_from_beginning(http_session) -> None:
     data = await candles.get_market_candles(http_session, "RTKM", interval=1, end="2011-12-16")
     assert isinstance(data, list)
     assert len(data) > 500
@@ -52,7 +52,7 @@ async def test_get_market_candles_from_beginning(http_session):
     assert data[-1]["end"] == "2011-12-16 18:44:59"
 
 
-async def test_get_market_candles_to_end(http_session):
+async def test_get_market_candles_to_end(http_session) -> None:
     data = await candles.get_market_candles(http_session, "LSRG", interval=24, start="2020-08-20")
     assert isinstance(data, list)
     assert len(data) > 13
@@ -65,13 +65,13 @@ async def test_get_market_candles_to_end(http_session):
     assert data[6]["begin"] == "2020-08-28 00:00:00"
 
 
-async def test_get_market_candles_empty(http_session):
+async def test_get_market_candles_empty(http_session) -> None:
     data = await candles.get_market_candles(http_session, "KSGR", interval=24)
     assert isinstance(data, list)
     assert len(data) == 0
 
 
-async def test_get_board_candles_from_beginning(http_session):
+async def test_get_board_candles_from_beginning(http_session) -> None:
     data = await candles.get_board_candles(http_session, "MTSS", interval=10, end="2011-12-22")
     assert isinstance(data, list)
     assert len(data) > 500
@@ -86,7 +86,7 @@ async def test_get_board_candles_from_beginning(http_session):
     assert data[-1]["end"] == "2011-12-22 18:49:59"
 
 
-async def test_get_board_candles_to_end(http_session):
+async def test_get_board_candles_to_end(http_session) -> None:
     data = await candles.get_board_candles(http_session, "TTLK", interval=31, start="2014-07-01")
     assert isinstance(data, list)
     assert len(data) > 52

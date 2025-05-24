@@ -3,7 +3,7 @@ import pytest
 from aiomoex import reference
 
 
-async def test_get_reference(http_session):
+async def test_get_reference(http_session) -> None:
     data = await reference.get_reference(http_session, "engines")
     assert isinstance(data, list)
     assert len(data) == 11
@@ -19,7 +19,7 @@ check_points = [
 
 
 @pytest.mark.parametrize(("reg_number", "expected"), check_points)
-async def test_find_find_securities(http_session, reg_number, expected):
+async def test_find_find_securities(http_session, reg_number, expected) -> None:
     data = await reference.find_securities(http_session, reg_number)
     assert isinstance(data, list)
     assert expected == {row["secid"] for row in data if row["regnumber"] == reg_number}

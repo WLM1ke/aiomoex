@@ -1,6 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "aiomoex"
-version = "2.1.2"
+version = "2.2.2"
 description = "Asyncio MOEX ISS API"
 authors = [
     { name = "Mikhail Korotkov aka WLMike", email = "wlmike@gmail.com" }
@@ -9,16 +13,11 @@ dependencies = [
     "aiohttp",
 ]
 readme = "README.rst"
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 license = { text = "http://unlicense.org" }
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.rye]
-managed = true
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pandas>=2.1.3",
     "pyright>=1.1.337",
     "pytest>=7.4.3",
@@ -29,12 +28,9 @@ dev-dependencies = [
     "aiohttp_theme>=0.1.6",
 ]
 
-[tool.hatch.metadata]
-allow-direct-references = true
-
 [tool.pyright]
 verboseOutput = true
-pythonVersion = "3.10"
+pythonVersion = "3.13"
 typeCheckingMode = "strict"
 
 [tool.pytest.ini_options]
@@ -46,12 +42,13 @@ branch = true
 
 [tool.ruff]
 line-length = 120
-select = ["ALL"]
-fixable = ["ALL"]
 fix = true
 
+[tool.ruff.lint]
+select = ["ALL"]
+fixable = ["ALL"]
+
 ignore = [
-    "ANN101",   # Missing-type-self
     "COM812",   # Missing-trailing-comma - ruff format recommendations
     "D203",     # One-blank-line-before-class (D203) and no-blank-line-before-class (D211) are incompatible
     "D213",     # Multi-line-summary-first-line (D212) and multi-line-summary-second-line (D213) are incompatible
@@ -64,3 +61,17 @@ ignore = [
     "RUF003",   # Ambiguous-unicode-character-comment - russian
     "TRY003",   # Avoid specifying long messages outside the exception class - don't like many exceptions
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**.py" = [
+    "ANN001",   # Missing type annotation for function argument
+    "ANN201",   # Missing return type annotation for public function
+    "D100",     # Missing docstring in public module
+    "D103",     # Missing docstring in public function
+    "D104",     # Missing docstring in public package
+    "PD901",    # void using the generic variable name
+    "S101",     # Use of `assert` detected
+    "SLF001",   # Private member accessed
+    "PLR2004",  # Magic value used in comparison
+]
+

@@ -1,4 +1,5 @@
 """Функции для получения данных об исторических дневных котировках."""
+
 from collections.abc import Iterable
 
 import aiohttp

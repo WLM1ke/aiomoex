@@ -1,4 +1,5 @@
 """Вспомогательные функции для построения запросов."""
+
 from collections.abc import Iterable
 from typing import Final
 

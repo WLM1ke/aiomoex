@@ -1,4 +1,5 @@
 """Функции для получения справочной информации."""
+
 from collections.abc import Iterable
 
 import aiohttp

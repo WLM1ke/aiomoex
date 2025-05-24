@@ -1,4 +1,5 @@
 """Асинхронный клиент для MOEX ISS."""
+
 from collections.abc import AsyncIterable, AsyncIterator
 from typing import cast
 
@@ -19,12 +20,12 @@ class ISSMoexError(Exception):
 def _cursor_block_size(start: int, cursor_table: Table) -> int:
     cursor, *wrong_data = cursor_table
 
-    if wrong_data or cast(int, cursor["INDEX"]) != start:
+    if wrong_data or cast("int", cursor["INDEX"]) != start:
         raise ISSMoexError(f"Некорректные данные history.cursor: {cursor_table}")
 
-    block_size = cast(int, cursor["PAGESIZE"])
+    block_size = cast("int", cursor["PAGESIZE"])
 
-    if start + block_size < cast(int, cursor["TOTAL"]):
+    if start + block_size < cast("int", cursor["TOTAL"]):
         return block_size
     return 0
 
