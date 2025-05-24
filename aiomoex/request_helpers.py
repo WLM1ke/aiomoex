@@ -53,6 +53,7 @@ def make_query(
     start: str | None = None,
     end: str | None = None,
     table: str | None = None,
+    date: str | None = None,
     columns: Iterable[str] | None = None,
 ) -> client.WebQuery:
     """Формирует дополнительные параметры запроса к MOEX ISS.
@@ -65,6 +66,8 @@ def make_query(
         Начальная дата котировок.
     :param end:
         Конечная дата котировок.
+    :param date:
+        Дата, на которую нужно вывести информацию.
     :param table:
         Таблица, которую нужно загрузить (для запросов, предполагающих наличие нескольких таблиц).
     :param columns:
@@ -82,6 +85,8 @@ def make_query(
         query["from"] = start
     if end:
         query["till"] = end
+    if date:
+        query["date"] = date
     if table:
         query["iss.only"] = f"{table},history.cursor"
     if columns:
