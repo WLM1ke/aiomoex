@@ -10,6 +10,7 @@ from aiomoex import client
 # Режимы по умолчанию для запросов
 DEFAULT_ENGINE: Final = "stock"
 DEFAULT_MARKET: Final = "shares"
+INDEX_MARKET: Final = "index"
 DEFAULT_BOARD: Final = "TQBR"
 # Ключевые плейсхолдеры и константы для запросов
 PREFIX_HISTORY: Final = "history"
@@ -25,6 +26,7 @@ def make_url(
     engine: str | None = None,
     market: str | None = None,
     board: str | None = None,
+    analytics: str | None = None,
     security: str | None = None,
     suffix: str | None = None,
 ) -> str:
@@ -38,6 +40,8 @@ def make_url(
         url_parts.append(f"/markets/{market}")
     if board:
         url_parts.append(f"/boards/{board}")
+    if analytics:
+        url_parts.append(f"/analytics/{analytics}")
     if security:
         url_parts.append(f"/securities/{security}")
     if suffix:
