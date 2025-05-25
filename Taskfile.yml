@@ -26,8 +26,8 @@ tasks:
   lint:
     desc: Format and lint
     cmds:
-      - uv run ruff format {{.APP}}
-      - uv run ruff format {{.TESTS}}
+      - uv run ruff format {{.APP}} --check
+      - uv run ruff format {{.TESTS}} --check
       - uv run ruff check {{.APP}} --unsafe-fixes --exit-non-zero-on-fix
       - uv run ruff check {{.TESTS}} --unsafe-fixes --exit-non-zero-on-fix
       - uv run pyright {{.APP}}
